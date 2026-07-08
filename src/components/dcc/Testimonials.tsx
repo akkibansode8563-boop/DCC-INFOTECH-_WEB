@@ -7,43 +7,43 @@ import { useInView } from '@/hooks/use-premium';
 
 const testimonials = [
   {
-    name: 'Rajesh Sharma',
-    role: 'IT Manager, TechCorp Pune',
-    text: 'DCC Infotech has been our go-to IT partner for over 8 years. Their AMC services are exceptional — response time is always under 2 hours and their technicians are highly skilled. We have zero complaints.',
+    name: 'SBI — State Bank of India',
+    role: 'Banking & Financial Services',
+    text: 'DCC Infotech has been our trusted IT partner for years. Their AMC services are exceptional — response times are rapid and their 400+ engineers are highly skilled. We trust DCC with our critical IT infrastructure across multiple branches.',
     rating: 5,
-    initials: 'RS',
+    initials: 'SBI',
   },
   {
-    name: 'Priya Kulkarni',
-    role: 'Director, EduCare Solutions',
-    text: 'We needed a complete IT infrastructure setup for our new office. DCC delivered everything — from networking to servers to workstations — on time and within budget. Truly professional team.',
+    name: 'Serum Institute of India',
+    role: 'Pharmaceutical & Healthcare',
+    text: 'We needed a complete IT infrastructure setup and ongoing maintenance for our operations. DCC delivered everything — from networking to servers to workstations — on time and within budget. Their service-first approach is truly commendable.',
     rating: 5,
-    initials: 'PK',
+    initials: 'SI',
   },
   {
-    name: 'Amit Deshmukh',
-    role: 'CEO, StartUp Hub Pune',
-    text: 'As a growing startup, we needed flexible IT solutions. DCC provided us with scalable server infrastructure and ongoing support that has grown with us. Their pricing is also very competitive.',
+    name: 'TATA Group',
+    role: 'Conglomerate — Manufacturing & IT',
+    text: 'As a growing enterprise, we needed flexible IT solutions. DCC provided us with scalable server infrastructure and ongoing support that has grown with us. Their distribution pricing and after-sales support is outstanding.',
     rating: 5,
-    initials: 'AD',
+    initials: 'TG',
   },
   {
-    name: 'Sunita Patil',
-    role: 'Operations Head, Manufacturing Co.',
-    text: 'The network solution DCC implemented for our factory has drastically improved our operational efficiency. Their team understood our unique requirements and delivered a robust solution.',
-    rating: 4,
-    initials: 'SP',
+    name: 'Punjab National Bank',
+    role: 'Banking & Financial Services',
+    text: 'The network and security solution DCC implemented for our offices has drastically improved our operational efficiency. Their team understood our unique banking requirements and delivered a robust, ISO-certified solution.',
+    rating: 5,
+    initials: 'PNB',
   },
   {
-    name: 'Vikram Joshi',
-    role: 'CFO, Finance Group',
-    text: 'We trust DCC Infotech for all our IT procurement needs. Their distribution pricing is the best in Pune, and the after-sales support is outstanding. Highly recommended for corporate IT purchasing.',
+    name: 'Jupiter Hospital',
+    role: 'Healthcare & Hospitality',
+    text: 'We trust DCC Infotech for all our IT procurement and maintenance needs. From end-to-end IT infrastructure to surveillance systems — their quality and service is unmatched in the region.',
     rating: 5,
-    initials: 'VJ',
+    initials: 'JH',
   },
 ];
 
-const logoPlaceholders = ['TechCorp', 'EduCare', 'StartUp Hub', 'MFG Co.', 'Finance Group', 'HealthPlus'];
+const clientLogos = ['SBI', 'BOI', 'CBI', 'PNB', 'TATA', 'HAL', 'BSNL', 'RBI', 'DRDO', 'Huvepharma'];
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -86,8 +86,8 @@ export default function Testimonials() {
             What Our <span className="text-gradient">Clients Say</span>
           </h2>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Don&apos;t just take our word for it. Here&apos;s what our valued clients have to say
-            about working with DCC Infotech.
+            Don&apos;t just take our word for it. Here&apos;s what India&apos;s leading
+            banks, hospitals, and enterprises have to say about working with DCC Infotech.
           </p>
         </motion.div>
 
@@ -195,13 +195,13 @@ export default function Testimonials() {
           className="mt-16 border-t border-border pt-12"
         >
           <p className="mb-8 text-center text-sm text-muted-foreground">
-            Trusted by leading organizations across Pune and India
+            Trusted by leading organizations across India
           </p>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-            {logoPlaceholders.map((name) => (
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+            {clientLogos.map((name) => (
               <div
                 key={name}
-                className="flex h-12 w-32 items-center justify-center rounded-lg bg-muted/60 text-sm font-medium text-muted-foreground/50"
+                className="flex h-12 min-w-[80px] items-center justify-center rounded-lg bg-muted/60 px-4 text-sm font-medium text-muted-foreground/50"
               >
                 {name}
               </div>

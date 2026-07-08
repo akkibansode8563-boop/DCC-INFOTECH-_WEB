@@ -14,8 +14,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Call Us',
-    value: '+91 7507800800',
-    href: 'tel:+917507800800',
+    value: '85980 90100 / 020-67057575',
+    href: 'tel:+918598090100',
     color: 'bg-dcc-teal/10 text-dcc-teal',
   },
   {
@@ -28,7 +28,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: 'Visit Us',
-    value: 'Pune, Maharashtra, India',
+    value: '637 Deccan, DCC House, J.M. Road, Pune 411004',
     href: '#',
     color: 'bg-dcc-teal/10 text-dcc-teal',
   },
@@ -158,8 +158,8 @@ export default function Contact() {
             <div className="mt-6 flex h-48 items-center justify-center rounded-2xl border border-border/40 bg-muted/40">
               <div className="text-center text-muted-foreground">
                 <MapPin className="mx-auto mb-2 h-8 w-8 text-dcc-teal/30" />
-                <p className="text-sm">Pune, Maharashtra</p>
-                <p className="mt-1 text-xs">Interactive map loads here</p>
+                <p className="text-sm">637 Deccan, DCC House</p>
+                <p className="mt-1 text-xs">J.M. Road, Pune 411004</p>
               </div>
             </div>
           </motion.div>

@@ -9,35 +9,35 @@ import { useInView, useCountUp } from '@/hooks/use-premium';
 const slides = [
   {
     title: 'Your Trusted IT Partner Since 1992',
-    subtitle: 'Comprehensive IT Solutions for Modern Businesses',
+    subtitle: 'Where Service is a Way of Life',
     description:
-      'From IT infrastructure and network solutions to server management and AMC services — we deliver reliable technology solutions that empower businesses across Pune and India.',
+      'From IT infrastructure and enterprise security to unified communications and equipment rentals — we deliver reliable technology solutions that empower businesses across 12+ states in India.',
     cta: 'Explore Services',
     ctaLink: '#services',
   },
   {
-    title: 'IT Infrastructure That Powers Growth',
-    subtitle: 'Enterprise-Grade Hardware & Software Solutions',
+    title: 'Enterprise IT Infrastructure & Maintenance',
+    subtitle: 'End-to-End Solutions for Modern Businesses',
     description:
-      'Get the best competitive prices on assembled desktops, laptops, servers, and networking equipment. We supply, install, and maintain your entire IT ecosystem.',
-    cta: 'Shop Now',
+      'AMC & FMS contracts, chip-level repairing, networking, server infrastructure, and more — transforming unpredictable capital repair costs into fixed, manageable operational expenses.',
+    cta: 'Get a Quote',
     ctaLink: '#contact',
   },
   {
-    title: '24/7 Support & Maintenance',
-    subtitle: 'AMC & Facility Management Services',
+    title: 'Easy Rentals — You Name IT, We Rent IT',
+    subtitle: 'Laptops, Desktops, Printers, Servers & More',
     description:
-      'Our dedicated support team ensures your IT systems run smoothly around the clock. Minimize downtime and maximize productivity with DCC Infotech.',
-    cta: 'Get a Quote',
-    ctaLink: '#contact',
+      'High-performance IT equipment on rent with zero maintenance burden and instant scalability. Ideal for project deployments, corporate events, and government tenders.',
+    cta: 'Explore Rentals',
+    ctaLink: '#services',
   },
 ];
 
 const stats = [
-  { value: 30, suffix: '+', label: 'Years Experience' },
-  { value: 500, suffix: '+', label: 'Happy Clients' },
-  { value: 10000, suffix: '+', label: 'Projects Delivered', display: '10K+' },
-  { value: 99, suffix: '%', label: 'Client Retention' },
+  { value: 34, suffix: '+', label: 'Years of Excellence' },
+  { value: 3150, suffix: '+', label: 'Institutional Clients' },
+  { value: 210, suffix: '+', label: 'Renowned Brands' },
+  { value: 675, suffix: '+', label: 'Employee Strength' },
 ];
 
 export default function Hero() {
@@ -45,12 +45,12 @@ export default function Hero() {
   const statsRef = useRef<HTMLDivElement>(null);
   const { ref: inViewRef, isInView } = useInView({ once: true });
 
-  const years = useCountUp(30, 2000, 0, isInView);
-  const clients = useCountUp(500, 2000, 0, isInView);
-  const projects = useCountUp(10000, 2500, 0, isInView);
-  const retention = useCountUp(99, 2000, 0, isInView);
+  const years = useCountUp(34, 2000, 0, isInView);
+  const clients = useCountUp(3150, 2000, 0, isInView);
+  const brands = useCountUp(210, 2000, 0, isInView);
+  const employees = useCountUp(675, 2000, 0, isInView);
 
-  const counterValues = [years, clients, projects, retention];
+  const counterValues = [years, clients, brands, employees];
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
@@ -143,7 +143,7 @@ export default function Hero() {
                 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight text-foreground mb-6"
               >
                 {slide.title.split(' ').map((word, i) => {
-                  const accentWords = ['IT', 'Growth', 'Support'];
+                  const accentWords = ['IT', 'Infrastructure', 'Rentals'];
                   if (accentWords.includes(word)) {
                     return (
                       <span key={i} className="text-gradient">
@@ -183,7 +183,7 @@ export default function Hero() {
                   {slide.cta}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <a href="tel:+917507800800">
+                <a href="tel:+918598090100">
                   <Button
                     size="lg"
                     variant="outline"

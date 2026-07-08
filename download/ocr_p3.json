@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Our Story\nA Legacy of Service\nExcellence Since 1992.\nIn 1992, a young boy from a humble background named Shri. Anil Mhaske started a business in a 10*10 sq. ft. room with a staff of 1–2 people to provide the best prices and after-sales service to his clients. Today, DCC operates with over 45,000+ sq. ft. of office space, impacting 20,000+ lives.\nWhere the market was looking at every order as a deal, we chased a singular conviction: service is not an afterthought; it is the foundation of a long-term relation. That belief, \"Where Service is a Way of Life,\" shaped everything that came after. We recruited and trained specialized engineers, established R&D labs, and built a distribution network that reached into Maharashtra's smallest districts. Today, the growth speaks for itself: 400+ engineers keeping client systems running uninterrupted across 12+ states, with a 150+ sales team and 125 dedicated back-office staff.\n2013\nBecame No.1 Regional\nDistributor of Dell.\nOpened India's first Dell\nAuthorised Store in Pune.\n2017\nStarted the GEM\nbusiness and grew the\nchannel network to\n6,500+ partners.\n2020\nExpanded retail\npresence to\n25+ stores across\nMaharashtra.\nToday\n3,000+ institutional\nclients. 20,000+ lives\nimpacted. 12+ states\nserved.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516213,
+  "id": "20260708210956da78b01892354080",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260708210956da78b01892354080",
+  "usage": {
+    "completion_tokens": 317,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 5003,
+    "prompt_tokens_details": {
+      "cached_tokens": 15
+    },
+    "total_tokens": 5320
+  }
+}

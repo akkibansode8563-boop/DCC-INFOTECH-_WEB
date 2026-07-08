@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "04 Easy Rentals  \nYou name IT , We rent IT  \n\nWhy lock capital into depreciating hardware? DCC Infotech's rental program puts enterprise - grade IT equipment in your hands on your terms, on your timeline, converting a heavy capital purchase into a lean, predictable operational cost.  \n\n\nLaptops  \nHigh - performance units  \nfrom Dell, HP, Lenovo & more  \n\nDesktops  \nFull workstation setups  \nfor offices & project sites  \n\nPrinters  \nLaser & inkjet mono and  \ncolour, heavy - duty capable  \n\nProjectors & AV  \nPresentation - ready AV  \nequipment for events  \n& boardrooms  \n\nServers & Networking  \nRack servers, switches  \nrouters for temporary  \nIT infra  \n\n\nCustom & Flexible Terms  \nShort - term events to multi - year  \nenterprise contracts structured  \nentirely around your operational  \ncycle.  \n\nZero Maintenance Burden  \nAll servicing, repairs, and  \nreplacements are handled by DCC's  \nin - house engineering team  \nthroughout the rental period.  \n\nInstant Scalability  \nScale your fleet up or down as your  \nworkforce grows, contracts, or  \nshifts, no stranded assets, no sunk  \ncosts.  \n\n\nIdeal for:  \nProject - based deployments | New office setups | Corporate events & conferences | Government tenders | Workforce expansion | Business  \ncontinuity planning",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516326,
+  "id": "2026070821115856e8b395760d4a2a",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026070821115856e8b395760d4a2a",
+  "usage": {
+    "completion_tokens": 273,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4972,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5245
+  }
+}

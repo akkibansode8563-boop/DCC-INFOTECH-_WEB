@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Enterprise Compliance  \nCertified.  \nCommitted.  \nTrusted.  \n\nISO 9001:2015  \nQuality Management  \nGuarantees documented, auditable quality processes across every procurement and service delivery engagement, eliminating variance and vendor risk.  \n\nISO 27001:2013  \nInformation Security Management  \nAn ironclad commitment to data protection protocols is critical for banking regulators, government agencies, and any enterprise handling sensitive information.  \n\nISO 20000-1:2018  \nIT Service Management  \nGlobally recognized benchmark for IT service delivery, ensuring our AMC/FMS and support services meet international SLA standards.  \n\nISO 14001:2015  \nEnvironmental Management  \nResponsible, sustainable IT disposal and operations are increasingly required by ESG-compliant procurement officers and government tenders.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516419,
+  "id": "202607082112137c3792fb728c4a73",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202607082112137c3792fb728c4a73",
+  "usage": {
+    "completion_tokens": 165,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4972,
+    "prompt_tokens_details": {
+      "cached_tokens": 7
+    },
+    "total_tokens": 5137
+  }
+}

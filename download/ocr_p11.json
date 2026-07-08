@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Who We Serve\nFrom Govt.\nto Corporate\n\nIf you need a compliant, resilient IT infrastructure and a single partner accountable for uptime across PAN India.\n\nCorporate\n& Enterprise\n1. End-to-end IT infrastructure design & deployment\n2. Rapid-response AMC & FMS contracts\n3. Cybersecurity, endpoint & cloud protection\n4. Chip-level repair to extend asset lifecycle\n\nTrusted by: TATA | Poonawalla | Serum | Marriott | Jupiter Hospita & many more.\n\nIf you require GEM-compliant procurement, strict data security, and ISO-certified service delivery across PAN India.\n\nGovernment\n& Semi-Govt\n1. Full Government e-Marketplace (GEM) compliance\n2. ISO 27001 data security protocols\n3. Fully transparent pricing\n4. Nationwide logistics and support SLAs\n\nTrusted by: DRDO | HAL | RBI | SBI | BSNL & many more.\n\nIf you want access to 200+ renowned brands with reliable supply chains and award-winning logistics support.\n\nChannel\n& Authorised\nService\nPartners\n1. 10,000+ active channel partner network across Maharashtra and Goa\n2. On-time replacement and logistics guarantee\n3. We are the authorised service partners of HP, Asus and Acer.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516456,
+  "id": "202607082114078598dcdddace4dd9",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202607082114078598dcdddace4dd9",
+  "usage": {
+    "completion_tokens": 265,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4972,
+    "prompt_tokens_details": {
+      "cached_tokens": 7
+    },
+    "total_tokens": 5237
+  }
+}

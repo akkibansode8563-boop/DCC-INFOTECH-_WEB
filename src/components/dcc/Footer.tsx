@@ -11,18 +11,17 @@ const quickLinks = [
   { label: 'Home', href: '#home' },
   { label: 'About Us', href: '#about' },
   { label: 'Our Services', href: '#services' },
+  { label: 'Why Choose Us', href: '#why-choose-us' },
   { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Gallery', href: '#gallery' },
+  { label: 'Team', href: '#team' },
   { label: 'Contact Us', href: '#contact' },
 ];
 
 const serviceLinks = [
-  'IT Infrastructure Services',
-  'Distribution Services',
-  'Network Solutions',
-  'Computer Sales & Services',
-  'AMC & FMS Solutions',
-  'Server Solutions',
+  'IT Infrastructure & Maintenance',
+  'Enterprise Security & Surveillance',
+  'Unified Communications',
+  'Easy Rentals',
 ];
 
 function SocialIcons() {
@@ -169,9 +168,9 @@ export default function Footer() {
               </span>
             </div>
             <p className="mb-4 text-sm leading-relaxed text-white/70">
-              DCC started in 1992 by Mr. Anil Mhaske as a corporate reseller, distributor, and then
-              after providing AMC, Solution-based services and Corporate services. Trusted IT partner
-              for businesses across Pune and India.
+              Founded in 1992 by Mr. Anil Mhaske, DCC Infotech is a leading multichannel IT
+              distribution and service company trusted by India&apos;s biggest banks, government
+              bodies, and enterprises across 12+ states.
             </p>
             <div className="flex gap-3">
               <SocialIcons />
@@ -229,17 +228,25 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-dcc-teal" />
                 <span className="text-sm text-white/70">
-                  Pune, Maharashtra, India
+                  637 Deccan, DCC House, J.M. Road, Pune 411004
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-dcc-teal" />
-                <a
-                  href="tel:+917507800800"
-                  className="text-sm text-white/70 transition-colors duration-200 hover:text-dcc-amber"
-                >
-                  +91 7507800800
-                </a>
+                <div className="flex flex-col">
+                  <a
+                    href="tel:+918598090100"
+                    className="text-sm text-white/70 transition-colors duration-200 hover:text-dcc-amber"
+                  >
+                    85980 90100
+                  </a>
+                  <a
+                    href="tel:+912067057575"
+                    className="text-sm text-white/70 transition-colors duration-200 hover:text-dcc-amber"
+                  >
+                    020-67057575
+                  </a>
+                </div>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-dcc-teal" />

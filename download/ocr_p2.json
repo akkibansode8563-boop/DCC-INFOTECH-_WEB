@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Your Strategic\nIT Transformation\nPartner.\n34\nYears\nof Excellence\n675+\nEmployee\nstrength\n210+\nRenowned\nBrands\n3150+\nInstitutional\nClients\n10,000+\nChannel\nPartners\n20,000+\nLives\nImpacted\n1992\nFounded in Pune by\nMr. Anil Mhaske.\n1997\nSecured a Samsung\ndistribution.\n2000\nGrew a channel\ndistribution network\nacross Maharashtra.\n2005\nDeepened roots with\nIT peripheral repairs in\nMaharashtra. Opened\nPune's biggest laptop\nshowroom.\n2010\nLaunched the\nCorporate Division and\nsecured Dell's National\nDistributorship.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516178,
+  "id": "2026070821093002d6e9eb42754263",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026070821093002d6e9eb42754263",
+  "usage": {
+    "completion_tokens": 151,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 5003,
+    "prompt_tokens_details": {
+      "cached_tokens": 15
+    },
+    "total_tokens": 5154
+  }
+}

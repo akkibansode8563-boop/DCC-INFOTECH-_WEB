@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Our Leadership  \nPeople Behind the Promise  \n\nMr. Anil Mhaske Managing Director  \nFounder and visionary behind DCC's  \n35+ year journey. Built a service-first company from the ground up into a company that  \nIndia's biggest banks, government bodies, and enterprises trust with their IT.  \n\n\nMr. Sharad Mulmule  \nDirector – Operations  \nWith an inspiring 27-year trajectory at DCC  \nrising from an entry-level professional to  \nexecutive leadership through sheer integrity  \nand dedication Mr. Mulmule is the driving  \nforce behind our operational stability. He  \nensures the seamless distribution of IT  \nproducts, cultivates our robust dealer  \nnetwork, and dictates the flawless execution  \nof our day-to-day internal operations.  \n\n\nMr. Jaysingh Jadhav  \nDirector – Sales & Marketing  \nBringing 25 years of strategic market  \nexpertise and an MBA from Pune University,  \nMr. Jadhav is the architect of DCC's sales  \npipeline and territory expansion. He is  \ndedicated to accelerating revenue growth by  \nforging collaborative partnerships and  \ndelivering innovative, customized IT  \ndistribution solutions to our B2B clientele.  \n\n\nMr. Sharad Londhe  \nDirector – Service  \nHolding a BE in Electronics from Pune  \nUniversity and backed by 16 years at DCC,  \nMr. Londhe spearheads our multi-state  \nservice infrastructure. He commands a  \nworkforce of over 400 engineers and  \nmanages 3,000+ active AMC customers.  \nUnder his leadership, DCC efficiently caters to  \nBanking, Private, and PSU sectors, driving our  \nGeM business and overseeing authorized  \nservice centers for global brands like HP,  \nASUS, and ACER.  \n\n\nMr. Lahuraj Gaikwad  \nDirector – HR & Admin  \nWith 18 years of progressive leadership at  \nDCC, Mr. Gaikwad is the cornerstone of our  \norganizational culture. He oversees a  \ndynamic workforce of 675+ employees,  \nutilizing data-driven HR strategies to foster  \ndiversity, drive employee engagement, and  \nmaximize the workforce productivity that  \ndirectly supports our client deliverables.  \n\n\nMr. Jeevan Kadam  \nDirector – Public Relations  \nAn integral part of DCC for 30 years, Mr.  \nKadam holds a Diploma in Digital  \nEngineering, allowing him to masterfully  \nbridge technology with corporate  \ncommunication. An exceptional orator, he  \nexecutes strategic PR campaigns and social  \nservice initiatives that continually enhance  \nour brand reputation and visibility in the  \ncompetitive IT sector.  \n\n\nMr. Aniruddha Mhaske  \nDirector – Business Development  \nRepresenting the second generation of DCC  \nleadership, Mr. Mhaske brings fresh, global  \noperational experience from tenures at  \ninternational giants including Walmart (US), Katek  \nInc. (Canada), and Skip (Netherlands). Holding a  \nPG in Management with distinction from Canada,  \nhis ambitious mandate is to secure high-value  \nAMC contracts within the PSU and Corporate  \nsectors, spearheading DCC's vision to achieve a  \ncomprehensive PAN-India presence by 2030.  \n\n\nReady for an upgrade?  \nSchedule a Free IT Infrastructure Health Check with our Corporate Solutions team.  \nNo commitment. No obligation. Just clarity on your IT risk and cost profile.  \n\nCall Us  \n85980 90100  \n020-67057575  \n\nVisit Us  \nwww.dccinfotech.in  \n637 Deccan, DCC House, J.M. Road, Pune 411004  \n\n\nDisclaimer: The information in this brochure is provided for general information purposes only. DCC Infotech Pvt. Ltd. makes no representations or  \nwarranties regarding its completeness or accuracy. Any reliance placed on this information is at the reader's own risk. DCC Infotech Pvt. Ltd. accepts no  \nliability for any loss or damage arising from its use.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516499,
+  "id": "20260708211426eab65a6465584e83",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260708211426eab65a6465584e83",
+  "usage": {
+    "completion_tokens": 817,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4972,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5789
+  }
+}

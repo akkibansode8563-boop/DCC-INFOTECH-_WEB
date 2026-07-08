@@ -33,22 +33,22 @@ const faqs = [
   {
     question: 'How can I get a quote for my IT requirements?',
     answer:
-      'Getting a quote is easy! You can fill out the contact form on our website, call us directly at +91 7507800800, email us at info@dccinfotech.in, or even reach out via WhatsApp. Our sales team will typically respond within a few hours with a detailed, competitive quotation tailored to your specific needs. For bulk orders, we offer special pricing.',
+      'Getting a quote is easy! You can fill out the contact form on our website, call us directly at 85980 90100, email us at info@dccinfotech.in, or even reach out via WhatsApp. Our 150+ sales team members will typically respond within a few hours with a detailed, competitive quotation tailored to your specific needs. For bulk orders and GEM procurement, we offer special pricing.',
   },
   {
     question: 'Do you provide on-site support outside of Pune?',
     answer:
-      'While our primary operations are based in Pune, we do provide on-site support to select locations in Maharashtra including Mumbai, Nashik, and Aurangabad for our AMC clients. For locations beyond our direct reach, we partner with authorized service networks to ensure timely support. Remote support via secure remote access tools is available for clients across India.',
+      'Yes! With 400+ engineers across 12+ states — Maharashtra, Goa, Gujarat, Madhya Pradesh, Uttar Pradesh, Karnataka, Haryana, Delhi, Telangana, Punjab, Chhattisgarh, and Rajasthan — we provide on-site support to a wide geographic area. Our 3,000+ active AMC customers benefit from rapid-response SLAs. For all locations, remote support via secure remote access tools is also available.',
   },
   {
     question: 'What makes DCC Infotech different from other IT vendors?',
     answer:
-      'Three key factors set us apart: first, our 30+ years of experience means we have deep domain expertise and proven processes. Second, as an authorized distributor, we offer the best competitive pricing with genuine products. Third, our "service first" philosophy — we believe in building long-term relationships, not just completing transactions. Our 99% client retention rate speaks to the quality and reliability we deliver consistently.',
+      'Four key factors set us apart: first, our 34 years of experience since 1992 means we have deep domain expertise and proven processes. Second, as an authorized distributor of 210+ brands, we offer genuine products at the best competitive pricing. Third, our "Where Service is a Way of Life" philosophy — we believe in building long-term relationships, not just completing transactions. Fourth, our ISO 9001, ISO 14001, ISO 27001, and ISO 20000-1 certifications ensure world-class quality and information security standards.',
   },
   {
     question: 'Can you help with IT infrastructure for a new office setup?',
     answer:
-      'Yes, new office IT setup is one of our core strengths. We provide end-to-end solutions including site assessment, network design and cabling, server room setup, workstation procurement and configuration, printer and peripheral setup, security systems (CCTV, access control), and ongoing maintenance. We have successfully set up IT infrastructure for over 200 offices in Pune.',
+      'Yes, new office IT setup is one of our core strengths through our "Office in the Box" unified communications solution. We provide end-to-end solutions including site assessment, network design and cabling, server room setup, workstation procurement and configuration, printer and peripheral setup, enterprise security (firewall, CCTV, endpoint security), and ongoing maintenance. We have successfully set up IT infrastructure for 3,150+ institutional clients across India.',
   },
 ];
 

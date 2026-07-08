@@ -127,11 +127,11 @@ export default function Navbar() {
             {/* Desktop: phone & email */}
             <div className="hidden lg:flex items-center gap-4 mr-2">
               <a
-                href="tel:+917507800800"
+                href="tel:+918598090100"
                 className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-dcc-teal transition-colors"
               >
                 <Phone className="h-3.5 w-3.5" />
-                <span className="hidden xl:inline">+91 7507800800</span>
+                <span className="hidden xl:inline">85980 90100</span>
               </a>
               <a
                 href="mailto:info@dccinfotech.in"
@@ -197,11 +197,11 @@ export default function Navbar() {
                 </div>
                 <div className="mt-auto border-t border-border/50 p-4 space-y-3">
                   <a
-                    href="tel:+917507800800"
+                    href="tel:+918598090100"
                     className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-dcc-teal transition-colors px-4 py-2"
                   >
                     <Phone className="h-4 w-4" />
-                    +91 7507800800
+                    85980 90100
                   </a>
                   <a
                     href="mailto:info@dccinfotech.in"

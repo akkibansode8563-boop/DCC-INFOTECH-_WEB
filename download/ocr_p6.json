@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Mission, Vision & Values\nOur Promise.\nEvery Single Day.\nOur Mission\nTo make IT accessible to every individual that empowers their growth, and thereby fuels the growth of the whole nation. Being a client-centric multichannel IT distribution and service company, our values start and revolve around client satisfaction.\nOur Vision\nWhen India thinks IT, they think DCC.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516248,
+  "id": "20260708211042a6dfd998be5e4ba5",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260708211042a6dfd998be5e4ba5",
+  "usage": {
+    "completion_tokens": 78,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4983,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5061
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Values\nAmbition\nHaving a humble\nbeginning, it’s the ambition\nthat has helped us achieve\nwhat we have today. The\nsame ambition that all\nDCCians share in\ncommon.\nSpeed\nTechnology moves fast; we\nmove faster. Since 1991, DCC\nhas set the pace in IT\ndistribution and service,\nensuring that the right\nproducts and world-class\nsupport are delivered exactly\nwhen they are needed.\nHonesty\nWhere ambition fuels our\ngrowth, it’s the honesty that\nhas kept it intact. Honesty in\nproducts and services that\nenhance the customer\nexperience.\nTeamwork\nIt’s the teamwork that is\nmaking the dream work.\nDream to become a reliable\ntech partner for every\nindividual\nHard work\nA thousand hardworking\nhands ensuring the right\nproducts and services are\navailable at the right place and\nat the right time.\nHappiness\nAmbition, honesty, hard work,\nteamwork, and speed lead to one\nsingle goal: happiness for our clients,\npartners, and employees.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516251,
+  "id": "20260708211042a264b9c5279149d6",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260708211042a264b9c5279149d6",
+  "usage": {
+    "completion_tokens": 226,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4983,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5209
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Our Services  \nFour Pillars.  \nOne Accountable  \nPartner.  \n\n01  \nReliable IT Infrastructure  \n& Maintenance.  \n✓ AMC (Annual Maintenance Contract) & FMS (Facility Management Services) with proactive, scheduled inspections and rapid-response SLAs that eliminate unplanned downtime.  \n✓ Precision Chip-Level Repairing of motherboards, processors, and graphics cards rescues depreciating hardware assets and protects your bottom line.  \n✓ Networking, Server Infrastructure, Online UPS & EPABX deployment and ongoing management for scalable, uninterrupted operations.  \n✓ Transforms unpredictable capital repair costs into fixed, manageable operational expenses (Opex).  \n\n02  \nEnterprise Security  \n& Surveillance  \n✓ Server, Firewall & Antivirus Security Systems provide multi-layered threat protection for banking, government, and corporate environments.  \n✓ Surveillance CCTV deployment for retail, commercial, and institutional campuses.  \n✓ Endpoint Security Systems and Cloud Security protocols are aligned with ISO 27001 data protection standards.  \n✓ Lease Line integrations ensuring hardened, always-on connectivity for critical operations.  \n\n03  \nUnified Communications  \n'Office in the Box'  \n✓ Instant deployment of fully integrated workspaces for corporate, GEM, and enterprise clients.  \n✓ Audio Visual Solutions for retail and commercial environments.  \n✓ Video Conferencing & Interactive Displays for seamless multi-site collaboration.  \n✓ Government e-Marketplace (GEM) procurement expertise is fully compliant, transparent, and auditable.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516309,
+  "id": "20260708211138e75de5fbd33d432f",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260708211138e75de5fbd33d432f",
+  "usage": {
+    "completion_tokens": 304,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4972,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5276
+  }
+}

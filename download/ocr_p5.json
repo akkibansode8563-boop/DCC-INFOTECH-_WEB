@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Our Esteemed Partners\n200+ Brands under One Roof.\nLenovo\nhp\nASUS\nDELL\ntechnologies\nacer\nnVIDIA\nintel.\nMicrosoft\nmsi\nlogitech\nLG\nAMD\nSEAGATE\nWD\nWestern\nDigital\nGVM\nKingston\nSanDisk\nSAMSUNG\nZEBRONICS\nTVS\nELECTRONICS\nBenQ\nPOWERX\nTHE TECHNOLOGY PEOPLE\nNet Protector\nNP AV\nQuick Heal\nSecurity Simplified\nD-Link\ntp-link\nNComputing\nAOC\nCOOLER\nMASTER\nartis\nANT\nESPORTS\nADATA\nCISCO\nNETGEAR\nCOLORFUL\nTrueview\nsparsh\ncctv\nCP PLUS\nIntelligent Security Systems\nPRAMA\nMADE FOR INDIA • MADE BY INDIA • MADE IN INDIA\nHoneywell\nSecureye\nctrl\ncare\nneyou\nwhystle\nTRON\nPOLYBYTES\nDATANIX\nZYNEX\nARVIX\nRIVAA\nPERIPHERALS\nDCC\nGREEN FACTORY\nOur Esteemed Clients\nTrusted by India's Best\nSBI\nBank of India\nCentral Bank of India\npunjabnational bank\nSaraswat\nBank\nJupiter\nHospital\nPatient First\nP\nPOONAWALLA\nFINCORP\nSERUM INSTITUTE\nOF INDIA\nKINETIC\nGREEN\nM\nMARRIOTT\nLe MERIDIEN\nWESTIN\nHOTELS & RESORTS\nHAL\nMURUGAPPA\nGROUP\nBSNL\nRELIABLE\nT & T\nGROUP\nTT\nConnect & Grow\nHUVEPHARMA\nSanjivani\nMedipoint\nKRISALA\nSCOPE\nRETAIL SYSTEMS\nTECHNOFOUR\nWorld Class NDT Systems\nthink\nproject\nYASHADA\nREALTY\nGCT\nAUTOBAHN\nTRUCKING\nAD ASSOCIATES\nSEOYON\n3B\nthe\nfibreglass\ncompany\nSQM",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516287,
+  "id": "2026070821110057c468766fb84f77",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026070821110057c468766fb84f77",
+  "usage": {
+    "completion_tokens": 442,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4983,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5425
+  }
+}

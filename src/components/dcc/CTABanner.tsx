@@ -78,14 +78,14 @@ export default function CTABanner() {
                 Get Free IT Audit
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <a href="tel:+917507800800">
+              <a href="tel:+918598090100">
                 <Button
                   size="lg"
                   variant="outline"
                   className="h-13 rounded-full border-white/30 px-8 text-base text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
                 >
                   <Phone className="mr-2 h-4 w-4" />
-                  Call +91 7507800800
+                  Call 85980 90100
                 </Button>
               </a>
             </div>

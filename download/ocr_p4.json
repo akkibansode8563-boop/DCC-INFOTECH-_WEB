@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "PAN India Presence\nDCC Presence State\nMaharashtra | Goa | Gujarat\nMadhya Pradesh | Uttar Pradesh\nKarnataka | Haryana | Delhi | Telangana\nPunjab | Chattisgarh | Rajasthan\nISO 9001:2015\nQuality Management\nISO 14001:2015\nEnvironmental Stewardship\nISO 27001:2013\nInformation Security\nISO 20000-1:2018\nIT Service Management",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1783516231,
+  "id": "20260708211026403ba7640629413a",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260708211026403ba7640629413a",
+  "usage": {
+    "completion_tokens": 100,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4988,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5088
+  }
+}

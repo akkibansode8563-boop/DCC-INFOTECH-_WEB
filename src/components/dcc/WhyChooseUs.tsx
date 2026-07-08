@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Shield, Clock, BadgeDollarSign, Headphones, ThumbsUp, Zap } from 'lucide-react';
+import { Shield, Clock, BadgeDollarSign, Headphones, ThumbsUp, Zap, Globe, Award } from 'lucide-react';
 import { useInView, useCountUp } from '@/hooks/use-premium';
 
 const reasons = [
@@ -9,45 +9,57 @@ const reasons = [
     icon: Shield,
     title: 'Trusted & Reliable',
     description:
-      'Over 30 years of proven track record serving businesses across Pune with consistent quality and reliability. Our clients trust us because we deliver on every promise.',
+      '34 years of proven track record serving India\'s biggest banks, government bodies, and enterprises. Our clients trust us because we deliver on every promise — service is our way of life.',
   },
   {
     icon: Clock,
     title: 'Rapid Response Time',
     description:
-      'Our AMC and support teams guarantee response times under 2 hours. We understand that IT downtime costs money, so we prioritize speed without compromising quality.',
+      'Our AMC and FMS teams with 400+ engineers guarantee rapid-response SLAs that eliminate unplanned downtime. We understand IT downtime costs money, so we prioritize speed without compromising quality.',
   },
   {
     icon: BadgeDollarSign,
     title: 'Best Competitive Prices',
     description:
-      'As an authorized distributor, we offer the most competitive wholesale pricing on IT equipment, software licenses, and peripherals — guaranteed value for your investment.',
+      'As an authorized distributor of 210+ renowned brands, we offer the most competitive wholesale pricing on IT equipment, software licenses, and peripherals — guaranteed value for your investment.',
   },
   {
     icon: Headphones,
-    title: 'Dedicated Support Team',
+    title: 'Pan India Support Network',
     description:
-      'A team of certified IT professionals ready to assist you 24/7. From troubleshooting to strategic IT planning, our experts are always just a call away.',
+      '400+ specialized engineers and 150+ sales professionals across 12+ states. From Maharashtra to Delhi, from Karnataka to Rajasthan — our support network is always within reach.',
   },
   {
     icon: ThumbsUp,
-    title: 'Quality Assured',
+    title: 'ISO Certified Quality',
     description:
-      'Every product and service we deliver goes through rigorous quality checks. We only partner with leading brands and use genuine parts for all repairs and assemblies.',
+      'ISO 9001:2015, ISO 14001:2015, ISO 27001:2013, and ISO 20000-1:2018 certified. Every product and service undergoes rigorous quality checks with genuine parts from leading brands.',
   },
   {
     icon: Zap,
     title: 'End-to-End Solutions',
     description:
-      'From procurement to installation to maintenance — we handle everything under one roof. No need to juggle multiple vendors when DCC Infotech covers it all.',
+      'From IT infrastructure and enterprise security to unified communications and equipment rentals — we handle everything under one roof. No need to juggle multiple vendors when DCC covers it all.',
   },
 ];
 
+const isoCerts = [
+  { code: 'ISO 9001:2015', label: 'Quality Management' },
+  { code: 'ISO 14001:2015', label: 'Environmental Management' },
+  { code: 'ISO 27001:2013', label: 'Information Security' },
+  { code: 'ISO 20000-1:2018', label: 'IT Service Management' },
+];
+
+const panIndiaStates = [
+  'Maharashtra', 'Goa', 'Gujarat', 'Madhya Pradesh', 'Uttar Pradesh', 'Karnataka',
+  'Haryana', 'Delhi', 'Telangana', 'Punjab', 'Chhattisgarh', 'Rajasthan',
+];
+
 const statsConfig = [
-  { end: 30, suffix: '+', label: 'Years of Experience' },
-  { end: 500, suffix: '+', label: 'Satisfied Clients' },
-  { end: 10000, suffix: '+', label: 'Projects Completed', display: '10,000+' },
-  { end: 99, suffix: '%', label: 'Client Retention Rate' },
+  { end: 34, suffix: '+', label: 'Years of Excellence' },
+  { end: 3150, suffix: '+', label: 'Institutional Clients' },
+  { end: 10000, suffix: '+', label: 'Channel Partners' },
+  { end: 20000, suffix: '+', label: 'Lives Impacted' },
 ];
 
 const fadeInUp = {
@@ -71,12 +83,12 @@ const scaleIn = {
 export default function WhyChooseUs() {
   const { ref, isInView } = useInView({ once: true, margin: '-80px' });
 
-  const years = useCountUp(30, 2000, 0, isInView);
-  const clients = useCountUp(500, 2000, 0, isInView);
-  const projects = useCountUp(10000, 2500, 0, isInView);
-  const retention = useCountUp(99, 2000, 0, isInView);
+  const years = useCountUp(34, 2000, 0, isInView);
+  const clients = useCountUp(3150, 2000, 0, isInView);
+  const partners = useCountUp(10000, 2500, 0, isInView);
+  const lives = useCountUp(20000, 2500, 0, isInView);
 
-  const counterValues = [years, clients, projects, retention];
+  const counterValues = [years, clients, partners, lives];
 
   return (
     <section
@@ -107,8 +119,8 @@ export default function WhyChooseUs() {
             <span className="text-dcc-teal-light">Trust DCC</span>
           </h2>
           <p className="text-lg leading-relaxed text-white/60">
-            We combine decades of expertise with a commitment to excellence, making us the preferred
-            IT partner for businesses of all sizes across Pune and India.
+            34 years of expertise, 675+ employees, and a commitment to excellence — making DCC the
+            preferred IT partner for India&apos;s leading enterprises across 12+ states.
           </p>
         </motion.div>
 
@@ -116,7 +128,7 @@ export default function WhyChooseUs() {
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="mb-16 grid grid-cols-2 gap-4 md:grid-cols-4"
+          className="mb-12 grid grid-cols-2 gap-4 md:grid-cols-4"
         >
           {statsConfig.map((stat, i) => (
             <motion.div
@@ -135,6 +147,59 @@ export default function WhyChooseUs() {
           ))}
         </motion.div>
 
+        {/* ISO Certifications Row */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="mb-12"
+        >
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <Award className="h-5 w-5 text-dcc-teal-light" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-dcc-teal-light">
+              ISO Certifications
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {isoCerts.map((cert, i) => (
+              <motion.div
+                key={cert.code}
+                custom={i + 4}
+                variants={scaleIn}
+                className="glass rounded-xl p-4 text-center"
+              >
+                <div className="text-lg font-bold text-dcc-amber">{cert.code}</div>
+                <div className="mt-1 text-xs text-white/50">{cert.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* PAN India Presence */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="mb-12"
+        >
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <Globe className="h-5 w-5 text-dcc-teal-light" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-dcc-teal-light">
+              Pan India Presence — 12+ States
+            </span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            {panIndiaStates.map((state, i) => (
+              <motion.span
+                key={state}
+                custom={i + 8}
+                variants={fadeInUp}
+                className="rounded-full border border-dcc-teal/20 bg-dcc-teal/5 px-4 py-1.5 text-sm font-medium text-dcc-teal-light"
+              >
+                {state}
+              </motion.span>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Reasons grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reasons.map((reason, i) => (
@@ -142,7 +207,7 @@ export default function WhyChooseUs() {
               key={reason.title}
               initial="hidden"
               animate={isInView ? 'visible' : 'hidden'}
-              custom={i + 1}
+              custom={i + 10}
               variants={fadeInUp}
               className="group glass rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:border-dcc-teal/30"
             >
