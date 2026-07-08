@@ -1,9 +1,9 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Briefcase, TrendingUp, GraduationCap, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useInView } from '@/hooks/use-premium';
 
 const openings = [
   {
@@ -45,43 +45,47 @@ const perks = [
   'Team outings & events',
 ];
 
-export default function Careers() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.1, duration: 0.5, ease: 'easeOut' },
-    }),
-  };
+export default function Careers() {
+  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
 
   return (
-    <section id="careers" className="section-padding bg-muted/30" ref={ref}>
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="careers"
+      className="section bg-muted/20"
+      ref={ref}
+      aria-label="Career opportunities"
+    >
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           custom={0}
           variants={fadeInUp}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="inline-block text-dcc-teal font-semibold text-sm tracking-wider uppercase mb-3">
+          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             Careers
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-dcc-slate mb-5">
-            Join Our <span className="gradient-text">Team</span>
+          <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+            Join Our <span className="text-gradient">Team</span>
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
+          <p className="text-lg leading-relaxed text-muted-foreground">
             We are always looking for talented and passionate individuals to join our growing team.
             Build your career with one of Pune&apos;s most trusted IT companies.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-10">
+        <div className="grid gap-10 lg:grid-cols-3">
           {/* Job openings */}
           <motion.div
             initial="hidden"
@@ -90,7 +94,7 @@ export default function Careers() {
             variants={fadeInUp}
             className="lg:col-span-2"
           >
-            <h3 className="text-xl font-bold text-dcc-slate mb-6">Current Openings</h3>
+            <h3 className="mb-6 text-xl font-bold text-foreground">Current Openings</h3>
             <div className="space-y-4">
               {openings.map((job, i) => (
                 <motion.div
@@ -99,24 +103,24 @@ export default function Careers() {
                   animate={isInView ? 'visible' : 'hidden'}
                   custom={i + 2}
                   variants={fadeInUp}
-                  className="group bg-white rounded-xl p-5 flex items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md border border-transparent hover:border-dcc-teal/10 transition-all duration-300 flex-col sm:flex-row"
+                  className="card-premium group flex flex-col gap-4 rounded-xl p-5 sm:flex-row sm:items-center sm:justify-between"
                 >
-                  <div className="flex items-start sm:items-center gap-4">
-                    <div className="w-11 h-11 rounded-xl bg-dcc-teal/10 group-hover:bg-dcc-teal flex items-center justify-center shrink-0 transition-colors duration-300">
-                      <job.icon className="h-5 w-5 text-dcc-teal group-hover:text-white transition-colors duration-300" />
+                  <div className="flex items-start gap-4 sm:items-center">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-dcc-teal/10 transition-all duration-300 group-hover:bg-dcc-teal">
+                      <job.icon className="h-5 w-5 text-dcc-teal transition-colors duration-300 group-hover:text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-dcc-slate group-hover:text-dcc-teal transition-colors">
+                      <h4 className="font-semibold text-foreground transition-colors duration-300 group-hover:text-dcc-teal">
                         {job.title}
                       </h4>
-                      <div className="flex flex-wrap gap-2 mt-1.5">
-                        <span className="text-xs bg-dcc-teal/10 text-dcc-teal px-2 py-0.5 rounded-full">
+                      <div className="mt-1.5 flex flex-wrap gap-2">
+                        <span className="rounded-full bg-dcc-teal/10 px-2 py-0.5 text-xs text-dcc-teal">
                           {job.department}
                         </span>
-                        <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
+                        <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                           {job.type}
                         </span>
-                        <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
+                        <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                           {job.location}
                         </span>
                       </div>
@@ -125,7 +129,7 @@ export default function Careers() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="rounded-full border-dcc-teal text-dcc-teal hover:bg-dcc-teal hover:text-white shrink-0 self-start sm:self-center"
+                    className="shrink-0 self-start rounded-full border-dcc-teal text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white sm:self-center"
                     onClick={() =>
                       document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
                     }
@@ -144,28 +148,28 @@ export default function Careers() {
             custom={7}
             variants={fadeInUp}
           >
-            <div className="bg-gradient-to-br from-dcc-teal/5 to-dcc-teal/10 rounded-2xl p-6 border border-dcc-teal/10 sticky top-28">
-              <h3 className="text-lg font-bold text-dcc-slate mb-4">Why Work With Us?</h3>
-              <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+            <div className="glass sticky top-28 rounded-2xl p-6">
+              <h3 className="mb-4 text-lg font-bold text-foreground">Why Work With Us?</h3>
+              <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
                 At DCC Infotech, we believe our people are our greatest asset. Here&apos;s what makes
                 us a great place to work:
               </p>
               <ul className="space-y-3">
                 {perks.map((perk) => (
-                  <li key={perk} className="flex items-center gap-2.5 text-sm text-dcc-slate">
-                    <div className="w-5 h-5 rounded-full bg-dcc-teal/20 flex items-center justify-center shrink-0">
-                      <div className="w-2 h-2 rounded-full bg-dcc-teal" />
+                  <li key={perk} className="flex items-center gap-2.5 text-sm text-foreground">
+                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-dcc-teal/20">
+                      <div className="h-2 w-2 rounded-full bg-dcc-teal" />
                     </div>
                     {perk}
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 pt-5 border-t border-dcc-teal/10">
-                <p className="text-sm text-muted-foreground mb-3">
+              <div className="mt-6 border-t border-border/50 pt-5">
+                <p className="mb-3 text-sm text-muted-foreground">
                   Don&apos;t see a role that fits? We&apos;d still love to hear from you!
                 </p>
                 <Button
-                  className="w-full bg-dcc-teal hover:bg-dcc-teal-dark text-white rounded-full"
+                  className="w-full rounded-full bg-dcc-teal font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark"
                   onClick={() =>
                     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
                   }

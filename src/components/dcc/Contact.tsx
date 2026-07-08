@@ -1,28 +1,59 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useInView } from '@/hooks/use-premium';
+
+const contactInfo = [
+  {
+    icon: Phone,
+    label: 'Call Us',
+    value: '+91 7507800800',
+    href: 'tel:+917507800800',
+    color: 'bg-dcc-teal/10 text-dcc-teal',
+  },
+  {
+    icon: Mail,
+    label: 'Email Us',
+    value: 'info@dccinfotech.in',
+    href: 'mailto:info@dccinfotech.in',
+    color: 'bg-dcc-amber/10 text-dcc-amber-dark',
+  },
+  {
+    icon: MapPin,
+    label: 'Visit Us',
+    value: 'Pune, Maharashtra, India',
+    href: '#',
+    color: 'bg-dcc-teal/10 text-dcc-teal',
+  },
+  {
+    icon: Clock,
+    label: 'Working Hours',
+    value: 'Mon–Sat: 9:30 AM – 6:30 PM',
+    href: '#',
+    color: 'bg-dcc-amber/10 text-dcc-amber-dark',
+  },
+];
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
 export default function Contact() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
   const { toast } = useToast();
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
-
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.12, duration: 0.5, ease: 'easeOut' },
-    }),
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,82 +96,58 @@ export default function Contact() {
     }
   };
 
-  const contactInfo = [
-    {
-      icon: Phone,
-      label: 'Call Us',
-      value: '+91 7507800800',
-      href: 'tel:+917507800800',
-      color: 'bg-dcc-teal/10 text-dcc-teal',
-    },
-    {
-      icon: Mail,
-      label: 'Email Us',
-      value: 'info@dccinfotech.in',
-      href: 'mailto:info@dccinfotech.in',
-      color: 'bg-dcc-amber/10 text-dcc-amber-dark',
-    },
-    {
-      icon: MapPin,
-      label: 'Visit Us',
-      value: 'Pune, Maharashtra, India',
-      href: '#',
-      color: 'bg-dcc-teal/10 text-dcc-teal',
-    },
-    {
-      icon: Clock,
-      label: 'Working Hours',
-      value: 'Mon–Sat: 9:30 AM – 6:30 PM',
-      href: '#',
-      color: 'bg-dcc-amber/10 text-dcc-amber-dark',
-    },
-  ];
-
   return (
-    <section id="contact" className="section-padding bg-muted/30" ref={ref}>
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="contact"
+      className="section bg-muted/20"
+      ref={ref}
+      aria-label="Contact us"
+    >
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           custom={0}
           variants={fadeInUp}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="inline-block text-dcc-teal font-semibold text-sm tracking-wider uppercase mb-3">
+          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             Contact Us
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-dcc-slate mb-5">
-            Let&apos;s <span className="gradient-text">Get in Touch</span>
+          <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+            Let&apos;s <span className="text-gradient">Get in Touch</span>
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
+          <p className="text-lg leading-relaxed text-muted-foreground">
             Have a project in mind or need IT support? Reach out to us and our team will get back to
             you within 24 hours.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12">
+        <div className="grid gap-10 lg:grid-cols-5 lg:gap-12">
           {/* Contact info */}
           <motion.div
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
             custom={1}
             variants={fadeInUp}
-            className="lg:col-span-2 space-y-5"
+            className="space-y-4 lg:col-span-2"
           >
-            <h3 className="text-xl font-bold text-dcc-slate mb-6">Contact Information</h3>
+            <h3 className="mb-6 text-xl font-bold text-foreground">Contact Information</h3>
             {contactInfo.map((info) => (
               <a
                 key={info.label}
                 href={info.href}
-                className="flex items-start gap-4 p-4 bg-white rounded-xl hover:shadow-md transition-all duration-300 group"
+                className="card-premium group flex items-start gap-4 rounded-xl p-4"
               >
-                <div className={`w-12 h-12 rounded-xl ${info.color} flex items-center justify-center shrink-0`}>
+                <div
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${info.color}`}
+                >
                   <info.icon className="h-5 w-5" />
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">{info.label}</div>
-                  <div className="font-medium text-dcc-slate group-hover:text-dcc-teal transition-colors mt-0.5">
+                  <div className="mt-0.5 font-medium text-foreground transition-colors duration-300 group-hover:text-dcc-teal">
                     {info.value}
                   </div>
                 </div>
@@ -148,11 +155,11 @@ export default function Contact() {
             ))}
 
             {/* Map placeholder */}
-            <div className="rounded-xl overflow-hidden h-48 bg-dcc-slate/5 border mt-6 flex items-center justify-center">
+            <div className="mt-6 flex h-48 items-center justify-center rounded-2xl border border-border/40 bg-muted/40">
               <div className="text-center text-muted-foreground">
-                <MapPin className="h-8 w-8 mx-auto mb-2 text-dcc-teal/30" />
+                <MapPin className="mx-auto mb-2 h-8 w-8 text-dcc-teal/30" />
                 <p className="text-sm">Pune, Maharashtra</p>
-                <p className="text-xs mt-1">Interactive map loads here</p>
+                <p className="mt-1 text-xs">Interactive map loads here</p>
               </div>
             </div>
           </motion.div>
@@ -165,8 +172,11 @@ export default function Contact() {
             variants={fadeInUp}
             className="lg:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border">
-              <div className="grid sm:grid-cols-2 gap-5">
+            <form
+              onSubmit={handleSubmit}
+              className="card-premium rounded-2xl border-border/60 p-6 md:p-8"
+            >
+              <div className="grid gap-5 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name *</Label>
                   <Input
@@ -209,7 +219,7 @@ export default function Contact() {
                   />
                 </div>
               </div>
-              <div className="space-y-2 mt-5">
+              <div className="mt-5 space-y-2">
                 <Label htmlFor="message">Message *</Label>
                 <Textarea
                   id="message"
@@ -217,14 +227,14 @@ export default function Contact() {
                   placeholder="Tell us about your requirements..."
                   required
                   rows={5}
-                  className="rounded-xl resize-none"
+                  className="resize-none rounded-xl"
                 />
               </div>
               <Button
                 type="submit"
                 disabled={status === 'loading'}
                 size="lg"
-                className="w-full sm:w-auto mt-6 bg-dcc-teal hover:bg-dcc-teal-dark text-white rounded-full px-8 h-12 font-semibold shadow-lg shadow-dcc-teal/20"
+                className="mt-6 h-12 rounded-full bg-dcc-teal px-8 font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark hover:shadow-xl hover:shadow-dcc-teal/30 w-full sm:w-auto"
               >
                 {status === 'loading' ? (
                   <>

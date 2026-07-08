@@ -1,49 +1,54 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
 import { Quote, Award, Users, Target, CheckCircle2 } from 'lucide-react';
+import { useInView } from '@/hooks/use-premium';
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const featurePills = [
+  { icon: Target, text: 'Customer-first approach' },
+  { icon: Users, text: 'Expert certified team' },
+  { icon: Award, text: 'Authorized distributor' },
+  { icon: CheckCircle2, text: 'ISO compliant processes' },
+];
 
 export default function About() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.15, duration: 0.6, ease: 'easeOut' },
-    }),
-  };
+  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
 
   return (
-    <section id="about" className="section-padding bg-white" ref={ref}>
-      <div className="max-w-7xl mx-auto">
+    <section id="about" className="section bg-background" ref={ref} aria-label="About DCC Infotech">
+      <div className="mx-auto max-w-7xl">
         {/* Section header */}
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           custom={0}
           variants={fadeInUp}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="inline-block text-dcc-teal font-semibold text-sm tracking-wider uppercase mb-3">
+          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             About Us
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-dcc-slate mb-5">
+          <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
             Building IT Excellence{' '}
-            <span className="gradient-text">Since 1992</span>
+            <span className="text-gradient">Since 1992</span>
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
+          <p className="text-lg leading-relaxed text-muted-foreground">
             Three decades of unwavering commitment to delivering world-class IT solutions that
             transform businesses and drive innovation across India.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Image/Visual */}
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Left: Visual card */}
           <motion.div
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
@@ -51,33 +56,46 @@ export default function About() {
             variants={fadeInUp}
             className="relative"
           >
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-dcc-teal/10 to-dcc-teal/5">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-24 h-24 mx-auto mb-6 rounded-2xl animated-gradient flex items-center justify-center">
-                    <span className="text-white font-bold text-4xl">D</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-dcc-slate">Data Care Corporation</h3>
-                  <p className="text-muted-foreground mt-2">DCC Infotech Private Limited</p>
+            <div className="relative overflow-hidden rounded-2xl border border-dcc-teal/10 p-12 mesh-gradient">
+              {/* Decorative border accent */}
+              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-dcc-teal/5" />
+
+              {/* Centered monogram */}
+              <div className="flex items-center justify-center py-16">
+                <div className="relative">
+                  <motion.span
+                    className="block text-8xl font-black tracking-tighter text-foreground/80 sm:text-9xl"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                    transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    DCC
+                  </motion.span>
+                  <motion.div
+                    className="mx-auto mt-4 h-1 w-16 rounded-full bg-dcc-amber"
+                    initial={{ scaleX: 0 }}
+                    animate={isInView ? { scaleX: 1 } : {}}
+                    transition={{ delay: 0.7, duration: 0.6 }}
+                  />
                 </div>
               </div>
-              {/* Decorative circles */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full border-2 border-dcc-teal/20" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-dcc-amber/10" />
             </div>
-            {/* Floating badge */}
+
+            {/* Floating badge: 30+ Years */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={isInView ? { scale: 1, opacity: 1 } : {}}
-              transition={{ delay: 0.8, type: 'spring', stiffness: 200 }}
-              className="absolute -bottom-6 -right-4 sm:right-8 bg-white rounded-xl shadow-xl p-4 flex items-center gap-3"
+              transition={{ delay: 0.8, type: 'spring', stiffness: 200, damping: 20 }}
+              className="absolute -bottom-6 right-4 sm:right-8"
             >
-              <div className="w-12 h-12 rounded-lg bg-dcc-amber/10 flex items-center justify-center">
-                <Award className="h-6 w-6 text-dcc-amber" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-dcc-slate">30+</div>
-                <div className="text-xs text-muted-foreground">Years of Trust</div>
+              <div className="glass flex items-center gap-3 rounded-2xl p-4 shadow-lg">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-dcc-amber/10">
+                  <Award className="h-6 w-6 text-dcc-amber" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-foreground">30+</div>
+                  <div className="text-xs text-muted-foreground">Years of Trust</div>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -91,14 +109,14 @@ export default function About() {
               variants={fadeInUp}
               className="mb-8"
             >
-              <h3 className="text-2xl font-bold text-dcc-slate mb-4">Our Story</h3>
-              <p className="text-muted-foreground leading-relaxed mb-4">
+              <h3 className="mb-4 text-2xl font-bold text-foreground">Our Story</h3>
+              <p className="mb-4 leading-relaxed text-muted-foreground">
                 DCC Infotech Private Limited was established in 1992 by Mr. Anil Mhaske with a clear
                 vision — to provide reliable, high-quality IT products and services to businesses of
                 all sizes. What began as a corporate reseller and distributor has grown into one of
                 Pune&apos;s most trusted IT solutions providers.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="leading-relaxed text-muted-foreground">
                 Over three decades, we have evolved from hardware sales to offering comprehensive IT
                 infrastructure services, network solutions, server management, and annual maintenance
                 contracts. Our deep industry knowledge and customer-first approach have earned us the
@@ -106,49 +124,47 @@ export default function About() {
               </p>
             </motion.div>
 
-            {/* Key points */}
+            {/* Feature pills */}
             <motion.div
               initial="hidden"
               animate={isInView ? 'visible' : 'hidden'}
               custom={3}
               variants={fadeInUp}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8"
+              className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2"
             >
-              {[
-                { icon: Target, text: 'Customer-first approach' },
-                { icon: Users, text: 'Expert certified team' },
-                { icon: Award, text: 'Authorized distributor' },
-                { icon: CheckCircle2, text: 'ISO compliant processes' },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-dcc-teal/10 flex items-center justify-center shrink-0">
+              {featurePills.map((item) => (
+                <div
+                  key={item.text}
+                  className="flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 p-3 transition-colors hover:border-dcc-teal/20 hover:bg-dcc-teal/5"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-dcc-teal/10">
                     <item.icon className="h-4 w-4 text-dcc-teal" />
                   </div>
-                  <span className="text-sm text-dcc-slate font-medium">{item.text}</span>
+                  <span className="text-sm font-medium text-foreground">{item.text}</span>
                 </div>
               ))}
             </motion.div>
 
-            {/* MD's Message */}
+            {/* MD's Quote Card */}
             <motion.div
               initial="hidden"
               animate={isInView ? 'visible' : 'hidden'}
               custom={4}
               variants={fadeInUp}
-              className="bg-gradient-to-br from-dcc-teal/5 to-dcc-teal/10 rounded-2xl p-6 border border-dcc-teal/10"
+              className="glass rounded-2xl p-6"
             >
-              <Quote className="h-8 w-8 text-dcc-teal/30 mb-3" />
-              <p className="text-dcc-slate/80 italic leading-relaxed mb-4">
+              <Quote className="mb-3 h-8 w-8 text-dcc-teal/30" />
+              <p className="mb-4 italic leading-relaxed text-foreground/80">
                 &ldquo;Our commitment has always been simple — deliver the best IT solutions at the most
                 competitive prices, backed by service that our clients can truly rely on. Technology
                 changes, but our dedication to our customers never will.&rdquo;
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-dcc-teal flex items-center justify-center text-white font-bold text-lg">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-dcc-teal font-bold text-lg text-white">
                   AM
                 </div>
                 <div>
-                  <div className="font-semibold text-dcc-slate">Mr. Anil Mhaske</div>
+                  <div className="font-semibold text-foreground">Mr. Anil Mhaske</div>
                   <div className="text-sm text-muted-foreground">Managing Director</div>
                 </div>
               </div>

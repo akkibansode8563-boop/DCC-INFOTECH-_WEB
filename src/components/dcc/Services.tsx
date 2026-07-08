@@ -1,9 +1,9 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import { ArrowRight, Server, Network, Cpu, Wrench, Package, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useInView } from '@/hooks/use-premium';
 
 const services = [
   {
@@ -50,44 +50,48 @@ const services = [
   },
 ];
 
-export default function Services() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.1, duration: 0.5, ease: 'easeOut' },
-    }),
-  };
+export default function Services() {
+  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
 
   return (
-    <section id="services" className="section-padding bg-muted/30" ref={ref}>
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="services"
+      className="section bg-muted/20"
+      ref={ref}
+      aria-label="Our Services"
+    >
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           custom={0}
           variants={fadeInUp}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="inline-block text-dcc-teal font-semibold text-sm tracking-wider uppercase mb-3">
+          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             What We Offer
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-dcc-slate mb-5">
-            Our <span className="gradient-text">Services</span>
+          <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+            Our <span className="text-gradient">Services</span>
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
+          <p className="text-lg leading-relaxed text-muted-foreground">
             Comprehensive IT solutions tailored to meet the unique needs of your business. From
             infrastructure to support, we&apos;ve got you covered.
           </p>
         </motion.div>
 
-        {/* Service cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Service cards grid */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
             <motion.div
               key={service.title}
@@ -95,34 +99,42 @@ export default function Services() {
               animate={isInView ? 'visible' : 'hidden'}
               custom={i + 1}
               variants={fadeInUp}
-              className="group bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-xl border border-transparent hover:border-dcc-teal/10 transition-all duration-500 hover:-translate-y-1"
+              className="card-premium group rounded-2xl p-6 lg:p-8"
             >
-              <div className="w-14 h-14 rounded-xl bg-dcc-teal/10 group-hover:bg-dcc-teal flex items-center justify-center mb-5 transition-colors duration-300">
-                <service.icon className="h-7 w-7 text-dcc-teal group-hover:text-white transition-colors duration-300" />
+              {/* Icon */}
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-dcc-teal/10 transition-all duration-300 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20">
+                <service.icon className="h-7 w-7 text-dcc-teal transition-colors duration-300 group-hover:text-white" />
               </div>
-              <h3 className="text-xl font-bold text-dcc-slate mb-3">{service.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+
+              {/* Title */}
+              <h3 className="mb-3 text-xl font-bold text-foreground">{service.title}</h3>
+
+              {/* Description */}
+              <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
                 {service.description}
               </p>
-              <ul className="space-y-2 mb-6">
+
+              {/* Feature bullets */}
+              <ul className="mb-6 space-y-2">
                 {service.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-dcc-slate/70">
-                    <div className="w-1.5 h-1.5 rounded-full bg-dcc-teal shrink-0" />
+                  <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/70">
+                    <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-dcc-teal" />
                     {f}
                   </li>
                 ))}
               </ul>
-              <Button
-                variant="ghost"
-                className="text-dcc-teal hover:text-dcc-teal-dark p-0 h-auto font-medium group/btn"
+
+              {/* Learn More */}
+              <button
                 onClick={() => {
                   const el = document.querySelector('#contact');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
+                className="inline-flex items-center gap-1 text-sm font-medium text-dcc-teal transition-colors hover:text-dcc-teal-dark group/btn"
               >
                 Learn More
-                <ArrowRight className="ml-1 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-              </Button>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+              </button>
             </motion.div>
           ))}
         </div>
@@ -133,7 +145,7 @@ export default function Services() {
           animate={isInView ? 'visible' : 'hidden'}
           custom={8}
           variants={fadeInUp}
-          className="text-center mt-14"
+          className="mt-14 text-center"
         >
           <Button
             size="lg"
@@ -141,7 +153,7 @@ export default function Services() {
               const el = document.querySelector('#contact');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="bg-dcc-teal hover:bg-dcc-teal-dark text-white rounded-full px-8 shadow-lg shadow-dcc-teal/20"
+            className="rounded-full bg-dcc-teal px-8 font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark hover:shadow-xl hover:shadow-dcc-teal/30"
           >
             Need a Custom Solution?
             <ArrowRight className="ml-2 h-5 w-5" />

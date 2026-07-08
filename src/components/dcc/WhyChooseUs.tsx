@@ -1,15 +1,8 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import {
-  Shield,
-  Clock,
-  BadgeDollarSign,
-  Headphones,
-  ThumbsUp,
-  Zap,
-} from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Shield, Clock, BadgeDollarSign, Headphones, ThumbsUp, Zap } from 'lucide-react';
+import { useInView, useCountUp } from '@/hooks/use-premium';
 
 const reasons = [
   {
@@ -50,85 +43,100 @@ const reasons = [
   },
 ];
 
-const stats = [
-  { value: '30+', label: 'Years of Experience' },
-  { value: '500+', label: 'Satisfied Clients' },
-  { value: '10,000+', label: 'Projects Completed' },
-  { value: '99%', label: 'Client Retention Rate' },
+const statsConfig = [
+  { end: 30, suffix: '+', label: 'Years of Experience' },
+  { end: 500, suffix: '+', label: 'Satisfied Clients' },
+  { end: 10000, suffix: '+', label: 'Projects Completed', display: '10,000+' },
+  { end: 99, suffix: '%', label: 'Client Retention Rate' },
 ];
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
 export default function WhyChooseUs() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.1, duration: 0.5, ease: 'easeOut' },
-    }),
-  };
+  const years = useCountUp(30, 2000, 0, isInView);
+  const clients = useCountUp(500, 2000, 0, isInView);
+  const projects = useCountUp(10000, 2500, 0, isInView);
+  const retention = useCountUp(99, 2000, 0, isInView);
 
-  const scaleIn = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: { delay: i * 0.1, duration: 0.5, ease: 'easeOut' },
-    }),
-  };
+  const counterValues = [years, clients, projects, retention];
 
   return (
-    <section className="section-padding bg-dcc-slate relative overflow-hidden" ref={ref}>
-      {/* Background decorations */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-dcc-teal/10 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-dcc-teal/5 blur-3xl" />
+    <section
+      className="section relative overflow-hidden bg-dcc-slate"
+      ref={ref}
+      aria-label="Why choose DCC Infotech"
+    >
+      {/* Mesh gradient overlay */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-dcc-teal/10 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-dcc-teal/5 blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           custom={0}
           variants={fadeInUp}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="inline-block text-dcc-amber font-semibold text-sm tracking-wider uppercase mb-3">
+          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-amber">
             Why Choose Us
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5">
-            Why Businesses <span className="text-dcc-teal-light">Trust DCC</span>
+          <h2 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+            Why Businesses{' '}
+            <span className="text-dcc-teal-light">Trust DCC</span>
           </h2>
-          <p className="text-white/60 text-lg leading-relaxed">
+          <p className="text-lg leading-relaxed text-white/60">
             We combine decades of expertise with a commitment to excellence, making us the preferred
             IT partner for businesses of all sizes across Pune and India.
           </p>
         </motion.div>
 
-        {/* Stats row */}
+        {/* KPI Counters Row */}
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
+          className="mb-16 grid grid-cols-2 gap-4 md:grid-cols-4"
         >
-          {stats.map((stat, i) => (
+          {statsConfig.map((stat, i) => (
             <motion.div
               key={stat.label}
               custom={i}
               variants={scaleIn}
-              className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10"
+              className="glass rounded-2xl p-6 text-center"
             >
-              <div className="text-3xl lg:text-4xl font-bold text-dcc-amber">{stat.value}</div>
-              <div className="text-white/60 text-sm mt-2">{stat.label}</div>
+              <div className="text-3xl font-bold text-dcc-amber lg:text-4xl">
+                {stat.display
+                  ? stat.display
+                  : `${counterValues[i].toLocaleString()}${stat.suffix}`}
+              </div>
+              <div className="mt-2 text-sm text-white/60">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
 
         {/* Reasons grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reasons.map((reason, i) => (
             <motion.div
               key={reason.title}
@@ -136,13 +144,13 @@ export default function WhyChooseUs() {
               animate={isInView ? 'visible' : 'hidden'}
               custom={i + 1}
               variants={fadeInUp}
-              className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-dcc-teal/30 hover:bg-white/10 transition-all duration-300"
+              className="group glass rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:border-dcc-teal/30"
             >
-              <div className="w-12 h-12 rounded-xl bg-dcc-teal/20 group-hover:bg-dcc-teal flex items-center justify-center mb-4 transition-colors duration-300">
-                <reason.icon className="h-6 w-6 text-dcc-teal-light group-hover:text-white transition-colors duration-300" />
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-dcc-teal/20 transition-all duration-300 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20">
+                <reason.icon className="h-6 w-6 text-dcc-teal-light transition-colors duration-300 group-hover:text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{reason.title}</h3>
-              <p className="text-white/50 text-sm leading-relaxed">{reason.description}</p>
+              <h3 className="mb-2 text-lg font-semibold text-white">{reason.title}</h3>
+              <p className="text-sm leading-relaxed text-white/50">{reason.description}</p>
             </motion.div>
           ))}
         </div>

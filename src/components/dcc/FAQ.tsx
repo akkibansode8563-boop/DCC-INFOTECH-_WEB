@@ -1,13 +1,13 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useInView } from '@/hooks/use-premium';
 
 const faqs = [
   {
@@ -52,37 +52,41 @@ const faqs = [
   },
 ];
 
-export default function FAQ() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.15, duration: 0.6, ease: 'easeOut' },
-    }),
-  };
+export default function FAQ() {
+  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
 
   return (
-    <section id="faq" className="section-padding bg-white" ref={ref}>
-      <div className="max-w-4xl mx-auto">
+    <section
+      id="faq"
+      className="section bg-background"
+      ref={ref}
+      aria-label="Frequently asked questions"
+    >
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           custom={0}
           variants={fadeInUp}
-          className="text-center mb-14"
+          className="mb-14 text-center"
         >
-          <span className="inline-block text-dcc-teal font-semibold text-sm tracking-wider uppercase mb-3">
+          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             FAQ
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-dcc-slate mb-5">
-            Frequently Asked <span className="gradient-text">Questions</span>
+          <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+            Frequently Asked <span className="text-gradient">Questions</span>
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
             Find answers to common questions about our IT services, support, pricing, and more.
             Can&apos;t find what you&apos;re looking for? Feel free to contact us.
           </p>
@@ -100,12 +104,12 @@ export default function FAQ() {
               <AccordionItem
                 key={i}
                 value={`item-${i}`}
-                className="border-b border-border/50 last:border-b-0"
+                className="border-b border-border/40 last:border-b-0"
               >
-                <AccordionTrigger className="text-left text-dcc-slate hover:text-dcc-teal font-medium text-base py-5 px-1 hover:no-underline transition-colors duration-200">
+                <AccordionTrigger className="px-1 py-5 text-left text-base font-medium text-foreground transition-colors duration-200 hover:text-dcc-teal hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-5 px-1">
+                <AccordionContent className="px-1 pb-5 text-sm leading-relaxed text-muted-foreground">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -119,10 +123,10 @@ export default function FAQ() {
           animate={isInView ? 'visible' : 'hidden'}
           custom={3}
           variants={fadeInUp}
-          className="text-center mt-10 p-8 rounded-2xl bg-gradient-to-br from-dcc-teal/5 to-dcc-teal/10 border border-dcc-teal/10"
+          className="mt-10 rounded-2xl border border-dcc-teal/10 p-8 text-center mesh-gradient"
         >
-          <h3 className="text-lg font-semibold text-dcc-slate mb-2">Still have questions?</h3>
-          <p className="text-muted-foreground text-sm mb-4">
+          <h3 className="mb-2 text-lg font-semibold text-foreground">Still have questions?</h3>
+          <p className="mb-4 text-sm text-muted-foreground">
             Our team is ready to help you with any inquiries about our services.
           </p>
           <a
@@ -131,7 +135,7 @@ export default function FAQ() {
               e.preventDefault();
               document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2 bg-dcc-teal hover:bg-dcc-teal-dark text-white rounded-full px-6 py-2.5 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 rounded-full bg-dcc-teal px-6 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-dcc-teal-dark hover:shadow-lg hover:shadow-dcc-teal/20"
           >
             Contact Our Team
           </a>
