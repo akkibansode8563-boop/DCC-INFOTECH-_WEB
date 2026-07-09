@@ -114,7 +114,7 @@ export default function Hero() {
               src={s.bgImage}
               alt=""
               fill
-              priority={i === 0}
+              priority
               sizes="100vw"
               className="object-cover"
             />
