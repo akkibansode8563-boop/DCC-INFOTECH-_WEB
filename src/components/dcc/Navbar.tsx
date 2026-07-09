@@ -118,20 +118,20 @@ export default function Navbar() {
           {/* Right side: contact info + CTA + mobile toggle */}
           <div className="flex items-center gap-4">
             {/* Desktop: phone & email */}
-            <div className="hidden 2xl:flex items-center gap-4 mr-2">
+            <div className="hidden lg:flex items-center gap-4 mr-2 whitespace-nowrap">
               <a
                 href="tel:+918598090100"
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-dcc-teal transition-colors"
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-dcc-teal transition-colors whitespace-nowrap"
               >
                 <Phone className="h-3.5 w-3.5" />
-                <span className="hidden xl:inline">85980 90100</span>
+                <span className="whitespace-nowrap">85980 90100</span>
               </a>
               <a
                 href="mailto:info@dccinfotech.in"
-                className="hidden xl:flex items-center gap-1.5 text-sm text-muted-foreground hover:text-dcc-teal transition-colors"
+                className="hidden xl:flex items-center gap-1.5 text-sm text-muted-foreground hover:text-dcc-teal transition-colors whitespace-nowrap"
               >
                 <Mail className="h-3.5 w-3.5" />
-                info@dccinfotech.in
+                <span className="whitespace-nowrap">info@dccinfotech.in</span>
               </a>
             </div>
 
