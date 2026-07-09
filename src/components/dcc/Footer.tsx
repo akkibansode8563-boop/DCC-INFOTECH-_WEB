@@ -162,13 +162,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Company info */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="mb-4 flex items-center gap-3">
+            <div className="mb-4 flex items-center gap-2">
+              <img src="/dcc-logo.png" alt="DCC Logo" className="h-9 w-auto object-contain" />
               <span className="text-xl font-bold tracking-tight">
-                DCC <span className="text-dcc-teal-light">Infotech</span>
+                DCC <span className="text-dcc-teal-light">INFOTECH PVT LTD</span>
               </span>
             </div>
             <p className="mb-4 text-sm leading-relaxed text-white/70">
-              Founded in 1992 by Mr. Anil Mhaske, DCC Infotech is a leading multichannel IT
+              Founded in 1992 by Mr. Anil Mhaske, DCC INFOTECH PVT LTD is a leading multichannel IT
               distribution and service company trusted by India&apos;s biggest banks, government
               bodies, and enterprises across 12+ states.
             </p>

@@ -1,9 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { Briefcase, TrendingUp, GraduationCap, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useInView } from '@/hooks/use-premium';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const openings = [
   {
@@ -45,34 +46,75 @@ const perks = [
   'Team outings & events',
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function Careers() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.careers-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.careers-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Jobs reveal
+    gsap.fromTo(
+      '.careers-jobs-reveal',
+      { x: -30, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.careers-jobs-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+
+    // Perks card reveal
+    gsap.fromTo(
+      '.careers-perks-reveal',
+      { x: 30, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.careers-perks-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+  }, { scope: sectionRef });
 
   return (
     <section
       id="careers"
-      className="section bg-muted/20"
-      ref={ref}
+      ref={sectionRef}
+      className="section bg-muted/20 overflow-hidden"
       aria-label="Career opportunities"
     >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="careers-header-reveal mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             Careers
           </span>
@@ -83,27 +125,17 @@ export default function Careers() {
             We are always looking for talented and passionate individuals to join our growing team.
             Build your career with one of Pune&apos;s most trusted IT companies.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid gap-10 lg:grid-cols-3">
           {/* Job openings */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={1}
-            variants={fadeInUp}
-            className="lg:col-span-2"
-          >
+          <div className="careers-jobs-reveal lg:col-span-2">
             <h3 className="mb-6 text-xl font-bold text-foreground">Current Openings</h3>
             <div className="space-y-4">
-              {openings.map((job, i) => (
-                <motion.div
+              {openings.map((job) => (
+                <div
                   key={job.title}
-                  initial="hidden"
-                  animate={isInView ? 'visible' : 'hidden'}
-                  custom={i + 2}
-                  variants={fadeInUp}
-                  className="card-premium group flex flex-col gap-4 rounded-xl p-5 sm:flex-row sm:items-center sm:justify-between"
+                  className="card-premium group flex flex-col gap-4 rounded-xl p-5 sm:flex-row sm:items-center sm:justify-between select-none"
                 >
                   <div className="flex items-start gap-4 sm:items-center">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-dcc-teal/10 transition-all duration-300 group-hover:bg-dcc-teal">
@@ -129,26 +161,21 @@ export default function Careers() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="shrink-0 self-start rounded-full border-dcc-teal text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white sm:self-center"
+                    className="shrink-0 self-start rounded-full border-dcc-teal text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white sm:self-center cursor-pointer"
                     onClick={() =>
                       document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
                     }
                   >
                     Apply Now
                   </Button>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Perks sidebar */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={7}
-            variants={fadeInUp}
-          >
-            <div className="glass sticky top-28 rounded-2xl p-6">
+          <div className="careers-perks-reveal">
+            <div className="glass sticky top-28 rounded-2xl p-6 select-none">
               <h3 className="mb-4 text-lg font-bold text-foreground">Why Work With Us?</h3>
               <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
                 At DCC Infotech, we believe our people are our greatest asset. Here&apos;s what makes
@@ -169,7 +196,7 @@ export default function Careers() {
                   Don&apos;t see a role that fits? We&apos;d still love to hear from you!
                 </p>
                 <Button
-                  className="w-full rounded-full bg-dcc-teal font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark"
+                  className="w-full rounded-full bg-dcc-teal font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark cursor-pointer"
                   onClick={() =>
                     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
                   }
@@ -178,7 +205,7 @@ export default function Careers() {
                 </Button>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

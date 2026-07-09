@@ -1,9 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { Play, Calendar, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useInView } from '@/hooks/use-premium';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const events = [
   {
@@ -26,34 +27,75 @@ const events = [
   },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function Gallery() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.gallery-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.gallery-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Video container reveal
+    gsap.fromTo(
+      '.gallery-video-reveal',
+      { x: -30, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.gallery-video-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+
+    // Events list reveal
+    gsap.fromTo(
+      '.gallery-events-reveal',
+      { x: 30, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.gallery-events-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+  }, { scope: sectionRef });
 
   return (
     <section
       id="gallery"
-      className="section bg-background"
-      ref={ref}
+      ref={sectionRef}
+      className="section bg-background overflow-hidden"
       aria-label="Newsletter and events"
     >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="gallery-header-reveal mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             Newsletter & Events
           </span>
@@ -64,27 +106,17 @@ export default function Gallery() {
             Developing first-class solutions for our clients. Stay updated with our latest events,
             workshops, and industry insights.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid items-start gap-10 lg:grid-cols-2">
-          {/* Video placeholder */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={1}
-            variants={fadeInUp}
-          >
-            <div className="group relative aspect-video cursor-pointer overflow-hidden rounded-2xl bg-gradient-to-br from-dcc-slate to-dcc-teal-dark">
-              <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-black/30" />
+          {/* Video component */}
+          <div className="gallery-video-reveal">
+            <div className="group relative aspect-video cursor-pointer overflow-hidden rounded-2xl bg-gradient-to-br from-dcc-slate to-dcc-teal-dark select-none">
+              <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-black/30 animate-none" />
               <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-                <motion.div
-                  className="flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm"
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
-                >
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
                   <Play className="ml-1 h-8 w-8 fill-white text-white" />
-                </motion.div>
+                </div>
                 <p className="mt-4 text-lg font-medium text-white">Watch Our Company Video</p>
                 <p className="mt-1 text-sm text-white/60">2 min overview of DCC Infotech</p>
               </div>
@@ -92,25 +124,15 @@ export default function Gallery() {
               <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-dcc-teal/10 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-dcc-amber/10 blur-3xl" />
             </div>
-          </motion.div>
+          </div>
 
           {/* Events list */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={2}
-            variants={fadeInUp}
-            className="space-y-4"
-          >
+          <div className="gallery-events-reveal space-y-4">
             <h3 className="mb-6 text-xl font-bold text-foreground">Upcoming Events</h3>
-            {events.map((event, i) => (
-              <motion.article
+            {events.map((event) => (
+              <article
                 key={event.title}
-                initial="hidden"
-                animate={isInView ? 'visible' : 'hidden'}
-                custom={i + 3}
-                variants={fadeInUp}
-                className="group cursor-pointer rounded-xl border border-transparent p-5 transition-all duration-300 hover:border-dcc-teal/10 hover:bg-dcc-teal/5"
+                className="group cursor-pointer rounded-xl border border-transparent p-5 transition-all duration-300 hover:border-dcc-teal/10 hover:bg-dcc-teal/5 select-none"
               >
                 <div className="flex gap-4">
                   <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-dcc-teal/10 transition-colors duration-300 group-hover:bg-dcc-teal/20">
@@ -130,16 +152,16 @@ export default function Gallery() {
                     </p>
                   </div>
                 </div>
-              </motion.article>
+              </article>
             ))}
 
             <Button
               variant="outline"
-              className="mt-4 rounded-full border-dcc-teal text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white"
+              className="mt-4 rounded-full border-dcc-teal text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white cursor-pointer"
             >
               View All Events
             </Button>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Phone, Mail, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -56,16 +55,14 @@ export default function Navbar() {
   }, []);
 
   return (
-    <motion.header
+    <header
       role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? 'bg-white/80 backdrop-blur-xl border-b border-border/60 shadow-sm shadow-black/[0.03]'
           : 'bg-transparent'
       }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      style={{ animation: 'slideDown 0.6s ease forwards' }}
     >
       <nav
         className="mx-auto max-w-7xl section-x transition-all duration-500"
@@ -80,12 +77,12 @@ export default function Navbar() {
               e.preventDefault();
               handleNavClick('#home');
             }}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2 group shrink-0"
             aria-label="DCC Infotech - Home"
           >
-            <span className="text-xl font-bold tracking-tight text-foreground transition-colors group-hover:text-dcc-teal">
-              DCC{' '}
-              <span className="text-gradient">Infotech</span>
+            <img src="/dcc-logo.png" alt="DCC Logo" className="h-9 w-auto object-contain" />
+            <span className="text-base lg:text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-dcc-teal hidden sm:inline-block whitespace-nowrap">
+              DCC <span className="text-gradient">INFOTECH PVT LTD</span>
             </span>
           </a>
 
@@ -101,21 +98,16 @@ export default function Navbar() {
                     e.preventDefault();
                     handleNavClick(link.href);
                   }}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-lg ${
+                  className={`relative px-2.5 py-1.5 xl:px-3 text-sm font-medium transition-colors duration-300 rounded-lg ${
                     isActive
                       ? 'text-dcc-teal'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.label}
-                  <motion.span
-                    className="absolute bottom-0 left-1/2 h-0.5 rounded-full bg-dcc-teal -translate-x-1/2"
-                    initial={false}
-                    animate={{
-                      width: isActive ? 20 : 0,
-                      opacity: isActive ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  <span
+                    className="absolute bottom-0 left-1/2 h-0.5 rounded-full bg-dcc-teal -translate-x-1/2 transition-all duration-300"
+                    style={{ width: isActive ? 20 : 0, opacity: isActive ? 1 : 0 }}
                   />
                 </a>
               );
@@ -125,7 +117,7 @@ export default function Navbar() {
           {/* Right side: contact info + CTA + mobile toggle */}
           <div className="flex items-center gap-4">
             {/* Desktop: phone & email */}
-            <div className="hidden lg:flex items-center gap-4 mr-2">
+            <div className="hidden 2xl:flex items-center gap-4 mr-2">
               <a
                 href="tel:+918598090100"
                 className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-dcc-teal transition-colors"
@@ -166,8 +158,9 @@ export default function Navbar() {
               <SheetContent side="right" className="w-80 p-0">
                 <SheetHeader className="p-6 pb-4 border-b border-border/50">
                   <SheetTitle className="flex items-center gap-2">
-                    <span className="text-lg font-bold tracking-tight text-foreground">
-                      DCC <span className="text-gradient">Infotech</span>
+                    <img src="/dcc-logo.png" alt="DCC Logo" className="h-8 w-auto object-contain" />
+                    <span className="text-base font-bold tracking-tight text-foreground whitespace-nowrap">
+                      DCC <span className="text-gradient">INFOTECH PVT LTD</span>
                     </span>
                   </SheetTitle>
                 </SheetHeader>
@@ -225,6 +218,6 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-    </motion.header>
+    </header>
   );
 }

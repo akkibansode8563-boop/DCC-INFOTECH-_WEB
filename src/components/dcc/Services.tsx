@@ -1,70 +1,177 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ArrowRight, Server, ShieldCheck, Video, Package } from 'lucide-react';
+import { useRef } from 'react';
+import { ArrowRight, Monitor, Cpu, Wrench, Award, Building2, Eye, Settings, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useInView } from '@/hooks/use-premium';
+import { gsap } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const services = [
   {
-    icon: Server,
-    title: 'Reliable IT Infrastructure & Maintenance',
+    icon: Monitor,
+    title: 'Branded Desktops & Laptops',
     description:
-      'AMC & FMS with proactive inspections and rapid-response SLAs. Precision chip-level repairing of motherboards, processors, and graphics cards. Networking, server infrastructure, online UPS & EPABX deployment. Transforms unpredictable capital repair costs into fixed, manageable operational expenses.',
-    features: ['AMC & FMS Contracts', 'Chip-Level Repair', 'Network & Server Setup', 'UPS & EPABX Solutions'],
+      'Authorized partner and channel distributor for 210+ top brands including Dell, HP, Lenovo, and Acer. Genuine brand systems at wholesale channel pricing for institutional clients.',
+    features: ['Dell, HP, Lenovo Partner', 'Wholesale Channel Pricing', 'Genuine Brand Warranty', 'Volume Order Fulfillment'],
   },
   {
-    icon: ShieldCheck,
-    title: 'Enterprise Security & Surveillance',
+    icon: Cpu,
+    title: 'Custom PC Assembly',
     description:
-      'Server, Firewall & Antivirus security systems providing multi-layered threat protection for banking, government, and corporate environments. Surveillance CCTV deployment for retail, commercial, and institutional campuses. Endpoint and Cloud Security aligned with ISO 27001 standards.',
-    features: ['Firewall & Antivirus', 'CCTV Surveillance', 'Endpoint Security', 'Cloud Security'],
+      'Expert custom desktop PC assembly for corporate labs, editing suits, data analytics nodes, and education campuses. Tailored hardware configuration with premium parts.',
+    features: ['High-Performance Builds', 'Genuine Brands Only', 'Tailored Specifications', 'Burn-in Reliability Testing'],
   },
   {
-    icon: Video,
-    title: 'Unified Communications — Office in the Box',
+    icon: Wrench,
+    title: 'AMC & FMS Contracts',
     description:
-      'Instant deployment of fully integrated workspaces for corporate, GEM, and enterprise clients. Audio Visual Solutions for retail and commercial environments. Video Conferencing & Interactive Displays for seamless multi-site collaboration. GEM procurement expertise — fully compliant, transparent, and auditable.',
-    features: ['Integrated Workspaces', 'AV Solutions', 'Video Conferencing', 'GEM Procurement'],
+      'Proactive Annual Maintenance Contracts (AMC) and Facility Management Services (FMS). Rapid-response support with 400+ specialized on-site engineers.',
+    features: ['SLA-Backed Rapid Response', 'Preventative Regular Audits', '400+ Engineers Support', 'Minimizes System Downtime'],
+  },
+  {
+    icon: Award,
+    title: 'GeM Procurement Sourcing',
+    description:
+      'Expert procurement, supply, and tender execution through the Government e-Marketplace (GeM) portal. Transparent, fully compliant bidding and fulfillment.',
+    features: ['GeM Portal Authorized', 'Compliant Documentation', 'PSU & Government Sourcing', 'Robust Order Logistics'],
+  },
+  {
+    icon: Building2,
+    title: 'Corporate IT Infrastructure',
+    description:
+      'End-to-end corporate office IT setups. Servers, rack infrastructure, enterprise firewalls, secure networking, online UPS, and unified communications.',
+    features: ['Server Room Architecture', 'Enterprise Firewalls', 'Online UPS & Power Systems', 'Integrated Network Cabling'],
+  },
+  {
+    icon: Eye,
+    title: 'Surveillance & Security',
+    description:
+      'Advanced CCTV surveillance camera setups, biometric access control systems, and monitoring stations for commercial properties, banks, and warehouses.',
+    features: ['HD IP Camera Deployments', 'Biometric Access Control', 'Multi-Site Integration', 'Secure Recording Servers'],
+  },
+  {
+    icon: Settings,
+    title: 'Chip-Level Laptop Repairing',
+    description:
+      'State-of-the-art diagnostic repair lab for precision chip-level fix of laptop motherboards, power ICs, displays, and peripheral controllers.',
+    features: ['Motherboard Chip-Level Fix', 'Advanced Diagnostic Microscope', 'Genuine Component Spare Parts', 'Service Repair Warranty'],
   },
   {
     icon: Package,
-    title: 'Easy Rentals — You Name IT, We Rent IT',
+    title: 'Easy IT Equipment Rentals',
     description:
-      'High-performance Laptops, Desktops, Printers, Projectors, Rack Servers, and AV equipment on rent. Custom & Flexible Terms with Zero Maintenance Burden and Instant Scalability. Ideal for project-based deployments, new office setups, corporate events, government tenders, and business continuity planning.',
-    features: ['Laptop Rentals', 'Desktop Rentals', 'Printer Rentals', 'Server Rentals', 'AV Equipment', 'Flexible Terms'],
+      'Short-term and long-term rental plans for high-performance laptops, desktops, printers, projectors, and rack servers. Zero maintenance burden.',
+    features: ['Laptops, Desktops & Servers', 'Zero Maintenance Burden', 'Instant Hardware Scalability', 'Custom Flexible Terms'],
     highlight: true,
   },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function Services() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const servicesRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.services-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.services-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Cards entrance stagger
+    gsap.fromTo(
+      '.service-card',
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.service-card',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // CTA button reveal
+    gsap.fromTo(
+      '.services-cta-reveal',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.services-cta-reveal',
+          start: 'top 90%',
+          once: true,
+        },
+      }
+    );
+
+    // 3D Card tilt effect on hover
+    const cards = gsap.utils.toArray('.service-card');
+    cards.forEach((card: any) => {
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xc = rect.width / 2;
+        const yc = rect.height / 2;
+        const angleX = (yc - y) / 25;
+        const angleY = (x - xc) / 25;
+
+        gsap.to(card, {
+          rotateX: angleX,
+          rotateY: angleY,
+          scale: 1.02,
+          duration: 0.3,
+          ease: 'power2.out',
+          transformPerspective: 1000,
+        });
+      };
+
+      const handleMouseLeave = () => {
+        gsap.to(card, {
+          rotateX: 0,
+          rotateY: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      };
+
+      card.addEventListener('mousemove', handleMouseMove);
+      card.addEventListener('mouseleave', handleMouseLeave);
+    });
+  }, { scope: servicesRef });
 
   return (
     <section
       id="services"
-      className="section bg-muted/20"
-      ref={ref}
+      ref={servicesRef}
+      className="section bg-muted/20 overflow-hidden"
       aria-label="Our Services"
     >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="services-header-reveal mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             What We Offer
           </span>
@@ -72,136 +179,87 @@ export default function Services() {
             Our <span className="text-gradient">Services</span>
           </h2>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Four pillars of enterprise IT excellence — Infrastructure, Security, Communications, and
-            Rentals. Comprehensive solutions tailored to meet the unique needs of your business.
+            Complete channel IT solutions. From PC assembly and brand distribution to SLA-backed corporate maintenance, GeM procurement, and equipment rentals.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Service cards grid — first 3 pillars */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-6">
-          {services.slice(0, 3).map((service, i) => (
-            <motion.div
+        {/* Service cards grid — 8 pillars */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-6">
+          {services.map((service) => (
+            <div
               key={service.title}
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              custom={i + 1}
-              variants={fadeInUp}
-              className="card-premium group rounded-2xl p-6 lg:p-8"
+              className={`service-card card-premium group rounded-2xl p-6 lg:p-8 select-none flex flex-col justify-between transition-all duration-300 ${
+                service.highlight ? 'border-dcc-amber/30 bg-gradient-to-br from-dcc-amber/[0.03] to-transparent' : ''
+              }`}
             >
-              {/* Icon */}
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-dcc-teal/10 transition-all duration-300 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20">
-                <service.icon className="h-7 w-7 text-dcc-teal transition-colors duration-300 group-hover:text-white" />
+              <div>
+                {/* Icon */}
+                <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 ${
+                  service.highlight 
+                    ? 'bg-dcc-amber/10 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20' 
+                    : 'bg-dcc-teal/10 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20'
+                }`}>
+                  <service.icon className={`h-7 w-7 transition-colors duration-300 ${
+                    service.highlight 
+                      ? 'text-dcc-amber group-hover:text-white' 
+                      : 'text-dcc-teal group-hover:text-white'
+                  }`} />
+                </div>
+
+                {/* Title */}
+                <h3 className="mb-3 text-xl font-bold text-foreground">{service.title}</h3>
+
+                {/* Description */}
+                <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+                  {service.description}
+                </p>
+
+                {/* Feature bullets */}
+                <ul className="mb-6 space-y-2">
+                  {service.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/70">
+                      <div className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                        service.highlight ? 'bg-dcc-amber' : 'bg-dcc-teal'
+                      }`} />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Title */}
-              <h3 className="mb-3 text-xl font-bold text-foreground">{service.title}</h3>
-
-              {/* Description */}
-              <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-                {service.description}
-              </p>
-
-              {/* Feature bullets */}
-              <ul className="mb-6 space-y-2">
-                {service.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/70">
-                    <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-dcc-teal" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-
-              {/* Learn More */}
+              {/* Action Button */}
               <button
                 onClick={() => {
                   const el = document.querySelector('#contact');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="inline-flex items-center gap-1 text-sm font-medium text-dcc-teal transition-colors hover:text-dcc-teal-dark group/btn"
+                className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group/btn cursor-pointer ${
+                  service.highlight 
+                    ? 'text-dcc-amber-dark hover:text-dcc-amber' 
+                    : 'text-dcc-teal hover:text-dcc-teal-dark'
+                }`}
               >
-                Learn More
+                {service.highlight ? 'Get Rental Quote' : 'Learn More'}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
               </button>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Easy Rentals — highlighted full-width card */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={5}
-          variants={fadeInUp}
-          className="card-premium group rounded-2xl p-6 md:p-8 lg:p-10 border-dcc-amber/30 bg-gradient-to-r from-dcc-amber/5 to-transparent"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8">
-            {/* Left */}
-            <div className="flex-1">
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-dcc-amber/10 transition-all duration-300 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20">
-                <Package className="h-7 w-7 text-dcc-amber transition-colors duration-300 group-hover:text-white" />
-              </div>
-              <h3 className="mb-1 text-xl font-bold text-foreground sm:text-2xl">
-                {services[3].title}
-              </h3>
-              <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-                {services[3].description}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {services[3].features.map((f) => (
-                  <span
-                    key={f}
-                    className="rounded-full border border-dcc-amber/20 bg-dcc-amber/5 px-3 py-1 text-xs font-medium text-dcc-amber-dark"
-                  >
-                    {f}
-                  </span>
-                ))}
-              </div>
-              <button
-                onClick={() => {
-                  const el = document.querySelector('#contact');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="inline-flex items-center gap-1 text-sm font-medium text-dcc-amber-dark transition-colors hover:text-dcc-amber group/btn"
-              >
-                Get Rental Quote
-                <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-              </button>
-            </div>
-            {/* Right — rental categories */}
-            <div className="mt-6 grid grid-cols-2 gap-3 lg:mt-0 lg:grid-cols-2 lg:min-w-[300px]">
-              {['Laptops — Dell, HP, Lenovo', 'Full Desktop Workstations', 'Laser & Inkjet Printers', 'Projectors & AV Equipment', 'Rack Servers & Networking', 'Custom Flexible Terms'].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 p-3"
-                >
-                  <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-dcc-amber" />
-                  <span className="text-xs font-medium text-foreground/70">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
         {/* CTA */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={7}
-          variants={fadeInUp}
-          className="mt-14 text-center"
-        >
+        <div className="services-cta-reveal mt-14 text-center">
           <Button
             size="lg"
             onClick={() => {
               const el = document.querySelector('#contact');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="rounded-full bg-dcc-teal px-8 font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark hover:shadow-xl hover:shadow-dcc-teal/30"
+            className="rounded-full bg-dcc-teal px-8 font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark hover:shadow-xl hover:shadow-dcc-teal/30 cursor-pointer"
           >
             Need a Custom Solution?
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,13 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { useInView } from '@/hooks/use-premium';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const faqs = [
   {
@@ -52,34 +53,75 @@ const faqs = [
   },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function FAQ() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.faq-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.faq-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Accordion container reveal
+    gsap.fromTo(
+      '.faq-accordion-reveal',
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.faq-accordion-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Bottom CTA reveal
+    gsap.fromTo(
+      '.faq-cta-reveal',
+      { y: 25, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.faq-cta-reveal',
+          start: 'top 90%',
+          once: true,
+        },
+      }
+    );
+  }, { scope: sectionRef });
 
   return (
     <section
       id="faq"
-      className="section bg-background"
-      ref={ref}
+      ref={sectionRef}
+      className="section bg-background overflow-hidden"
       aria-label="Frequently asked questions"
     >
       <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mb-14 text-center"
-        >
+        <div className="faq-header-reveal mb-14 text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             FAQ
           </span>
@@ -90,15 +132,10 @@ export default function FAQ() {
             Find answers to common questions about our IT services, support, pricing, and more.
             Can&apos;t find what you&apos;re looking for? Feel free to contact us.
           </p>
-        </motion.div>
+        </div>
 
         {/* FAQ Accordion */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={1}
-          variants={fadeInUp}
-        >
+        <div className="faq-accordion-reveal">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, i) => (
               <AccordionItem
@@ -115,16 +152,10 @@ export default function FAQ() {
               </AccordionItem>
             ))}
           </Accordion>
-        </motion.div>
+        </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={3}
-          variants={fadeInUp}
-          className="mt-10 rounded-2xl border border-dcc-teal/10 p-8 text-center mesh-gradient"
-        >
+        <div className="faq-cta-reveal mt-10 rounded-2xl border border-dcc-teal/10 p-8 text-center mesh-gradient">
           <h3 className="mb-2 text-lg font-semibold text-foreground">Still have questions?</h3>
           <p className="mb-4 text-sm text-muted-foreground">
             Our team is ready to help you with any inquiries about our services.
@@ -139,7 +170,7 @@ export default function FAQ() {
           >
             Contact Our Team
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

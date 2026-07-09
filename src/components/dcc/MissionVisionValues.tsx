@@ -1,8 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { Target, Eye, Zap, Heart, Users, Clock, Award } from 'lucide-react';
-import { useInView } from '@/hooks/use-premium';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const mission = {
   icon: Target,
@@ -55,34 +56,95 @@ const values = [
   },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function MissionVisionValues() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.mvv-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.mvv-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Mission & Vision cards reveal
+    gsap.fromTo(
+      '.mvv-card-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.mvv-card-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+
+    // Values header reveal
+    gsap.fromTo(
+      '.mvv-values-header',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.mvv-values-header',
+          start: 'top 90%',
+          once: true,
+        },
+      }
+    );
+
+    // Values cards reveal
+    gsap.fromTo(
+      '.mvv-value-card',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.mvv-value-card',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+  }, { scope: sectionRef });
 
   return (
     <section
       id="mission-vision"
-      className="section bg-muted/20"
-      ref={ref}
+      ref={sectionRef}
+      className="section bg-muted/20 overflow-hidden"
       aria-label="Mission, Vision and Values"
     >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="mvv-header-reveal mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             Our Purpose
           </span>
@@ -94,61 +156,39 @@ export default function MissionVisionValues() {
             The guiding principles that have shaped DCC into India&apos;s trusted IT partner
             over 34 years of service excellence.
           </p>
-        </motion.div>
+        </div>
 
         {/* Mission & Vision — side by side */}
         <div className="mb-16 grid gap-6 md:grid-cols-2">
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={1}
-            variants={fadeInUp}
-            className="card-premium group rounded-2xl p-8"
-          >
+          <div className="mvv-card-reveal card-premium group rounded-2xl p-8 select-none">
             <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-dcc-teal/10 transition-all duration-300 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20">
               <mission.icon className="h-7 w-7 text-dcc-teal transition-colors duration-300 group-hover:text-white" />
             </div>
             <h3 className="mb-3 text-2xl font-bold text-foreground">{mission.title}</h3>
             <p className="text-base leading-relaxed text-muted-foreground">{mission.text}</p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={2}
-            variants={fadeInUp}
-            className="card-premium group rounded-2xl p-8 border-dcc-amber/20 bg-gradient-to-br from-dcc-amber/5 to-transparent"
-          >
+          <div className="mvv-card-reveal card-premium group rounded-2xl p-8 border-dcc-amber/20 bg-gradient-to-br from-dcc-amber/5 to-transparent select-none">
             <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-dcc-amber/10 transition-all duration-300 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20">
               <vision.icon className="h-7 w-7 text-dcc-amber transition-colors duration-300 group-hover:text-white" />
             </div>
             <h3 className="mb-3 text-2xl font-bold text-foreground">{vision.title}</h3>
             <p className="text-2xl font-bold text-gradient leading-snug">{vision.text}</p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Values Grid */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={3}
-          variants={fadeInUp}
-          className="text-center mb-10"
-        >
+        <div className="mvv-values-header text-center mb-10">
           <h3 className="text-2xl font-bold text-foreground">
             Our Core <span className="text-gradient">Values</span>
           </h3>
-        </motion.div>
+        </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {values.map((value, i) => (
-            <motion.div
+          {values.map((value) => (
+            <div
               key={value.title}
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              custom={i + 4}
-              variants={fadeInUp}
-              className="card-premium group rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02]"
+              className="mvv-value-card card-premium group rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] select-none"
             >
               <div
                 className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 ${value.color}`}
@@ -157,7 +197,7 @@ export default function MissionVisionValues() {
               </div>
               <h4 className="mb-2 text-lg font-bold text-foreground">{value.title}</h4>
               <p className="text-sm leading-relaxed text-muted-foreground">{value.description}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

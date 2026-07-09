@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { useInView } from '@/hooks/use-premium';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const contactInfo = [
   {
@@ -41,17 +41,8 @@ const contactInfo = [
   },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function Contact() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const sectionRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
@@ -96,22 +87,72 @@ export default function Contact() {
     }
   };
 
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.contact-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.contact-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Info reveal
+    gsap.fromTo(
+      '.contact-info-reveal',
+      { x: -35, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.contact-info-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+
+    // Form reveal
+    gsap.fromTo(
+      '.contact-form-reveal',
+      { x: 35, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.contact-form-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+  }, { scope: sectionRef });
+
   return (
     <section
       id="contact"
-      className="section bg-muted/20"
-      ref={ref}
+      ref={sectionRef}
+      className="section bg-muted/20 overflow-hidden"
       aria-label="Contact us"
     >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="contact-header-reveal mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             Contact Us
           </span>
@@ -122,23 +163,17 @@ export default function Contact() {
             Have a project in mind or need IT support? Reach out to us and our team will get back to
             you within 24 hours.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid gap-10 lg:grid-cols-5 lg:gap-12">
           {/* Contact info */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={1}
-            variants={fadeInUp}
-            className="space-y-4 lg:col-span-2"
-          >
+          <div className="contact-info-reveal space-y-4 lg:col-span-2 select-none">
             <h3 className="mb-6 text-xl font-bold text-foreground">Contact Information</h3>
             {contactInfo.map((info) => (
               <a
                 key={info.label}
                 href={info.href}
-                className="card-premium group flex items-start gap-4 rounded-xl p-4"
+                className="card-premium group flex items-start gap-4 rounded-xl p-4 cursor-pointer"
               >
                 <div
                   className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${info.color}`}
@@ -162,19 +197,13 @@ export default function Contact() {
                 <p className="mt-1 text-xs">J.M. Road, Pune 411004</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Contact form */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={3}
-            variants={fadeInUp}
-            className="lg:col-span-3"
-          >
+          <div className="contact-form-reveal lg:col-span-3">
             <form
               onSubmit={handleSubmit}
-              className="card-premium rounded-2xl border-border/60 p-6 md:p-8"
+              className="card-premium rounded-2xl border-border/60 p-6 md:p-8 select-none"
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <div className="space-y-2">
@@ -234,7 +263,7 @@ export default function Contact() {
                 type="submit"
                 disabled={status === 'loading'}
                 size="lg"
-                className="mt-6 h-12 rounded-full bg-dcc-teal px-8 font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark hover:shadow-xl hover:shadow-dcc-teal/30 w-full sm:w-auto"
+                className="mt-6 h-12 rounded-full bg-dcc-teal px-8 font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark hover:shadow-xl hover:shadow-dcc-teal/30 w-full sm:w-auto cursor-pointer"
               >
                 {status === 'loading' ? (
                   <>
@@ -254,7 +283,7 @@ export default function Contact() {
                 )}
               </Button>
             </form>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

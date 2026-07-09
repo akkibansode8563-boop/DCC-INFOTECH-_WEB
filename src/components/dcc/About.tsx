@@ -1,17 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { Quote, Award, Users, Target, CheckCircle2, Calendar } from 'lucide-react';
-import { useInView } from '@/hooks/use-premium';
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const featurePills = [
   { icon: Target, text: 'Client-first approach' },
@@ -33,19 +25,203 @@ const timeline = [
 ];
 
 export default function About() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const aboutRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Header section reveal
+    gsap.fromTo(
+      '.about-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.about-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Left visual container reveal
+    gsap.fromTo(
+      '.about-left-reveal',
+      { x: -40, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.about-left-reveal',
+          start: 'top 80%',
+          once: true,
+        },
+      }
+    );
+
+    // Floating badge scale-in
+    gsap.fromTo(
+      '.about-badge',
+      { scale: 0, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.6,
+        ease: 'back.out(1.7)',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.about-badge',
+          start: 'top 90%',
+          once: true,
+        },
+      }
+    );
+
+    // Story paragraphs reveal
+    gsap.fromTo(
+      '.about-story-reveal',
+      { y: 25, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.about-story-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Feature pills scale-in stagger
+    gsap.fromTo(
+      '.about-pill',
+      { scale: 0.9, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.about-pill-container',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Quote card entrance
+    gsap.fromTo(
+      '.about-quote-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.about-quote-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Timeline header entrance
+    gsap.fromTo(
+      '.timeline-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.timeline-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Drawing the timeline center line on scroll
+    gsap.fromTo(
+      '.timeline-progress',
+      { scaleY: 0 },
+      {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.timeline-container',
+          start: 'top 70%',
+          end: 'bottom 75%',
+          scrub: true,
+        },
+      }
+    );
+
+    // Animating timeline items as they scroll into view
+    gsap.utils.toArray('.timeline-item').forEach((item: any) => {
+      const dot = item.querySelector('.timeline-dot');
+      const textNodes = item.querySelectorAll('.timeline-text');
+
+      if (dot) {
+        gsap.fromTo(
+          dot,
+          { scale: 0.6, opacity: 0.4 },
+          {
+            scale: 1.1,
+            opacity: 1,
+            duration: 0.4,
+            clearProps: 'all',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 75%',
+              once: true,
+            },
+          }
+        );
+      }
+
+      if (textNodes.length > 0) {
+        gsap.fromTo(
+          textNodes,
+          { opacity: 0, y: 15 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: 'power2.out',
+            clearProps: 'all',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 80%',
+              once: true,
+            },
+          }
+        );
+      }
+    });
+  }, { scope: aboutRef });
 
   return (
-    <section id="about" className="section bg-background" ref={ref} aria-label="About DCC Infotech">
+    <section id="about" className="section bg-background" ref={aboutRef} aria-label="About DCC Infotech">
       <div className="mx-auto max-w-7xl">
         {/* Section header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="about-header-reveal mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             About Us
           </span>
@@ -57,49 +233,37 @@ export default function About() {
             34 years of unwavering commitment to delivering world-class IT solutions that
             transform businesses and drive innovation across India.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: Visual card */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={1}
-            variants={fadeInUp}
-            className="relative"
-          >
-            <div className="relative overflow-hidden rounded-2xl border border-dcc-teal/10 p-12 mesh-gradient">
-              {/* Decorative border accent */}
-              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-dcc-teal/5" />
+          <div className="about-left-reveal relative max-w-[480px] mx-auto w-full">
+            <div className="relative overflow-hidden rounded-2xl border border-dcc-teal/10 aspect-[4/5] w-full group shadow-2xl z-10">
+              {/* Premium gradient overlay under the picture */}
+              <div className="absolute inset-0 mesh-gradient opacity-40 z-0" />
+              
+              {/* Image of MD Sir */}
+              <img
+                src="/md-sir.jpeg"
+                alt="Mr. Anil Mhaske - Managing Director, DCC Infotech"
+                className="w-full h-full object-cover relative z-10 transition-transform duration-700 group-hover:scale-105"
+              />
 
-              {/* Centered monogram */}
-              <div className="flex items-center justify-center py-16">
-                <div className="relative">
-                  <motion.span
-                    className="block text-8xl font-black tracking-tighter text-foreground/80 sm:text-9xl"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                    transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    DCC
-                  </motion.span>
-                  <motion.div
-                    className="mx-auto mt-4 h-1 w-16 rounded-full bg-dcc-amber"
-                    initial={{ scaleX: 0 }}
-                    animate={isInView ? { scaleX: 1 } : {}}
-                    transition={{ delay: 0.7, duration: 0.6 }}
-                  />
-                </div>
+              {/* Decorative border accent */}
+              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-dcc-teal/10 z-20" />
+              
+              {/* Premium gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-85 z-10" />
+
+              {/* Floating caption overlay at bottom of the picture */}
+              <div className="absolute bottom-6 left-6 right-6 p-4 glass rounded-xl border border-white/10 z-20 shadow-lg">
+                <p className="text-base font-bold text-foreground">Mr. Anil Mhaske</p>
+                <p className="text-xs text-dcc-teal font-medium">Founder & Managing Director</p>
               </div>
             </div>
 
             {/* Floating badge: 34 Years */}
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={isInView ? { scale: 1, opacity: 1 } : {}}
-              transition={{ delay: 0.8, type: 'spring', stiffness: 200, damping: 20 }}
-              className="absolute -bottom-6 right-4 sm:right-8"
-            >
+            <div className="about-badge absolute -bottom-8 -right-2 sm:-right-6 z-20">
               <div className="glass flex items-center gap-3 rounded-2xl p-4 shadow-lg">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-dcc-amber/10">
                   <Award className="h-6 w-6 text-dcc-amber" />
@@ -109,18 +273,12 @@ export default function About() {
                   <div className="text-xs text-muted-foreground">Years of Trust</div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Right: Content */}
           <div>
-            <motion.div
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              custom={2}
-              variants={fadeInUp}
-              className="mb-8"
-            >
+            <div className="about-story-reveal mb-8">
               <h3 className="mb-4 text-2xl font-bold text-foreground">Our Story</h3>
               <p className="mb-4 leading-relaxed text-muted-foreground">
                 In 1992, a young boy from a humble background named Shri. Anil Mhaske started a
@@ -138,20 +296,14 @@ export default function About() {
                 systems running uninterrupted across 12+ states, with a 150+ sales team and 125
                 dedicated back-office staff.
               </p>
-            </motion.div>
+            </div>
 
             {/* Feature pills */}
-            <motion.div
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              custom={3}
-              variants={fadeInUp}
-              className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2"
-            >
+            <div className="about-pill-container mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {featurePills.map((item) => (
                 <div
                   key={item.text}
-                  className="flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 p-3 transition-colors hover:border-dcc-teal/20 hover:bg-dcc-teal/5"
+                  className="about-pill flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 p-3 transition-colors hover:border-dcc-teal/20 hover:bg-dcc-teal/5"
                 >
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-dcc-teal/10">
                     <item.icon className="h-4 w-4 text-dcc-teal" />
@@ -159,16 +311,10 @@ export default function About() {
                   <span className="text-sm font-medium text-foreground">{item.text}</span>
                 </div>
               ))}
-            </motion.div>
+            </div>
 
             {/* MD's Quote Card */}
-            <motion.div
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              custom={4}
-              variants={fadeInUp}
-              className="glass rounded-2xl p-6"
-            >
+            <div className="about-quote-reveal glass rounded-2xl p-6">
               <Quote className="mb-3 h-8 w-8 text-dcc-teal/30" />
               <p className="mb-4 italic leading-relaxed text-foreground/80">
                 &ldquo;When India thinks IT, they think DCC. Our commitment has always been simple —
@@ -185,19 +331,13 @@ export default function About() {
                   <div className="text-sm text-muted-foreground">Managing Director</div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Timeline */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={6}
-          variants={fadeInUp}
-          className="mt-24"
-        >
-          <div className="mb-12 text-center">
+        <div className="timeline-container mt-24">
+          <div className="timeline-header-reveal mb-12 text-center">
             <div className="mx-auto mb-3 inline-flex items-center gap-2 rounded-full border border-dcc-teal/15 bg-dcc-teal/5 px-4 py-1.5 text-sm text-dcc-teal font-medium">
               <Calendar className="h-4 w-4" />
               Our Journey
@@ -208,38 +348,35 @@ export default function About() {
           </div>
 
           <div className="relative">
-            {/* Center line */}
-            <div className="absolute left-4 top-0 bottom-0 w-px bg-dcc-teal/20 sm:left-1/2 sm:-translate-x-px" />
+            {/* Center line with static background and GSAP drawing overlay */}
+            <div className="timeline-line" />
+            <div className="timeline-progress" />
 
             <div className="space-y-8">
               {timeline.map((item, i) => (
-                <motion.div
+                <div
                   key={item.year}
-                  initial="hidden"
-                  animate={isInView ? 'visible' : 'hidden'}
-                  custom={7 + i}
-                  variants={fadeInUp}
-                  className={`relative flex flex-col gap-2 pl-12 sm:pl-0 sm:grid sm:grid-cols-2 sm:gap-8 ${
+                  className={`timeline-item relative flex flex-col gap-2 pl-12 sm:pl-0 sm:grid sm:grid-cols-2 sm:gap-8 ${
                     i % 2 === 0 ? 'sm:text-right' : 'sm:text-left sm:direction-rtl'
                   }`}
                 >
                   {/* Dot */}
-                  <div className="absolute left-2.5 top-1 h-3 w-3 rounded-full border-2 border-dcc-teal bg-background sm:left-1/2 sm:-translate-x-1/2" />
+                  <div className="timeline-dot absolute left-2.5 top-1 h-3 w-3 rounded-full border-2 border-dcc-teal bg-background sm:left-1/2 sm:-translate-x-1/2 z-10" />
 
                   {/* Year */}
-                  <div className={`font-bold text-dcc-teal ${i % 2 === 0 ? 'sm:text-right' : 'sm:col-start-2 sm:text-left'}`}>
+                  <div className={`timeline-text font-bold text-dcc-teal ${i % 2 === 0 ? 'sm:text-right' : 'sm:col-start-2 sm:text-left'}`}>
                     {item.year}
                   </div>
 
                   {/* Event */}
-                  <div className={`text-sm text-muted-foreground leading-relaxed ${i % 2 === 0 ? 'sm:col-start-2 sm:text-left' : ''}`}>
+                  <div className={`timeline-text text-sm text-muted-foreground leading-relaxed ${i % 2 === 0 ? 'sm:col-start-2 sm:text-left' : ''}`}>
                     {item.event}
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

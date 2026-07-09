@@ -1,8 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { Linkedin, Mail } from 'lucide-react';
-import { useInView } from '@/hooks/use-premium';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const team = [
   {
@@ -56,34 +57,58 @@ const team = [
   },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function Team() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.team-header-reveal',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.team-header-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // Card entrance reveal stagger
+    gsap.fromTo(
+      '.team-card-reveal',
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.team-card-reveal',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+  }, { scope: sectionRef });
 
   return (
     <section
       id="team"
-      className="section bg-muted/20"
-      ref={ref}
+      ref={sectionRef}
+      className="section bg-muted/20 overflow-hidden"
       aria-label="Our team"
     >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="team-header-reveal mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
             Our Team
           </span>
@@ -94,37 +119,30 @@ export default function Team() {
             A leadership team with over 150+ years of combined experience, driving DCC&apos;s mission
             to be India&apos;s most trusted IT partner across 12+ states.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Team grid — 4 columns, 7 members (4+3) */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {team.map((member, i) => (
-            <motion.article
+        {/* Team grid — Centered rows with flexbox to prevent any squishing */}
+        <div className="flex flex-wrap justify-center gap-6">
+          {team.map((member) => (
+            <article
               key={member.name}
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              custom={i + 1}
-              variants={fadeInUp}
-              className={`card-premium group overflow-hidden rounded-2xl ${
-                i >= 4 ? 'lg:col-span-1 lg:mx-auto lg:max-w-[calc(25%-1.5rem)]' : ''
-              }`}
+              className="team-card-reveal card-premium group overflow-hidden rounded-2xl select-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-[300px] transition-all duration-500 hover:-translate-y-2.5 hover:shadow-2xl hover:shadow-dcc-teal/10 hover:border-dcc-teal/30"
             >
               {/* Avatar area */}
-              <div className="flex h-48 items-center justify-center bg-muted/40">
-                <motion.div
-                  className={`flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br ${member.gradient} font-bold text-2xl text-white shadow-lg transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-dcc-teal/20`}
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.3 }}
-                >
+              <div className="flex h-48 items-center justify-center bg-muted/30 overflow-hidden relative">
+                {/* Radial glow background on hover */}
+                <div className="absolute inset-0 bg-radial from-dcc-teal/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 scale-150" />
+                
+                <div className={`flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br ${member.gradient} font-bold text-2xl text-white shadow-md transition-all duration-500 group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-6 z-10`}>
                   {member.initials}
-                </motion.div>
+                </div>
               </div>
 
               {/* Info */}
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-foreground">{member.name}</h3>
-                <p className="mt-1 text-sm font-medium text-dcc-teal">{member.role}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{member.bio}</p>
+              <div className="p-6 transition-all duration-300 group-hover:bg-dcc-teal/[0.01]">
+                <h3 className="text-lg font-bold text-foreground transition-colors duration-300 group-hover:text-dcc-teal">{member.name}</h3>
+                <p className="mt-1 text-sm font-medium text-dcc-teal/80 transition-colors duration-300 group-hover:text-dcc-teal">{member.role}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-foreground/90">{member.bio}</p>
                 <div className="mt-4 flex gap-2">
                   <a
                     href="#"
@@ -142,7 +160,7 @@ export default function Team() {
                   </a>
                 </div>
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
       </div>

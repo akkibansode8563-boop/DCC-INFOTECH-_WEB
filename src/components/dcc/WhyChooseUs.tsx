@@ -1,8 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { Shield, Clock, BadgeDollarSign, Headphones, ThumbsUp, Zap, Globe, Award } from 'lucide-react';
 import { useInView, useCountUp } from '@/hooks/use-premium';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { useGSAP } from '@gsap/react';
 
 const reasons = [
   {
@@ -62,26 +64,9 @@ const statsConfig = [
   { end: 20000, suffix: '+', label: 'Lives Impacted' },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.85 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: { delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function WhyChooseUs() {
-  const { ref, isInView } = useInView({ once: true, margin: '-80px' });
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { ref: inViewRef, isInView } = useInView({ once: true, margin: '-80px' });
 
   const years = useCountUp(34, 2000, 0, isInView);
   const clients = useCountUp(3150, 2000, 0, isInView);
@@ -90,10 +75,107 @@ export default function WhyChooseUs() {
 
   const counterValues = [years, clients, partners, lives];
 
+  useGSAP(() => {
+    // Header reveal
+    gsap.fromTo(
+      '.wcu-header',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.wcu-header',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+
+    // KPI cards reveal
+    gsap.fromTo(
+      '.wcu-kpi-card',
+      { scale: 0.9, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'back.out(1.5)',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.wcu-kpi-card',
+          start: 'top 90%',
+          once: true,
+        },
+      }
+    );
+
+    // ISO certifications reveal
+    gsap.fromTo(
+      '.wcu-iso-card',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.06,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.wcu-iso-card',
+          start: 'top 90%',
+          once: true,
+        },
+      }
+    );
+
+    // States reveal
+    // States reveal
+    gsap.fromTo(
+      '.wcu-state-pill',
+      { scale: 0.8, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.4,
+        stagger: 0.02,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.wcu-state-pill-container',
+          start: 'top 92%',
+          once: true,
+        },
+      }
+    );
+
+    // Reasons cards reveal
+    gsap.fromTo(
+      '.wcu-reason-card',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power3.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.wcu-reason-card',
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+  }, { scope: sectionRef });
+
   return (
     <section
+      ref={sectionRef}
       className="section relative overflow-hidden bg-dcc-slate"
-      ref={ref}
       aria-label="Why choose DCC Infotech"
     >
       {/* Mesh gradient overlay */}
@@ -102,15 +184,9 @@ export default function WhyChooseUs() {
         <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-dcc-teal/5 blur-3xl" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-7xl" ref={inViewRef}>
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0}
-          variants={fadeInUp}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
+        <div className="wcu-header mx-auto mb-16 max-w-3xl text-center">
           <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-amber">
             Why Choose Us
           </span>
@@ -122,20 +198,14 @@ export default function WhyChooseUs() {
             34 years of expertise, 675+ employees, and a commitment to excellence — making DCC the
             preferred IT partner for India&apos;s leading enterprises across 12+ states.
           </p>
-        </motion.div>
+        </div>
 
         {/* KPI Counters Row */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="mb-12 grid grid-cols-2 gap-4 md:grid-cols-4"
-        >
+        <div className="mb-12 grid grid-cols-2 gap-4 md:grid-cols-4">
           {statsConfig.map((stat, i) => (
-            <motion.div
+            <div
               key={stat.label}
-              custom={i}
-              variants={scaleIn}
-              className="glass rounded-2xl p-6 text-center"
+              className="wcu-kpi-card glass rounded-2xl p-6 text-center select-none"
             >
               <div className="text-3xl font-bold text-dcc-amber lg:text-4xl">
                 {stat.display
@@ -143,16 +213,12 @@ export default function WhyChooseUs() {
                   : `${counterValues[i].toLocaleString()}${stat.suffix}`}
               </div>
               <div className="mt-2 text-sm text-white/60">{stat.label}</div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* ISO Certifications Row */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="mb-12"
-        >
+        <div className="mb-12">
           <div className="flex items-center justify-center gap-2 mb-6">
             <Award className="h-5 w-5 text-dcc-teal-light" />
             <span className="text-sm font-semibold uppercase tracking-wider text-dcc-teal-light">
@@ -160,63 +226,51 @@ export default function WhyChooseUs() {
             </span>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {isoCerts.map((cert, i) => (
-              <motion.div
+            {isoCerts.map((cert) => (
+              <div
                 key={cert.code}
-                custom={i + 4}
-                variants={scaleIn}
-                className="glass rounded-xl p-4 text-center"
+                className="wcu-iso-card glass rounded-xl p-4 text-center select-none"
               >
                 <div className="text-lg font-bold text-dcc-amber">{cert.code}</div>
                 <div className="mt-1 text-xs text-white/50">{cert.label}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* PAN India Presence */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="mb-12"
-        >
+        <div className="mb-12">
           <div className="flex items-center justify-center gap-2 mb-6">
             <Globe className="h-5 w-5 text-dcc-teal-light" />
             <span className="text-sm font-semibold uppercase tracking-wider text-dcc-teal-light">
               Pan India Presence — 12+ States
             </span>
           </div>
-          <div className="flex flex-wrap justify-center gap-2">
-            {panIndiaStates.map((state, i) => (
-              <motion.span
+          <div className="wcu-state-pill-container flex flex-wrap justify-center gap-2">
+            {panIndiaStates.map((state) => (
+              <span
                 key={state}
-                custom={i + 8}
-                variants={fadeInUp}
-                className="rounded-full border border-dcc-teal/20 bg-dcc-teal/5 px-4 py-1.5 text-sm font-medium text-dcc-teal-light"
+                className="wcu-state-pill rounded-full border border-dcc-teal/20 bg-dcc-teal/5 px-4 py-1.5 text-sm font-medium text-dcc-teal-light select-none"
               >
                 {state}
-              </motion.span>
+              </span>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Reasons grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {reasons.map((reason, i) => (
-            <motion.div
+          {reasons.map((reason) => (
+            <div
               key={reason.title}
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              custom={i + 10}
-              variants={fadeInUp}
-              className="group glass rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:border-dcc-teal/30"
+              className="wcu-reason-card group glass rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:border-dcc-teal/30 select-none cursor-pointer"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-dcc-teal/20 transition-all duration-300 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20">
                 <reason.icon className="h-6 w-6 text-dcc-teal-light transition-colors duration-300 group-hover:text-white" />
               </div>
               <h3 className="mb-2 text-lg font-semibold text-white">{reason.title}</h3>
               <p className="text-sm leading-relaxed text-white/50">{reason.description}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
