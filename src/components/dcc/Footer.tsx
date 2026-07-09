@@ -50,7 +50,9 @@ function SocialIcons() {
       </a>
       {/* Instagram */}
       <a
-        href="#"
+        href="https://www.instagram.com/dccinfotechpvtltd"
+        target="_blank"
+        rel="noopener noreferrer"
         className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-all duration-300 hover:bg-dcc-teal hover:scale-110"
         aria-label="Instagram"
       >
