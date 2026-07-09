@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { Menu, Phone, Mail, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -80,7 +81,7 @@ export default function Navbar() {
             className="flex items-center gap-2 group shrink-0"
             aria-label="DCC Infotech - Home"
           >
-            <img src="/dcc-logo.png" alt="DCC Logo" className="h-9 w-auto object-contain" />
+            <Image src="/dcc-logo.png" alt="DCC Logo" width={36} height={36} priority className="h-9 w-9 object-contain" />
             <span className="text-base lg:text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-dcc-teal hidden sm:inline-block whitespace-nowrap">
               DCC <span className="text-gradient">INFOTECH PVT LTD</span>
             </span>
@@ -158,7 +159,7 @@ export default function Navbar() {
               <SheetContent side="right" className="w-80 p-0">
                 <SheetHeader className="p-6 pb-4 border-b border-border/50">
                   <SheetTitle className="flex items-center gap-2">
-                    <img src="/dcc-logo.png" alt="DCC Logo" className="h-8 w-auto object-contain" />
+                    <Image src="/dcc-logo.png" alt="DCC Logo" width={32} height={32} className="h-8 w-8 object-contain" />
                     <span className="text-base font-bold tracking-tight text-foreground whitespace-nowrap">
                       DCC <span className="text-gradient">INFOTECH PVT LTD</span>
                     </span>

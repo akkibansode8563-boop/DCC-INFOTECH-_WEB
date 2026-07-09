@@ -1,19 +1,22 @@
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/dcc/Navbar';
 import Hero from '@/components/dcc/Hero';
 import About from '@/components/dcc/About';
-import MissionVisionValues from '@/components/dcc/MissionVisionValues';
-import Services from '@/components/dcc/Services';
-import WhyChooseUs from '@/components/dcc/WhyChooseUs';
-import Testimonials from '@/components/dcc/Testimonials';
-import Team from '@/components/dcc/Team';
-import PartnersSection from '@/components/dcc/PartnersSection';
-import CTABanner from '@/components/dcc/CTABanner';
-import Gallery from '@/components/dcc/Gallery';
-import Careers from '@/components/dcc/Careers';
-import FAQ from '@/components/dcc/FAQ';
-import Contact from '@/components/dcc/Contact';
-import Footer from '@/components/dcc/Footer';
-import WhatsAppButton from '@/components/dcc/WhatsAppButton';
+
+// Dynamically import below-the-fold sections to optimize initial JavaScript bundle weight
+const MissionVisionValues = dynamic(() => import('@/components/dcc/MissionVisionValues'), { ssr: true });
+const Services = dynamic(() => import('@/components/dcc/Services'), { ssr: true });
+const WhyChooseUs = dynamic(() => import('@/components/dcc/WhyChooseUs'), { ssr: true });
+const Testimonials = dynamic(() => import('@/components/dcc/Testimonials'), { ssr: true });
+const Team = dynamic(() => import('@/components/dcc/Team'), { ssr: true });
+const PartnersSection = dynamic(() => import('@/components/dcc/PartnersSection'), { ssr: true });
+const CTABanner = dynamic(() => import('@/components/dcc/CTABanner'), { ssr: true });
+const Gallery = dynamic(() => import('@/components/dcc/Gallery'), { ssr: true });
+const Careers = dynamic(() => import('@/components/dcc/Careers'), { ssr: true });
+const FAQ = dynamic(() => import('@/components/dcc/FAQ'), { ssr: true });
+const Contact = dynamic(() => import('@/components/dcc/Contact'), { ssr: true });
+const Footer = dynamic(() => import('@/components/dcc/Footer'), { ssr: true });
+const WhatsAppButton = dynamic(() => import('@/components/dcc/WhatsAppButton'), { ssr: true });
 
 export default function Home() {
   return (

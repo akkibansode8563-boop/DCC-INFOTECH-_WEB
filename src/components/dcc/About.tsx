@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { Quote, Award, Users, Target, CheckCircle2, Calendar } from 'lucide-react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
@@ -243,10 +244,12 @@ export default function About() {
               <div className="absolute inset-0 mesh-gradient opacity-40 z-0" />
               
               {/* Image of MD Sir */}
-              <img
+              <Image
                 src="/md-sir.jpeg"
                 alt="Mr. Anil Mhaske - Managing Director, DCC Infotech"
-                className="w-full h-full object-cover relative z-10 transition-transform duration-700 group-hover:scale-105"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                className="object-cover relative z-10 transition-transform duration-700 group-hover:scale-105"
               />
 
               {/* Decorative border accent */}

@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Phone, MapPin, Mail, ArrowUp, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -163,7 +164,7 @@ export default function Footer() {
           {/* Company info */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="mb-4 flex items-center gap-2">
-              <img src="/dcc-logo.png" alt="DCC Logo" className="h-9 w-auto object-contain" />
+              <Image src="/dcc-logo.png" alt="DCC Logo" width={36} height={36} className="h-9 w-9 object-contain" />
               <span className="text-xl font-bold tracking-tight">
                 DCC <span className="text-dcc-teal-light">INFOTECH PVT LTD</span>
               </span>

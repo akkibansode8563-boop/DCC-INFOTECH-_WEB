@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import { ArrowRight, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCountUp } from '@/hooks/use-premium';
@@ -109,10 +110,13 @@ export default function Hero() {
               i === current ? 'opacity-85' : 'opacity-0'
             }`}
           >
-            <img
+            <Image
               src={s.bgImage}
               alt=""
-              className="w-full h-full object-cover"
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         ))}
@@ -198,9 +202,12 @@ export default function Hero() {
           <div className="lg:col-span-5 flex justify-center lg:justify-end animate-fadeIn duration-1000">
             <div className="relative p-8 sm:p-10 rounded-3xl border border-dcc-teal/10 bg-white/40 backdrop-blur-xl shadow-2xl max-w-[360px] w-full text-center group transition-all duration-500 hover:border-dcc-teal/20 hover:-translate-y-1">
               <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-dcc-teal/5 pointer-events-none" />
-              <img
+              <Image
                 src="/dcc-logo.png"
                 alt="DCC Logo"
+                width={192}
+                height={192}
+                priority
                 className="w-48 h-auto object-contain mx-auto transition-transform duration-700 group-hover:scale-105"
               />
               <div className="mt-8 border-t border-border/40 pt-5">
