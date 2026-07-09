@@ -44,7 +44,6 @@ const testimonials = [
   },
 ];
 
-const clientLogos = ['SBI', 'BOI', 'CBI', 'PNB', 'TATA', 'HAL', 'BSNL', 'RBI', 'DRDO', 'Huvepharma'];
 
 export default function Testimonials() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -222,22 +221,7 @@ export default function Testimonials() {
           </div>
         </div>
 
-        {/* Trusted by logos */}
-        <div className="testimonials-logos-reveal mt-16 border-t border-border pt-12">
-          <p className="mb-8 text-center text-sm text-muted-foreground">
-            Trusted by leading organizations across India
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-            {clientLogos.map((name) => (
-              <div
-                key={name}
-                className="flex h-12 min-w-[80px] items-center justify-center rounded-lg bg-muted/60 px-4 text-sm font-medium text-muted-foreground/50 select-none"
-              >
-                {name}
-              </div>
-            ))}
-          </div>
-        </div>
+
       </div>
     </section>
   );
