@@ -1,20 +1,48 @@
 'use client';
 
 import { useRef } from 'react';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { gsap } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
 
 const brandPartners = [
-  'Lenovo', 'HP', 'ASUS', 'Dell', 'Acer', 'NVIDIA', 'Intel', 'Microsoft',
-  'MSI', 'Logitech', 'LG', 'AMD', 'Seagate', 'WD', 'Samsung', 'Zebronics',
-  'Cisco', 'D-Link', 'TP-Link', 'Netgear',
+  { name: 'Dell', slug: 'dell' },
+  { name: 'HP', slug: 'hp' },
+  { name: 'Lenovo', slug: 'lenovo' },
+  { name: 'ASUS', slug: 'asus' },
+  { name: 'Acer', slug: 'acer' },
+  { name: 'NVIDIA', slug: 'nvidia' },
+  { name: 'Intel', slug: 'intel' },
+  { name: 'Microsoft', slug: 'microsoft' },
+  { name: 'MSI', slug: 'msi' },
+  { name: 'Logitech', slug: 'logitech' },
+  { name: 'LG', slug: 'lg' },
+  { name: 'AMD', slug: 'amd' },
+  { name: 'Samsung', slug: 'samsung' },
+  { name: 'Cisco', slug: 'cisco' },
+  { name: 'TP-Link', slug: 'tplink' },
+  { name: 'Netgear', slug: 'netgear' },
+  { name: 'Seagate', slug: 'seagate' },
+  { name: 'WD', slug: 'westerndigital' },
 ];
 
 const keyClients = [
-  'SBI', 'Bank of India', 'Central Bank of India', 'Punjab National Bank',
-  'Jupiter Hospital', 'Poonawalla Fincorp', 'Serum Institute of India', 'TATA Group',
-  'HAL', 'BSNL', 'Marriott', 'Le Meridien', 'Westin', 'Murugappa Group',
-  'DRDO', 'RBI', 'Huvepharma',
+  { name: 'SBI', initials: 'SBI' },
+  { name: 'Bank of India', initials: 'BOI' },
+  { name: 'Central Bank of India', initials: 'CBI' },
+  { name: 'Punjab National Bank', initials: 'PNB' },
+  { name: 'Jupiter Hospital', initials: 'JH' },
+  { name: 'Poonawalla Fincorp', initials: 'PF' },
+  { name: 'Serum Institute of India', initials: 'SII' },
+  { name: 'TATA Group', initials: 'TATA', slug: 'tata' },
+  { name: 'HAL', initials: 'HAL' },
+  { name: 'BSNL', initials: 'BSNL' },
+  { name: 'Marriott', initials: 'MAR', slug: 'marriott' },
+  { name: 'Le Meridien', initials: 'LM' },
+  { name: 'Westin', initials: 'WEST' },
+  { name: 'Murugappa Group', initials: 'MG' },
+  { name: 'DRDO', initials: 'DRDO' },
+  { name: 'RBI', initials: 'RBI' },
+  { name: 'Huvepharma', initials: 'HP' },
 ];
 
 export default function PartnersSection() {
@@ -104,10 +132,18 @@ export default function PartnersSection() {
             <div ref={brandTickerRef} className="flex gap-4 w-max">
               {brandPartners.concat(brandPartners).map((brand, i) => (
                 <div
-                  key={`${brand}-${i}`}
-                  className="flex h-12 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-muted/30 px-6 text-sm font-medium text-muted-foreground transition-all duration-300 hover:border-dcc-teal/30 hover:bg-dcc-teal/[0.03] hover:text-dcc-teal"
+                  key={`${brand.name}-${i}`}
+                  className="flex h-12 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-muted/30 px-6 gap-3 text-sm font-semibold text-muted-foreground transition-all duration-300 hover:border-dcc-teal/30 hover:bg-dcc-teal/[0.03] hover:text-foreground group/item"
                 >
-                  {brand}
+                  <img
+                    src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${brand.slug}.svg`}
+                    alt={`${brand.name} Logo`}
+                    className="h-4 w-4 opacity-40 invert-[0.3] group-hover/item:opacity-100 group-hover/item:invert-0 transition-all duration-300 dark:invert-[0.7]"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                  <span>{brand.name}</span>
                 </div>
               ))}
             </div>
@@ -127,10 +163,21 @@ export default function PartnersSection() {
             <div ref={clientTickerRef} className="flex gap-4 w-max">
               {keyClients.concat(keyClients).map((client, i) => (
                 <div
-                  key={`${client}-${i}`}
-                  className="flex h-12 shrink-0 items-center justify-center rounded-xl border border-dcc-teal/10 bg-dcc-teal/5 px-6 text-sm font-medium text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white"
+                  key={`${client.name}-${i}`}
+                  className="flex h-12 shrink-0 items-center justify-center rounded-xl border border-dcc-teal/10 bg-dcc-teal/5 px-6 gap-3 text-sm font-semibold text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white group/item"
                 >
-                  {client}
+                  {client.slug ? (
+                    <img
+                      src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${client.slug}.svg`}
+                      alt={`${client.name} Logo`}
+                      className="h-4 w-4 opacity-50 invert-[0.3] group-hover/item:opacity-100 group-hover/item:invert transition-all duration-300 dark:invert-[0.7]"
+                    />
+                  ) : (
+                    <div className="flex h-5 w-5 items-center justify-center rounded bg-dcc-teal/10 text-[9px] font-extrabold tracking-tighter text-dcc-teal group-hover/item:bg-white/20 group-hover/item:text-white transition-colors duration-300">
+                      {client.initials}
+                    </div>
+                  )}
+                  <span>{client.name}</span>
                 </div>
               ))}
             </div>
