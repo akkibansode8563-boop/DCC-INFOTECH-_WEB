@@ -136,7 +136,9 @@ export default function PartnersSection() {
                   ? '/microsoft.svg' 
                   : brand.slug === 'westerndigital' 
                     ? '/westerndigital.svg' 
-                    : `https://cdn.simpleicons.org/${brand.slug}`;
+                    : brand.slug === 'logitech'
+                      ? '/logitech.svg'
+                      : `https://cdn.simpleicons.org/${brand.slug}`;
                 return (
                   <div
                     key={`${brand.name}-${i}`}
