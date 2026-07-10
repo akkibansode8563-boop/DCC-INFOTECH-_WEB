@@ -133,12 +133,12 @@ export default function PartnersSection() {
               {brandPartners.concat(brandPartners).map((brand, i) => (
                 <div
                   key={`${brand.name}-${i}`}
-                  className="flex h-12 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-muted/30 px-6 gap-3 text-sm font-semibold text-muted-foreground transition-all duration-300 hover:border-dcc-teal/30 hover:bg-dcc-teal/[0.03] hover:text-foreground group/item"
+                  className="flex h-16 shrink-0 items-center justify-center rounded-2xl border border-border/50 bg-muted/20 px-8 gap-4 text-base font-bold text-muted-foreground transition-all duration-300 hover:border-dcc-teal/30 hover:bg-dcc-teal/[0.03] hover:text-foreground group/item"
                 >
                   <img
                     src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${brand.slug}.svg`}
                     alt={`${brand.name} Logo`}
-                    className="h-4 w-4 opacity-40 invert-[0.3] group-hover/item:opacity-100 group-hover/item:invert-0 transition-all duration-300 dark:invert-[0.7]"
+                    className="h-8 w-8 opacity-45 dark:opacity-60 invert-[0.3] group-hover/item:opacity-100 group-hover/item:invert-0 transition-all duration-300 dark:invert-[0.7]"
                     onError={(e) => {
                       (e.target as HTMLElement).style.display = 'none';
                     }}
