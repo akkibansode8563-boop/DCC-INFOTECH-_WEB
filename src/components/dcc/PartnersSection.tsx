@@ -26,17 +26,17 @@ const brandPartners = [
 ];
 
 const clientLogos = [
-  { name: 'Client 1', path: '/extracted_page_7/Im261.png' },
-  { name: 'Client 2', path: '/extracted_page_7/Im264.png' },
-  { name: 'Client 3', path: '/extracted_page_7/Im267.png' },
-  { name: 'Client 4', path: '/extracted_page_7/Im270.png' },
-  { name: 'Client 5', path: '/extracted_page_7/Im273.png' },
-  { name: 'Client 6', path: '/extracted_page_7/Im277.png' },
-  { name: 'Client 7', path: '/extracted_page_7/Im279.png' },
-  { name: 'Client 8', path: '/extracted_page_7/Im282.png' },
-  { name: 'Client 9', path: '/extracted_page_7/Im284.png' },
-  { name: 'Client 10', path: '/extracted_page_7/Im286.png' },
-  { name: 'Client 11', path: '/extracted_page_7/Im289.png' },
+  { name: 'Client 1', path: '/extracted_page_7/Im261_color.png' },
+  { name: 'Client 2', path: '/extracted_page_7/Im264_color.png' },
+  { name: 'Client 3', path: '/extracted_page_7/Im267_color.png' },
+  { name: 'Client 4', path: '/extracted_page_7/Im270_color.png' },
+  { name: 'Client 5', path: '/extracted_page_7/Im273_color.png' },
+  { name: 'Client 6', path: '/extracted_page_7/Im277_color.png' },
+  { name: 'Client 7', path: '/extracted_page_7/Im279_color.png' },
+  { name: 'Client 8', path: '/extracted_page_7/Im282_color.png' },
+  { name: 'Client 9', path: '/extracted_page_7/Im284_color.png' },
+  { name: 'Client 10', path: '/extracted_page_7/Im286_color.png' },
+  { name: 'Client 11', path: '/extracted_page_7/Im289_color.png' },
 ];
 
 export default function PartnersSection() {
