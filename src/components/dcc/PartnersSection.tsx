@@ -13,6 +13,7 @@ const brandPartners = [
   { name: 'NVIDIA', slug: 'nvidia' },
   { name: 'Intel', slug: 'intel' },
   { name: 'Microsoft', slug: 'microsoft' },
+  { name: 'Apple', slug: 'apple' },
   { name: 'MSI', slug: 'msi' },
   { name: 'Logitech', slug: 'logitech' },
   { name: 'LG', slug: 'lg' },
@@ -133,17 +134,16 @@ export default function PartnersSection() {
               {brandPartners.concat(brandPartners).map((brand, i) => (
                 <div
                   key={`${brand.name}-${i}`}
-                  className="flex h-16 shrink-0 items-center justify-center rounded-2xl border border-border/50 bg-muted/20 px-8 gap-4 text-base font-bold text-muted-foreground transition-all duration-300 hover:border-dcc-teal/30 hover:bg-dcc-teal/[0.03] hover:text-foreground group/item"
+                  className="flex h-16 w-36 shrink-0 items-center justify-center rounded-2xl bg-white border border-white/5 px-6 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/5 group/item"
                 >
                   <img
-                    src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${brand.slug}.svg`}
+                    src={`https://cdn.simpleicons.org/${brand.slug}`}
                     alt={`${brand.name} Logo`}
-                    className="h-8 w-8 opacity-45 dark:opacity-60 invert-[0.3] group-hover/item:opacity-100 group-hover/item:invert-0 transition-all duration-300 dark:invert-[0.7]"
+                    className="h-8 max-w-[110px] w-auto object-contain transition-transform duration-300"
                     onError={(e) => {
                       (e.target as HTMLElement).style.display = 'none';
                     }}
                   />
-                  <span>{brand.name}</span>
                 </div>
               ))}
             </div>
