@@ -131,21 +131,28 @@ export default function PartnersSection() {
             <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 md:w-32 bg-gradient-to-l from-background to-transparent" />
 
             <div ref={brandTickerRef} className="flex gap-4 w-max">
-              {brandPartners.concat(brandPartners).map((brand, i) => (
-                <div
-                  key={`${brand.name}-${i}`}
-                  className="flex h-16 w-36 shrink-0 items-center justify-center rounded-2xl bg-white border border-white/5 px-6 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/5 group/item"
-                >
-                  <img
-                    src={`https://cdn.simpleicons.org/${brand.slug}`}
-                    alt={`${brand.name} Logo`}
-                    className="h-8 max-w-[110px] w-auto object-contain transition-transform duration-300"
-                    onError={(e) => {
-                      (e.target as HTMLElement).style.display = 'none';
-                    }}
-                  />
-                </div>
-              ))}
+              {brandPartners.concat(brandPartners).map((brand, i) => {
+                const logoSrc = brand.slug === 'microsoft' 
+                  ? '/microsoft.svg' 
+                  : brand.slug === 'westerndigital' 
+                    ? '/westerndigital.svg' 
+                    : `https://cdn.simpleicons.org/${brand.slug}`;
+                return (
+                  <div
+                    key={`${brand.name}-${i}`}
+                    className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl bg-white border border-white/5 px-6 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/5 group/item"
+                  >
+                    <img
+                      src={logoSrc}
+                      alt={`${brand.name} Logo`}
+                      className="h-10 max-h-[40px] w-auto max-w-[130px] object-contain transition-transform duration-300"
+                      onError={(e) => {
+                        (e.target as HTMLElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
