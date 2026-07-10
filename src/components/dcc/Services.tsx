@@ -13,6 +13,8 @@ const services = [
     description:
       'Authorized partner and channel distributor for 210+ top brands including Dell, HP, Lenovo, and Acer. Genuine brand systems at wholesale channel pricing for institutional clients.',
     features: ['Dell, HP, Lenovo Partner', 'Wholesale Channel Pricing', 'Genuine Brand Warranty', 'Volume Order Fulfillment'],
+    brands: ['Dell', 'HP', 'Lenovo', 'Acer', 'Apple', 'Asus'],
+    categories: ['Business Laptops', 'Commercial Desktops', 'All-in-One PCs', 'Workstations'],
   },
   {
     icon: Cpu,
@@ -20,6 +22,8 @@ const services = [
     description:
       'Expert custom desktop PC assembly for corporate labs, editing suits, data analytics nodes, and education campuses. Tailored hardware configuration with premium parts.',
     features: ['High-Performance Builds', 'Genuine Brands Only', 'Tailored Specifications', 'Burn-in Reliability Testing'],
+    brands: ['HP', 'Dell', 'Lenovo', 'Acer', 'Logitech', 'Zebronics', 'Lapcare', 'Intel', 'AMD', 'NVIDIA', 'ASUS', 'MSI', 'Gigabyte', 'Corsair', 'EVM'],
+    categories: ['Keyboard', 'Mouse', 'Gaming Keyboard & Mouse', 'Cabinet (Gaming/Non-Gaming)', 'UPS', 'Printer', 'SSD', 'RAM', 'Motherboard', 'CCTV Products'],
   },
   {
     icon: Wrench,
@@ -27,6 +31,8 @@ const services = [
     description:
       'Proactive Annual Maintenance Contracts (AMC) and Facility Management Services (FMS). Rapid-response support with 400+ specialized on-site engineers.',
     features: ['SLA-Backed Rapid Response', 'Preventative Regular Audits', '400+ Engineers Support', 'Minimizes System Downtime'],
+    brands: ['Dell', 'HP', 'Lenovo', 'Cisco', 'Fortinet', 'Microsoft'],
+    categories: ['Desktop/Laptop AMC', 'Server & Storage Maintenance', 'Network FMS', 'SLA Helpdesk Support'],
   },
   {
     icon: Award,
@@ -34,6 +40,8 @@ const services = [
     description:
       'Expert procurement, supply, and tender execution through the Government e-Marketplace (GeM) portal. Transparent, fully compliant bidding and fulfillment.',
     features: ['GeM Portal Authorized', 'Compliant Documentation', 'PSU & Government Sourcing', 'Robust Order Logistics'],
+    brands: ['Dell', 'HP', 'Cisco', 'Acer', 'Lenovo', 'APC'],
+    categories: ['Direct Purchase Bidding', 'Custom Bids (L1)', 'OEM Authorization (MAF)', 'Government Tenders'],
   },
   {
     icon: Building2,
@@ -41,6 +49,8 @@ const services = [
     description:
       'End-to-end corporate office IT setups. Servers, rack infrastructure, enterprise firewalls, secure networking, online UPS, and unified communications.',
     features: ['Server Room Architecture', 'Enterprise Firewalls', 'Online UPS & Power Systems', 'Integrated Network Cabling'],
+    brands: ['Cisco', 'Sophos', 'Ubiquiti', 'APC', 'Vertiv', 'Synology'],
+    categories: ['Enterprise Server Setup', 'Firewall Security', 'Unified Communications', 'NAS/SAN Storage'],
   },
   {
     icon: Eye,
@@ -48,6 +58,8 @@ const services = [
     description:
       'Advanced CCTV surveillance camera setups, biometric access control systems, and monitoring stations for commercial properties, banks, and warehouses.',
     features: ['HD IP Camera Deployments', 'Biometric Access Control', 'Multi-Site Integration', 'Secure Recording Servers'],
+    brands: ['Hikvision', 'CP Plus', 'Dahua', 'Honeywell', 'Matrix'],
+    categories: ['IP CCTV Surveillance', 'Biometric Access Control', 'Smart Attendance (RFID)', 'NVR Setup'],
   },
   {
     icon: Settings,
@@ -55,6 +67,8 @@ const services = [
     description:
       'State-of-the-art diagnostic repair lab for precision chip-level fix of laptop motherboards, power ICs, displays, and peripheral controllers.',
     features: ['Motherboard Chip-Level Fix', 'Advanced Diagnostic Microscope', 'Genuine Component Spare Parts', 'Service Repair Warranty'],
+    brands: ['Dell', 'HP', 'Lenovo', 'MacBook', 'Asus', 'Acer'],
+    categories: ['Motherboard Chip Repair', 'Power IC Replacement', 'Screen/Panel Fix', 'Data Recovery'],
   },
   {
     icon: Package,
@@ -62,12 +76,14 @@ const services = [
     description:
       'Short-term and long-term rental plans for high-performance laptops, desktops, printers, projectors, and rack servers. Zero maintenance burden.',
     features: ['Laptops, Desktops & Servers', 'Zero Maintenance Burden', 'Instant Hardware Scalability', 'Custom Flexible Terms'],
+    brands: ['Dell', 'HP', 'Lenovo', 'Apple', 'Cisco', 'APC'],
+    categories: ['Corporate Laptop Rentals', 'Event/Project Bulk Rentals', 'Enterprise Server Rentals', 'Printer Rentals'],
     highlight: true,
   },
 ];
 
 export default function Services() {
-  const [showBrands, setShowBrands] = useState(false);
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -186,91 +202,103 @@ export default function Services() {
 
         {/* Service cards grid — 8 pillars */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-6">
-          {services.map((service) => (
-            <div
-              key={service.title}
-              className={`service-card card-premium group rounded-2xl p-6 lg:p-8 select-none flex flex-col justify-between transition-all duration-300 ${
-                service.highlight ? 'border-dcc-amber/30 bg-gradient-to-br from-dcc-amber/[0.03] to-transparent' : ''
-              }`}
-            >
-              <div>
-                {/* Icon */}
-                <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 ${
-                  service.highlight 
-                    ? 'bg-dcc-amber/10 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20' 
-                    : 'bg-dcc-teal/10 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20'
-                }`}>
-                  <service.icon className={`h-7 w-7 transition-colors duration-300 ${
-                    service.highlight 
-                      ? 'text-dcc-amber group-hover:text-white' 
-                      : 'text-dcc-teal group-hover:text-white'
-                  }`} />
-                </div>
-
-                {/* Title */}
-                <h3 className="mb-3 text-xl font-bold text-foreground">{service.title}</h3>
-
-                {/* Description */}
-                <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-                  {service.description}
-                </p>
-
-                {/* Feature bullets */}
-                <ul className="mb-6 space-y-2">
-                  {service.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/70">
-                      <div className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                        service.highlight ? 'bg-dcc-amber' : 'bg-dcc-teal'
-                      }`} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Brand list for Branded Desktops & Laptops card */}
-                {service.title === 'Branded Desktops & Laptops' && (
-                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    showBrands ? 'max-h-40 opacity-100 mb-6' : 'max-h-0 opacity-0 pointer-events-none'
-                  }`}>
-                    <div className="pt-4 border-t border-border/40">
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">Authorized Brand Partner:</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {['Dell', 'HP', 'Lenovo', 'Acer', 'Apple', 'Asus', 'Samsung'].map((brand) => (
-                          <span key={brand} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-dcc-teal/5 text-dcc-teal border border-dcc-teal/10 hover:bg-dcc-teal/10 transition-colors duration-300">
-                            {brand}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Action Button */}
-              <button
-                onClick={() => {
-                  if (service.title === 'Branded Desktops & Laptops') {
-                    setShowBrands(!showBrands);
-                  } else {
-                    const el = document.querySelector('#contact');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group/btn cursor-pointer ${
-                  service.highlight 
-                    ? 'text-dcc-amber-dark hover:text-dcc-amber' 
-                    : 'text-dcc-teal hover:text-dcc-teal-dark'
+          {services.map((service) => {
+            const isExpanded = expandedCard === service.title;
+            return (
+              <div
+                key={service.title}
+                className={`service-card card-premium group rounded-2xl p-6 lg:p-8 select-none flex flex-col justify-between transition-all duration-300 ${
+                  service.highlight ? 'border-dcc-amber/30 bg-gradient-to-br from-dcc-amber/[0.03] to-transparent' : ''
                 }`}
               >
-                {service.title === 'Branded Desktops & Laptops' 
-                  ? (showBrands ? 'Hide Brands' : 'Explore Brands')
-                  : (service.highlight ? 'Get Rental Quote' : 'Learn More')}
-                <ArrowRight className={`h-4 w-4 transition-transform group-hover/btn:translate-x-1 ${
-                  service.title === 'Branded Desktops & Laptops' && showBrands ? 'rotate-90' : ''
-                }`} />
-              </button>
-            </div>
-          ))}
+                <div>
+                  {/* Icon */}
+                  <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 ${
+                    service.highlight 
+                      ? 'bg-dcc-amber/10 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20' 
+                      : 'bg-dcc-teal/10 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20'
+                  }`}>
+                    <service.icon className={`h-7 w-7 transition-colors duration-300 ${
+                      service.highlight 
+                        ? 'text-dcc-amber group-hover:text-white' 
+                        : 'text-dcc-teal group-hover:text-white'
+                    }`} />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="mb-3 text-xl font-bold text-foreground">{service.title}</h3>
+
+                  {/* Description */}
+                  <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+                    {service.description}
+                  </p>
+
+                  {/* Feature bullets */}
+                  <ul className="mb-6 space-y-2">
+                    {service.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/70">
+                        <div className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                          service.highlight ? 'bg-dcc-amber' : 'bg-dcc-teal'
+                        }`} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Expandable details drawer */}
+                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                    isExpanded ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 pointer-events-none'
+                  }`}>
+                    <div className="pt-4 border-t border-border/40 space-y-4">
+                      {/* Brands list */}
+                      {service.brands && (
+                        <div>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Brands & Partners:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {service.brands.map((brand) => (
+                              <span key={brand} className="text-xs font-semibold px-2 py-0.5 rounded-full bg-dcc-teal/5 text-dcc-teal border border-dcc-teal/10 hover:bg-dcc-teal/10 transition-colors duration-300">
+                                {brand}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {/* Categories list */}
+                      {service.categories && (
+                        <div>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Product Range & Services:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {service.categories.map((cat) => (
+                              <span key={cat} className="text-xs font-semibold px-2 py-0.5 rounded-full bg-dcc-amber/5 text-dcc-amber border border-dcc-amber/10 hover:bg-dcc-amber/10 transition-colors duration-300">
+                                {cat}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <button
+                  onClick={() => {
+                    setExpandedCard(isExpanded ? null : service.title);
+                  }}
+                  className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group/btn cursor-pointer ${
+                    service.highlight 
+                      ? 'text-dcc-amber-dark hover:text-dcc-amber' 
+                      : 'text-dcc-teal hover:text-dcc-teal-dark'
+                  }`}
+                >
+                  {isExpanded ? 'Hide Details' : 'Explore Details'}
+                  <ArrowRight className={`h-4 w-4 transition-transform group-hover/btn:translate-x-1 ${
+                    isExpanded ? 'rotate-90' : ''
+                  }`} />
+                </button>
+              </div>
+            );
+          })}
         </div>
 
         {/* CTA */}

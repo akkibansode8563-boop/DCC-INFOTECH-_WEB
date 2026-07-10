@@ -91,23 +91,6 @@ export default function Testimonials() {
       }
     );
 
-    // Logos reveal
-    gsap.fromTo(
-      '.testimonials-logos-reveal',
-      { y: 20, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: 'power2.out',
-        clearProps: 'all',
-        scrollTrigger: {
-          trigger: '.testimonials-logos-reveal',
-          start: 'top 90%',
-          once: true,
-        },
-      }
-    );
   }, { scope: sectionRef });
 
   return (
