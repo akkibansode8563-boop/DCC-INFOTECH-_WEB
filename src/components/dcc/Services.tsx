@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowRight, Monitor, Cpu, Wrench, Award, Building2, Eye, Settings, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { gsap } from '@/lib/gsap';
@@ -67,6 +67,7 @@ const services = [
 ];
 
 export default function Services() {
+  const [showBrands, setShowBrands] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -225,13 +226,35 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
+
+                {/* Brand list for Branded Desktops & Laptops card */}
+                {service.title === 'Branded Desktops & Laptops' && (
+                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                    showBrands ? 'max-h-40 opacity-100 mb-6' : 'max-h-0 opacity-0 pointer-events-none'
+                  }`}>
+                    <div className="pt-4 border-t border-border/40">
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">Authorized Brand Partner:</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {['Dell', 'HP', 'Lenovo', 'Acer', 'Apple', 'Asus', 'Samsung'].map((brand) => (
+                          <span key={brand} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-dcc-teal/5 text-dcc-teal border border-dcc-teal/10 hover:bg-dcc-teal/10 transition-colors duration-300">
+                            {brand}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Action Button */}
               <button
                 onClick={() => {
-                  const el = document.querySelector('#contact');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  if (service.title === 'Branded Desktops & Laptops') {
+                    setShowBrands(!showBrands);
+                  } else {
+                    const el = document.querySelector('#contact');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }
                 }}
                 className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group/btn cursor-pointer ${
                   service.highlight 
@@ -239,8 +262,12 @@ export default function Services() {
                     : 'text-dcc-teal hover:text-dcc-teal-dark'
                 }`}
               >
-                {service.highlight ? 'Get Rental Quote' : 'Learn More'}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                {service.title === 'Branded Desktops & Laptops' 
+                  ? (showBrands ? 'Hide Brands' : 'Explore Brands')
+                  : (service.highlight ? 'Get Rental Quote' : 'Learn More')}
+                <ArrowRight className={`h-4 w-4 transition-transform group-hover/btn:translate-x-1 ${
+                  service.title === 'Branded Desktops & Laptops' && showBrands ? 'rotate-90' : ''
+                }`} />
               </button>
             </div>
           ))}
