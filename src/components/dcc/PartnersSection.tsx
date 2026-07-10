@@ -26,17 +26,55 @@ const brandPartners = [
 ];
 
 const clientLogos = [
-  { name: 'Client 1', path: '/extracted_page_7/Im261_color.png' },
-  { name: 'Client 2', path: '/extracted_page_7/Im264_color.png' },
-  { name: 'Client 3', path: '/extracted_page_7/Im267_color.png' },
-  { name: 'Client 4', path: '/extracted_page_7/Im270_color.png' },
-  { name: 'Client 5', path: '/extracted_page_7/Im273_color.png' },
-  { name: 'Client 6', path: '/extracted_page_7/Im277_color.png' },
-  { name: 'Client 7', path: '/extracted_page_7/Im279_color.png' },
-  { name: 'Client 8', path: '/extracted_page_7/Im282_color.png' },
-  { name: 'Client 9', path: '/extracted_page_7/Im284_color.png' },
-  { name: 'Client 10', path: '/extracted_page_7/Im286_color.png' },
-  { name: 'Client 11', path: '/extracted_page_7/Im289_color.png' },
+  // Row 1: Banks & Institutions
+  { name: 'Reserve Bank of India', path: '/client_logos/client_r1_c1.png' },
+  { name: 'SBI', path: '/client_logos/client_r1_c2.png' },
+  { name: 'Bank of India', path: '/client_logos/client_r1_c3.png' },
+  { name: 'Central Bank of India', path: '/client_logos/client_r1_c4.png' },
+  { name: 'Punjab National Bank', path: '/client_logos/client_r1_c5.png' },
+  { name: 'Saraswat Bank', path: '/client_logos/client_r1_c6.png' },
+  { name: 'MIT Pune', path: '/client_logos/client_r1_c7.png' },
+  { name: 'Institution', path: '/client_logos/client_r1_c8.png' },
+  // Row 2: Organizations
+  { name: 'Organization 1', path: '/client_logos/client_r2_c1.png' },
+  { name: 'Dr. Vithalrao Vikhe Patil Foundation', path: '/client_logos/client_r2_c2.png' },
+  { name: 'Organization 3', path: '/client_logos/client_r2_c3.png' },
+  { name: 'Pravara Rural Education Society', path: '/client_logos/client_r2_c4.png' },
+  { name: 'Marathwada Mitramandal', path: '/client_logos/client_r2_c5.png' },
+  { name: 'Medical University', path: '/client_logos/client_r2_c6.png' },
+  { name: 'Institution 7', path: '/client_logos/client_r2_c7.png' },
+  { name: 'Institution 8', path: '/client_logos/client_r2_c8.png' },
+  // Row 3: Healthcare & Hospitality
+  { name: 'Jupiter Hospital', path: '/client_logos/client_r3_c1.png' },
+  { name: 'Poonawalla Fincorp', path: '/client_logos/client_r3_c2.png' },
+  { name: 'Serum Institute of India', path: '/client_logos/client_r3_c3.png' },
+  { name: 'Institute', path: '/client_logos/client_r3_c4.png' },
+  { name: 'Kinetic Green', path: '/client_logos/client_r3_c5.png' },
+  { name: 'Marriott', path: '/client_logos/client_r3_c6.png' },
+  { name: 'Le Meridien', path: '/client_logos/client_r3_c7.png' },
+  { name: 'SPIC', path: '/client_logos/client_r3_c8.png' },
+  // Row 4: Industry
+  { name: 'Westin Hotels & Resorts', path: '/client_logos/client_r4_c1.png' },
+  { name: 'Organization', path: '/client_logos/client_r4_c2.png' },
+  { name: 'HAL', path: '/client_logos/client_r4_c3.png' },
+  { name: 'Murugappa Group', path: '/client_logos/client_r4_c4.png' },
+  { name: 'BSNL', path: '/client_logos/client_r4_c5.png' },
+  { name: 'Reliable', path: '/client_logos/client_r4_c6.png' },
+  { name: 'T&T Group', path: '/client_logos/client_r4_c7.png' },
+  { name: 'TT Connect & Grow', path: '/client_logos/client_r4_c8.png' },
+  // Row 5: Pharma & Business
+  { name: 'Huvepharma', path: '/client_logos/client_r5_c1.png' },
+  { name: 'Sanjivani Medipoint', path: '/client_logos/client_r5_c2.png' },
+  { name: 'Krisala', path: '/client_logos/client_r5_c3.png' },
+  { name: 'Scope Retail Systems', path: '/client_logos/client_r5_c4.png' },
+  { name: 'Technofour', path: '/client_logos/client_r5_c5.png' },
+  { name: 'Think Project', path: '/client_logos/client_r5_c6.png' },
+  // Row 6: More organizations
+  { name: 'Vikhe Patil Foundation', path: '/client_logos/client_r6_c1.png' },
+  { name: 'Yashada Realty', path: '/client_logos/client_r6_c2.png' },
+  { name: 'GCI', path: '/client_logos/client_r6_c3.png' },
+  { name: 'Autobahn Trucking', path: '/client_logos/client_r6_c4.png' },
+  { name: 'SQM', path: '/client_logos/client_r6_c8.png' },
 ];
 
 export default function PartnersSection() {
