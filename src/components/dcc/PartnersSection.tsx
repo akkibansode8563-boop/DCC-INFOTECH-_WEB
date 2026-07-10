@@ -18,7 +18,6 @@ const brandPartners = [
   { name: 'Logitech', slug: 'logitech' },
   { name: 'LG', slug: 'lg' },
   { name: 'AMD', slug: 'amd' },
-  { name: 'Samsung', slug: 'samsung' },
   { name: 'Cisco', slug: 'cisco' },
   { name: 'TP-Link', slug: 'tplink' },
   { name: 'Netgear', slug: 'netgear' },
@@ -26,24 +25,18 @@ const brandPartners = [
   { name: 'WD', slug: 'westerndigital' },
 ];
 
-const keyClients = [
-  { name: 'SBI', initials: 'SBI' },
-  { name: 'Bank of India', initials: 'BOI' },
-  { name: 'Central Bank of India', initials: 'CBI' },
-  { name: 'Punjab National Bank', initials: 'PNB' },
-  { name: 'Jupiter Hospital', initials: 'JH' },
-  { name: 'Poonawalla Fincorp', initials: 'PF' },
-  { name: 'Serum Institute of India', initials: 'SII' },
-  { name: 'TATA Group', initials: 'TATA', slug: 'tata' },
-  { name: 'HAL', initials: 'HAL' },
-  { name: 'BSNL', initials: 'BSNL' },
-  { name: 'Marriott', initials: 'MAR', slug: 'marriott' },
-  { name: 'Le Meridien', initials: 'LM' },
-  { name: 'Westin', initials: 'WEST' },
-  { name: 'Murugappa Group', initials: 'MG' },
-  { name: 'DRDO', initials: 'DRDO' },
-  { name: 'RBI', initials: 'RBI' },
-  { name: 'Huvepharma', initials: 'HP' },
+const clientLogos = [
+  { name: 'Client 1', path: '/extracted_page_7/Im261.png' },
+  { name: 'Client 2', path: '/extracted_page_7/Im264.png' },
+  { name: 'Client 3', path: '/extracted_page_7/Im267.png' },
+  { name: 'Client 4', path: '/extracted_page_7/Im270.png' },
+  { name: 'Client 5', path: '/extracted_page_7/Im273.png' },
+  { name: 'Client 6', path: '/extracted_page_7/Im277.png' },
+  { name: 'Client 7', path: '/extracted_page_7/Im279.png' },
+  { name: 'Client 8', path: '/extracted_page_7/Im282.png' },
+  { name: 'Client 9', path: '/extracted_page_7/Im284.png' },
+  { name: 'Client 10', path: '/extracted_page_7/Im286.png' },
+  { name: 'Client 11', path: '/extracted_page_7/Im289.png' },
 ];
 
 export default function PartnersSection() {
@@ -170,23 +163,19 @@ export default function PartnersSection() {
             <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 md:w-32 bg-gradient-to-l from-background to-transparent" />
 
             <div ref={clientTickerRef} className="flex gap-4 w-max">
-              {keyClients.concat(keyClients).map((client, i) => (
+              {clientLogos.concat(clientLogos).map((client, i) => (
                 <div
                   key={`${client.name}-${i}`}
-                  className="flex h-12 shrink-0 items-center justify-center rounded-xl border border-dcc-teal/10 bg-dcc-teal/5 px-6 gap-3 text-sm font-semibold text-dcc-teal transition-all duration-300 hover:bg-dcc-teal hover:text-white group/item"
+                  className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl bg-white border border-white/5 px-6 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/5 group/item"
                 >
-                  {client.slug ? (
-                    <img
-                      src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${client.slug}.svg`}
-                      alt={`${client.name} Logo`}
-                      className="h-4 w-4 opacity-50 invert-[0.3] group-hover/item:opacity-100 group-hover/item:invert transition-all duration-300 dark:invert-[0.7]"
-                    />
-                  ) : (
-                    <div className="flex h-5 w-5 items-center justify-center rounded bg-dcc-teal/10 text-[9px] font-extrabold tracking-tighter text-dcc-teal group-hover/item:bg-white/20 group-hover/item:text-white transition-colors duration-300">
-                      {client.initials}
-                    </div>
-                  )}
-                  <span>{client.name}</span>
+                  <img
+                    src={client.path}
+                    alt={client.name}
+                    className="h-10 max-h-[40px] w-auto max-w-[130px] object-contain transition-transform duration-300"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
                 </div>
               ))}
             </div>
