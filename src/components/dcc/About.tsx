@@ -76,15 +76,15 @@ const timeline = [
 ];
 
 const points = [
-  { x: 120, y: 410 },  // 1992 (Below)
-  { x: 300, y: 380 },  // 1997 (Above)
-  { x: 480, y: 340 },  // 2000 (Below)
-  { x: 660, y: 310 },  // 2005 (Above)
-  { x: 840, y: 280 },  // 2010 (Below)
-  { x: 1020, y: 255 }, // 2013 (Above)
-  { x: 1200, y: 230 }, // 2017 (Below)
-  { x: 1380, y: 205 }, // 2020 (Above)
-  { x: 1560, y: 180 }, // Today (Below)
+  { x: 150, y: 410 },  // 1992 (Below)
+  { x: 430, y: 370 },  // 1997 (Above)
+  { x: 710, y: 330 },  // 2000 (Below)
+  { x: 990, y: 290 },  // 2005 (Above)
+  { x: 1270, y: 250 }, // 2010 (Below)
+  { x: 1550, y: 215 }, // 2013 (Above)
+  { x: 1830, y: 180 }, // 2017 (Below)
+  { x: 2110, y: 145 }, // 2020 (Above)
+  { x: 2390, y: 110 }, // Today (Below)
 ];
 
 export default function About() {
@@ -413,9 +413,9 @@ export default function About() {
 
           {/* DESKTOP TIMELINE TRACK (Horizontal Pin Scroll) */}
           <div id="desktop-track" className="hidden lg:block w-full overflow-hidden no-scrollbar">
-            <div id="scroll-content" className="relative inline-flex items-center h-[520px] px-24">
+            <div id="scroll-content" className="relative inline-flex items-center h-[540px] px-24" style={{ minWidth: '2650px' }}>
               
-              <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ minWidth: '2500px' }}>
+              <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ minWidth: '2600px' }}>
                 <defs>
                   <linearGradient id="gradientLine" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="#0d7377" />
@@ -425,11 +425,11 @@ export default function About() {
                 </defs>
                 
                 {/* Base curve track */}
-                <path id="graph-path-base" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" 
+                <path id="graph-path-base" d="M 150,410 Q 430,370 710,330 T 1270,250 T 1830,180 T 2390,110" 
                       fill="none" stroke="#e2e8f0" strokeWidth="4" strokeLinecap="round" opacity="0.6" />
                 
                 {/* Progress curve track */}
-                <path id="graph-path-progress" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" 
+                <path id="graph-path-progress" d="M 150,410 Q 430,370 710,330 T 1270,250 T 1830,180 T 2390,110" 
                       fill="none" stroke="url(#gradientLine)" strokeWidth="5" strokeLinecap="round" />
                 
                 {/* Connector vertical lines */}
@@ -460,7 +460,7 @@ export default function About() {
                 return (
                   <div
                     key={item.year}
-                    className="absolute timeline-group"
+                    className="absolute timeline-group animate-reveal"
                     style={{ left: pt.x, top: pt.y }}
                   >
                     {isLast ? (
@@ -475,10 +475,10 @@ export default function About() {
                           Today
                         </div>
                         
-                        {/* Bento Card for Today */}
+                        {/* Bento Card for Today (frosted white backdrop hides background path) */}
                         <div
                           id="today-bento-card"
-                          className="timeline-card glass-card p-6 w-[340px] -translate-x-1/2 mt-10 border-2 border-amber-500/30 text-left"
+                          className="timeline-card p-6 w-[340px] rounded-2xl bg-white/95 border-2 border-amber-500/30 text-left -translate-x-1/2 mt-12 shadow-xl hover:shadow-2xl hover:border-amber-500/50 transition-all duration-300 z-10"
                         >
                           <div className="flex items-center gap-2 mb-3">
                             <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
@@ -510,8 +510,8 @@ export default function About() {
                           {item.year}
                         </div>
                         <div
-                          className={`timeline-card glass-card p-4 w-60 -translate-x-1/2 text-center ${
-                            isAbove ? '-translate-y-[100%] -mt-14' : 'mt-8'
+                          className={`timeline-card p-5 w-60 rounded-2xl bg-white/95 border border-[#0d7377]/12 text-center -translate-x-1/2 shadow-lg hover:shadow-xl hover:border-[#0d7377]/25 transition-all duration-300 z-10 ${
+                            isAbove ? '-translate-y-[100%] -mt-16' : 'mt-10'
                           }`}
                         >
                           <h4 className="font-bold text-teal-800 text-sm font-heading mb-1">
