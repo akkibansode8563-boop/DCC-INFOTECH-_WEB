@@ -5,12 +5,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   reactStrictMode: false,
-  // Dramatically reduce build time by telling Next.js which packages
-  // to tree-shake — avoids compiling the entire barrel exports
+  // Tree-shake large barrel packages — avoids compiling unused exports
+  // This tells Next.js/Turbopack to only bundle what is actually imported
   experimental: {
     optimizePackageImports: [
       'lucide-react',
@@ -38,7 +35,7 @@ const nextConfig: NextConfig = {
       'gsap',
     ],
   },
-  // Skip source-map generation in production — speeds up build significantly
+  // No source maps in production — saves build time & reduces bundle size
   productionBrowserSourceMaps: false,
 };
 
