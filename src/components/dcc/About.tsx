@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
-import { Quote, Award, Users, Target, CheckCircle2, Calendar } from 'lucide-react';
+import { Quote, Award, Calendar } from 'lucide-react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
 import {
@@ -11,13 +11,6 @@ import {
   useSpring,
   useInView,
 } from 'framer-motion';
-
-const featurePills = [
-  { icon: Target, text: 'Client-first approach' },
-  { icon: Users, text: '400+ specialized engineers' },
-  { icon: Award, text: 'Authorized distributor of 210+ brands' },
-  { icon: CheckCircle2, text: 'ISO 9001, 14001, 27001, 20000-1 certified' },
-];
 
 const timeline = [
   {
@@ -149,20 +142,7 @@ export default function About() {
         scrollTrigger: { trigger: '.about-story-reveal', start: 'top 85%', once: true },
       }
     );
-    // Feature pills reveal
-    gsap.fromTo(
-      '.about-pill',
-      { scale: 0.9, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.5,
-        stagger: 0.08,
-        ease: 'power2.out',
-        clearProps: 'all',
-        scrollTrigger: { trigger: '.about-pill-container', start: 'top 85%', once: true },
-      }
-    );
+
     // Quote block reveal
     gsap.fromTo(
       '.about-quote-reveal',
@@ -230,25 +210,23 @@ export default function About() {
 
           {/* Right: story content */}
           <div>
-            <div className="about-story-reveal mb-8">
+            <div className="about-story-reveal mb-8 space-y-4">
               <h3 className="mb-4 text-2xl font-bold text-foreground">Our Story</h3>
-              <p className="mb-4 leading-relaxed text-muted-foreground font-sans-inter">
+              <p className="leading-relaxed text-muted-foreground font-sans-inter">
                 In 1992, a young boy from a humble background named Shri. Anil Mhaske started a
-                business in a 10x10 sq. ft. room with a staff of 1-2 people. Today, DCC operates with over 45,000+
-                sq. ft. of office space, impacting 20,000+ lives. We chased a singular conviction: service is not an
-                afterthought; it is the foundation of a long-term relation.
+                business in a 10*10 sq. ft. room with a staff of 1-2 people to provide the best
+                prices and after-sales service to his clients. Today, DCC operates with over 45,000+
+                sq. ft. of office space, impacting 20,000+ lives.
               </p>
-            </div>
-
-            <div className="about-pill-container mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {featurePills.map((item) => (
-                <div key={item.text} className="about-pill flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 p-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-dcc-teal/10">
-                    <item.icon className="h-4 w-4 text-dcc-teal" />
-                  </div>
-                  <span className="text-sm font-medium text-foreground">{item.text}</span>
-                </div>
-              ))}
+              <p className="leading-relaxed text-muted-foreground font-sans-inter">
+                Where the market was looking at every order as a deal, we chased a singular conviction:
+                service is not an afterthought; it is the foundation of a long-term relation. That belief,
+                &ldquo;Where Service is a Way of Life,&rdquo; shaped everything that came after. We recruited and trained
+                specialized engineers, established R&D labs, and built a distribution network that reached into
+                Maharashtra's smallest districts. Today, the growth speaks for itself: 400+ engineers keeping
+                client systems running uninterrupted across 12+ states, with a 150+ sales team and 125 dedicated
+                back-office staff.
+              </p>
             </div>
 
             <div className="about-quote-reveal glass rounded-2xl p-6">
