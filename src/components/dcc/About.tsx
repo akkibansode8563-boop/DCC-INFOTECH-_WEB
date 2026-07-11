@@ -76,108 +76,81 @@ const timeline = [
   },
 ];
 
-/** Individual animated timeline node — card + dot + year badge */
+const points = [
+  { x: 120, y: 350 },  // 1992
+  { x: 320, y: 310 },  // 1997
+  { x: 520, y: 270 },  // 2000
+  { x: 720, y: 235 },  // 2005
+  { x: 920, y: 200 },  // 2010
+  { x: 1120, y: 165 }, // 2013
+  { x: 1320, y: 130 }, // 2017
+  { x: 1520, y: 95 },  // 2020
+  { x: 1720, y: 60 },  // Today
+];
+
+/** Individual animated timeline node on a growth graph path */
 function TimelineNode({
   item,
   index,
+  point,
 }: {
   item: (typeof timeline)[0];
   index: number;
+  point: { x: number; y: number };
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-60px 0px' });
-  const isAbove = index % 2 === 0;
-
-  const cardAbove = (
-    <motion.div
-      initial={{ opacity: 0, y: -28, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      className="mb-3 w-36"
-    >
-      <div
-        className="rounded-2xl p-3 shadow-md backdrop-blur-sm"
-        style={{
-          background: `${item.color}09`,
-          border: `1px solid ${item.color}28`,
-        }}
-      >
-        <p className="text-[11px] leading-snug text-foreground/70">{item.event}</p>
-      </div>
-      <div className="mx-auto mt-2 h-5 w-px" style={{ background: `${item.color}55` }} />
-    </motion.div>
-  );
-
-  const cardBelow = (
-    <motion.div
-      initial={{ opacity: 0, y: 28, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      className="mt-3 w-36"
-    >
-      <div className="mx-auto mb-2 h-5 w-px" style={{ background: `${item.color}55` }} />
-      <div
-        className="rounded-2xl p-3 shadow-md backdrop-blur-sm"
-        style={{
-          background: `${item.color}09`,
-          border: `1px solid ${item.color}28`,
-        }}
-      >
-        <p className="text-[11px] leading-snug text-foreground/70">{item.event}</p>
-      </div>
-    </motion.div>
-  );
+  const isAbove = index % 2 !== 0; // Odd indices are above the line
 
   return (
-    <div ref={ref} className="relative flex flex-col items-center" style={{ minWidth: 168 }}>
-      {/* Card above */}
-      {isAbove ? cardAbove : <div style={{ height: 'calc(56px + 20px + 12px)', width: 144 }} />}
+    <div ref={ref}>
+      {/* Glow highlight under active circle */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={isInView ? { opacity: 0.15, scale: 1 } : {}}
+        transition={{ duration: 0.6, delay: index * 0.05 }}
+        className="absolute rounded-full pointer-events-none blur-md"
+        style={{
+          left: point.x - 24,
+          top: point.y - 24,
+          width: 48,
+          height: 48,
+          background: item.color,
+        }}
+      />
 
-      {/* Central dot */}
-      <div className="relative z-10 flex flex-col items-center">
-        {/* Pulse ring */}
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={isInView ? { scale: 1, opacity: 1 } : {}}
-          transition={{ type: 'spring', stiffness: 260, damping: 16, delay: index * 0.07 + 0.12 }}
-          className="absolute rounded-full"
-          style={{
-            width: 44,
-            height: 44,
-            background: `${item.color}18`,
-            border: `2px solid ${item.color}35`,
-          }}
-        />
-        {/* Dot */}
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={isInView ? { scale: 1, opacity: 1 } : {}}
-          transition={{ type: 'spring', stiffness: 380, damping: 18, delay: index * 0.07 + 0.18 }}
-          whileHover={{ scale: 1.2 }}
-          className="relative z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow-lg"
-          style={{ background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}99 100%)` }}
-        >
-          <span className="text-base leading-none">{item.icon}</span>
-        </motion.div>
+      {/* Year Circle Node */}
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={isInView ? { scale: 1, opacity: 1 } : {}}
+        transition={{ type: 'spring', stiffness: 260, damping: 16, delay: index * 0.05 }}
+        whileHover={{ scale: 1.15 }}
+        className="absolute z-20 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-[3px] border-background font-bold text-xs text-white shadow-md transition-colors duration-300 select-none"
+        style={{
+          left: point.x - 24,
+          top: point.y - 24,
+          background: `linear-gradient(135deg, ${item.color} 0%, #0d7377 100%)`,
+          boxShadow: '0 4px 12px rgba(13, 115, 119, 0.25)',
+        }}
+      >
+        {item.year}
+      </motion.div>
 
-        {/* Year badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 6, scale: 0.8 }}
-          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-          transition={{ duration: 0.42, delay: index * 0.07 + 0.26, ease: 'backOut' }}
-          className="mt-2 rounded-full px-3 py-0.5 text-xs font-bold tracking-wide"
-          style={{
-            background: `${item.color}14`,
-            color: item.color,
-            border: `1px solid ${item.color}30`,
-          }}
-        >
-          {item.year}
-        </motion.div>
-      </div>
-
-      {/* Card below */}
-      {!isAbove ? cardBelow : <div style={{ height: 'calc(56px + 20px + 12px)', width: 144 }} />}
+      {/* Clean Description Text */}
+      <motion.div
+        initial={{ opacity: 0, y: isAbove ? -12 : 12 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.45, delay: index * 0.05 + 0.1 }}
+        className="absolute z-10 w-[170px]"
+        style={{
+          left: point.x - 85,
+          top: isAbove ? point.y - 120 : point.y + 40,
+        }}
+      >
+        <p className="text-xs font-semibold leading-relaxed text-foreground select-none">
+          {item.event}
+        </p>
+      </motion.div>
     </div>
   );
 }
@@ -352,7 +325,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* ── Horizontal Timeline ── */}
+        {/* ── Horizontal Timeline (Graph Curve) ── */}
         <div ref={timelineContainerRef} className="mt-28">
 
           {/* Header */}
@@ -377,7 +350,7 @@ export default function About() {
           {/* Scrollable track */}
           <div
             ref={trackRef}
-            className="overflow-x-auto pb-4"
+            className="overflow-x-auto pb-6 pt-4"
             style={{ scrollbarWidth: 'none', cursor: 'grab' }}
             onMouseDown={(e) => {
               const el = e.currentTarget;
@@ -397,51 +370,71 @@ export default function About() {
             }}
           >
             <div
-              className="relative inline-flex items-center px-20"
+              className="relative inline-flex items-center px-12"
               style={{
-                minWidth: `${timeline.length * 168 + 160}px`,
-                height: 340,
+                minWidth: '1880px',
+                height: 440,
               }}
             >
-              {/* Static track line */}
-              <div
-                className="absolute left-20 h-px rounded-full bg-border/50"
-                style={{ top: '50%', width: 'calc(100% - 160px)', transform: 'translateY(-50%)' }}
-              />
+              {/* Dotted background pattern overlay inside timeline */}
+              <div className="absolute inset-0 dot-pattern opacity-40 pointer-events-none" />
 
-              {/* Animated entry line (draws on scroll-into-view) */}
-              <motion.div
-                className="absolute left-20 h-0.5 rounded-full origin-left"
-                initial={{ scaleX: 0 }}
-                animate={timelineInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                style={{
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: 'calc(100% - 160px)',
-                  background: 'linear-gradient(90deg, #0d9488 0%, #f59e0b 40%, #0d9488 70%, #f59e0b 100%)',
-                  opacity: 0.7,
-                }}
-              />
+              <svg
+                className="absolute inset-0 pointer-events-none"
+                style={{ width: '100%', height: '100%' }}
+              >
+                <defs>
+                  {/* Linear gradient for progress line */}
+                  <linearGradient id="timelineLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#0d7377" />
+                    <stop offset="50%" stopColor="#f59e0b" />
+                    <stop offset="100%" stopColor="#14a3a8" />
+                  </linearGradient>
+                </defs>
 
-              {/* Scroll-driven progress glow line */}
-              <motion.div
-                className="absolute left-20 h-0.5 rounded-full origin-left"
-                style={{
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: 'calc(100% - 160px)',
-                  scaleX: lineScaleX,
-                  background: 'linear-gradient(90deg, #0d9488, #f59e0b)',
-                  filter: 'blur(1px)',
-                  opacity: 0.5,
-                }}
-              />
+                {/* Base light gray graph line */}
+                <path
+                  d="M 120,350 Q 220,330 320,310 T 520,270 T 720,235 T 920,200 T 1120,165 T 1320,130 T 1520,95 T 1720,60"
+                  fill="none"
+                  stroke="var(--border)"
+                  strokeWidth={3}
+                  strokeLinecap="round"
+                  opacity={0.5}
+                />
+
+                {/* Scroll-driven progress line */}
+                <motion.path
+                  d="M 120,350 Q 220,330 320,310 T 520,270 T 720,235 T 920,200 T 1120,165 T 1320,130 T 1520,95 T 1720,60"
+                  fill="none"
+                  stroke="url(#timelineLineGradient)"
+                  strokeWidth={3.5}
+                  strokeLinecap="round"
+                  style={{ pathLength: lineScaleX }}
+                />
+
+                {/* Vertical dashed connectors to labels */}
+                {points.map((p, i) => {
+                  const isAbove = i % 2 !== 0;
+                  return (
+                    <line
+                      key={i}
+                      x1={p.x}
+                      y1={p.y}
+                      x2={p.x}
+                      y2={isAbove ? p.y - 42 : p.y + 42}
+                      stroke="#0d7377"
+                      strokeWidth={1.5}
+                      strokeDasharray="3,3"
+                      opacity={0.4}
+                    />
+                  );
+                })}
+              </svg>
 
               {/* Nodes */}
-              <div className="relative z-10 flex items-center">
+              <div className="relative w-full h-full">
                 {timeline.map((item, i) => (
-                  <TimelineNode key={item.year} item={item} index={i} />
+                  <TimelineNode key={item.year} item={item} index={i} point={points[i]} />
                 ))}
               </div>
             </div>
