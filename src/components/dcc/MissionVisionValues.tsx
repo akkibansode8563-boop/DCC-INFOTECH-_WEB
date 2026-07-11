@@ -134,6 +134,99 @@ function RollingIndex({ indexStr, triggerRef }: { indexStr: string; triggerRef: 
   return <span ref={scope} className="value-index">00</span>;
 }
 
+// Interactive 3D Card for Mission & Vision
+function MissionVisionCard({
+  title,
+  text,
+  icon: IconComponent,
+  isVision = false,
+  delay = 0,
+}: {
+  title: string;
+  text: string;
+  icon: React.ComponentType<any>;
+  isVision?: boolean;
+  delay?: number;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Motion values for coordinates
+  const x = useMotionValue(0.5);
+  const y = useMotionValue(0.5);
+
+  // Map to rotations
+  const rotateX = useSpring(useTransform(y, [0, 1], [6, -6]), { stiffness: 200, damping: 25 });
+  const rotateY = useSpring(useTransform(x, [0, 1], [-6, 6]), { stiffness: 200, damping: 25 });
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width);
+    y.set(mouseY / height);
+  };
+
+  const handlePointerLeave = () => {
+    x.set(0.5);
+    y.set(0.5);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      style={{ rotateX, rotateY, transformPerspective: 800, transformStyle: 'preserve-3d' }}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      initial={{ y: 35, opacity: 0, scale: 0.97 }}
+      whileInView={{ y: 0, opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.8, ease: 'easeOut', delay }}
+      className={`card-premium group rounded-2xl p-8 select-none transition-shadow duration-350 hover:shadow-2xl ${
+        isVision 
+          ? 'border-dcc-amber/20 bg-gradient-to-br from-dcc-amber/5 to-transparent hover:shadow-dcc-amber/8' 
+          : 'hover:shadow-dcc-teal/8'
+      }`}
+    >
+      <div 
+        className={`mb-5 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 ${
+          isVision 
+            ? 'bg-dcc-amber/10 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20' 
+            : 'bg-dcc-teal/10 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20'
+        }`}
+        style={{ transform: 'translateZ(30px)' }}
+      >
+        <IconComponent className={`h-7 w-7 transition-colors duration-300 group-hover:text-white ${
+          isVision ? 'text-dcc-amber' : 'text-dcc-teal'
+        }`} />
+      </div>
+      <h3 
+        className="mb-3 text-2xl font-bold text-foreground font-heading"
+        style={{ transform: 'translateZ(20px)' }}
+      >
+        {title}
+      </h3>
+      {isVision ? (
+        <p 
+          className="text-2xl font-bold text-gradient leading-snug font-heading"
+          style={{ transform: 'translateZ(15px)' }}
+        >
+          {text}
+        </p>
+      ) : (
+        <p 
+          className="text-base leading-relaxed text-muted-foreground font-sans-inter"
+          style={{ transform: 'translateZ(15px)' }}
+        >
+          {text}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
 // Individual 3D Interactive Card (All uniform sizes)
 function ValueCard({
   value,
@@ -331,35 +424,22 @@ export default function MissionVisionValues() {
           </p>
         </motion.div>
 
-        {/* Mission & Vision — side by side */}
+        {/* Mission & Vision — side by side with Framer Motion 3D Tilt */}
         <div className="mb-24 grid gap-6 md:grid-cols-2">
-          <motion.div 
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
-            className="card-premium group rounded-2xl p-8 select-none"
-          >
-            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-dcc-teal/10 transition-all duration-300 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20">
-              <Target className="h-7 w-7 text-dcc-teal transition-colors duration-300 group-hover:text-white" />
-            </div>
-            <h3 className="mb-3 text-2xl font-bold text-foreground font-heading">{mission.title}</h3>
-            <p className="text-base leading-relaxed text-muted-foreground font-sans-inter">{mission.text}</p>
-          </motion.div>
-
-          <motion.div 
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.25, ease: 'easeOut' }}
-            className="card-premium group rounded-2xl p-8 border-dcc-amber/20 bg-gradient-to-br from-dcc-amber/5 to-transparent select-none"
-          >
-            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-dcc-amber/10 transition-all duration-300 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20">
-              <Eye className="h-7 w-7 text-dcc-amber transition-colors duration-300 group-hover:text-white" />
-            </div>
-            <h3 className="mb-3 text-2xl font-bold text-foreground font-heading">{vision.title}</h3>
-            <p className="text-2xl font-bold text-gradient leading-snug font-heading">{vision.text}</p>
-          </motion.div>
+          <MissionVisionCard 
+            title={mission.title}
+            text={mission.text}
+            icon={mission.icon}
+            isVision={false}
+            delay={0.1}
+          />
+          <MissionVisionCard 
+            title={vision.title}
+            text={vision.text}
+            icon={vision.icon}
+            isVision={true}
+            delay={0.2}
+          />
         </div>
 
         {/* Values Section Header (Centered with Highlight Taglines) */}
