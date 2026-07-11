@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCC Infotech Interactive Timeline Demo</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN (For utility grid/flex classes only, custom styling uses custom CSS) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    :root {
+      --primary: #0d7377;
+      --primary-light: #14a3a8;
+      --accent: #f59e0b;
+      --background: #fafbfc;
+      --foreground: #0f172a;
+      --border: rgba(13, 115, 119, 0.15);
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      --card-shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.08);
+      --glow-teal: 0 0 30px rgba(13, 115, 119, 0.2);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      overflow-x: hidden;
+    }
+
+    /* Dotted background pattern */
+    .dot-pattern {
+      background-image: radial-gradient(circle, rgba(13, 115, 119, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Premium glassmorphism cards */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid var(--border);
+      box-shadow: var(--glass-shadow);
+      border-radius: 1rem;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                  box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                  border-color 0.4s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow-hover);
+      border-color: rgba(13, 115, 119, 0.3);
+    }
+
+    /* Heading year style */
+    .font-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Stat number style */
+    .font-stat {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Scroll progress gradient text */
+    .text-gradient {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Ticker scroll container */
+    .timeline-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Active travel spotlight effect */
+    .timeline-node {
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    }
+
+    /* Pulse wave for current Today node */
+    .pulse-wave {
+      position: absolute;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    /* Hide scrollbars */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#fafbfc]">
+
+  <!-- Spacer section to allow scrolling down to the timeline -->
+  <div class="h-[60vh] flex flex-col justify-center items-center px-4 text-center dot-pattern">
+    <span class="text-sm font-semibold uppercase tracking-widest text-teal-600 mb-2">Interactive Journey</span>
+    <h1 class="text-4xl md:text-6xl font-bold font-heading text-slate-800">DCC Infotech History</h1>
+    <p class="mt-4 text-slate-500 max-w-lg text-sm md:text-base">Scroll down to witness our growth timeline unfold dynamically using scroll-bound GSAP animations.</p>
+    <div class="mt-8 animate-bounce text-slate-400">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+  </div>
+
+  <!-- MAIN SCROLL TRIGGER PIN SECTION -->
+  <section id="timeline-section" class="relative w-full overflow-hidden bg-white border-y border-slate-100">
+    <div class="absolute inset-0 dot-pattern opacity-60 pointer-events-none"></div>
+
+    <div class="timeline-container">
+      <!-- Section Title Header -->
+      <div class="max-w-7xl mx-auto px-6 w-full mb-8 z-10">
+        <span class="text-xs font-bold uppercase tracking-widest text-teal-700">Our Journey</span>
+        <h2 class="text-3xl md:text-5xl font-black font-heading text-slate-900 mt-1">
+          Milestones That <span class="text-gradient">Define Us</span>
+        </h2>
+      </div>
+
+      <!-- HORIZONTAL SCROLL TRACK (Desktop) -->
+      <div id="desktop-track" class="hidden lg:block w-full overflow-hidden no-scrollbar">
+        <div id="scroll-content" class="relative inline-flex items-center h-[520px] px-24">
+          
+          <!-- Animated SVG Graph Line -->
+          <svg class="absolute inset-0 w-full h-full pointer-events-none" style="min-width: 2500px;">
+            <defs>
+              <linearGradient id="gradientLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0d7377" />
+                <stop offset="50%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#14a3a8" />
+              </linearGradient>
+            </defs>
+            
+            <!-- Base track path -->
+            <path id="graph-path-base" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" 
+                  fill="none" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+            
+            <!-- Scrubbed animated progress path -->
+            <path id="graph-path-progress" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" 
+                  fill="none" stroke="url(#gradientLine)" stroke-width="5" stroke-linecap="round" />
+            
+            <!-- Vertical Connectors -->
+            <!-- 1992 (Below) -->
+            <line class="connector-line" x1="120" y1="410" x2="120" y2="460" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+            <!-- 1997 (Above) -->
+            <line class="connector-line" x1="300" y1="380" x2="300" y2="330" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+            <!-- 2000 (Below) -->
+            <line class="connector-line" x1="480" y1="340" x2="480" y2="390" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+            <!-- 2005 (Above) -->
+            <line class="connector-line" x1="660" y1="310" x2="660" y2="260" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+            <!-- 2010 (Below) -->
+            <line class="connector-line" x1="840" y1="280" x2="840" y2="330" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+            <!-- 2013 (Above) -->
+            <line class="connector-line" x1="1020" y1="255" x2="1020" y2="205" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+            <!-- 2017 (Below) -->
+            <line class="connector-line" x1="1200" y1="230" x2="1200" y2="280" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+            <!-- 2020 (Above) -->
+            <line class="connector-line" x1="1380" y1="205" x2="1380" y2="155" stroke="#0d7377" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+          </svg>
+
+          <!-- Nodes & Cards Wrapper -->
+          <!-- 1992 (Below) -->
+          <div class="absolute timeline-group" style="left: 120px; top: 410px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">1992</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 mt-8 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">Founding</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Founded in Pune by Mr. Anil Mhaske in a humble 10×10 sq. ft. room.</p>
+            </div>
+          </div>
+
+          <!-- 1997 (Above) -->
+          <div class="absolute timeline-group" style="left: 300px; top: 380px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">1997</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 -translate-y-[100%] -mt-14 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">Samsung Alliance</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Secured a Samsung distribution partnership — the first major brand alliance.</p>
+            </div>
+          </div>
+
+          <!-- 2000 (Below) -->
+          <div class="absolute timeline-group" style="left: 480px; top: 340px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">2000</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 mt-8 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">Network Expansion</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Grew channel distribution network across Maharashtra, reaching every district.</p>
+            </div>
+          </div>
+
+          <!-- 2005 (Above) -->
+          <div class="absolute timeline-group" style="left: 660px; top: 310px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">2005</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 -translate-y-[100%] -mt-14 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">Retail Showroom</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Deepened IT peripheral repairs. Opened Pune's biggest laptop showroom.</p>
+            </div>
+          </div>
+
+          <!-- 2010 (Below) -->
+          <div class="absolute timeline-group" style="left: 840px; top: 280px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">2010</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 mt-8 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">Dell Partnership</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Launched Corporate Division & secured Dell's National Distributorship.</p>
+            </div>
+          </div>
+
+          <!-- 2013 (Above) -->
+          <div class="absolute timeline-group" style="left: 1020px; top: 255px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">2013</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 -translate-y-[100%] -mt-14 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">Dell Store No.1</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Became No.1 Regional Distributor of Dell. Opened India's first Dell Authorised Store.</p>
+            </div>
+          </div>
+
+          <!-- 2017 (Below) -->
+          <div class="absolute timeline-group" style="left: 1200px; top: 230px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">2017</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 mt-8 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">GEM Integration</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Started GEM business. Grew channel network to 6,500+ partners.</p>
+            </div>
+          </div>
+
+          <!-- 2020 (Above) -->
+          <div class="absolute timeline-group" style="left: 1380px; top: 205px;">
+            <div class="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">2020</div>
+            <div class="timeline-card glass-card p-4 w-60 -translate-x-1/2 -translate-y-[100%] -mt-14 text-center">
+              <h4 class="font-bold text-teal-800 text-sm font-heading mb-1">Retail Stores</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">Expanded retail to 25+ stores across Maharashtra.</p>
+            </div>
+          </div>
+
+          <!-- HERO HERO TODAY CARD (Right Endcap) -->
+          <div class="absolute timeline-group" style="left: 1560px; top: 180px;">
+            <!-- Glowing active pulses -->
+            <div class="pulse-wave w-16 h-16 bg-amber-500/25 -translate-x-1/2 -translate-y-1/2 z-0"></div>
+            <div class="pulse-wave w-24 h-24 bg-amber-500/10 -translate-x-1/2 -translate-y-1/2 z-0" style="animation-delay: 0.5s"></div>
+            
+            <div class="timeline-node w-14 h-14 rounded-full border-4 border-amber-400 bg-gradient-to-tr from-amber-600 to-amber-400 shadow-lg text-white font-black font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20">Today</div>
+            
+            <!-- DISTINCT BENTO CARD FOR HERO CLOSE -->
+            <div id="today-bento-card" class="timeline-card glass-card p-6 w-[340px] -translate-x-1/2 mt-10 border-2 border-amber-500/30">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Current Presence</span>
+              </div>
+              <h3 class="text-lg font-black font-heading text-slate-900 mb-4">Keeping India Connected</h3>
+              
+              <!-- Grid stats with JetBrains Mono numbers -->
+              <div class="grid grid-cols-3 gap-3 text-center border-t border-slate-100 pt-4">
+                <div>
+                  <div class="text-xl font-bold font-stat text-teal-700" data-target="3150">0</div>
+                  <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mt-1">Clients</div>
+                </div>
+                <div>
+                  <div class="text-xl font-bold font-stat text-teal-700" data-target="20000">0</div>
+                  <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mt-1 font-sans">Lives</div>
+                </div>
+                <div>
+                  <div class="text-xl font-bold font-stat text-teal-700" data-target="12">0</div>
+                  <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mt-1">States</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VERTICAL TIMELINE TRACK (Mobile / Tablet) -->
+      <div id="mobile-track" class="lg:hidden w-full h-[65vh] overflow-y-auto px-6 relative no-scrollbar">
+        <div class="relative pl-8 border-l-2 border-slate-200 py-4 space-y-10">
+          
+          <!-- Mobile progress bar indicator -->
+          <div id="mobile-progress-line" class="absolute left-0 top-0 w-0.5 bg-gradient-to-b from-teal-700 to-amber-500 origin-top" style="height: 0%;"></div>
+
+          <!-- Mobile 1992 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">92</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">1992</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">Founded in Pune</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Founded in Pune by Mr. Anil Mhaske in a humble 10×10 sq. ft. room.</p>
+            </div>
+          </div>
+
+          <!-- Mobile 1997 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">97</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">1997</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">Samsung Partnership</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Secured a Samsung distribution partnership — the first major brand alliance.</p>
+            </div>
+          </div>
+
+          <!-- Mobile 2000 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">00</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">2000</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">Network Growth</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Grew channel distribution network across Maharashtra, reaching every district.</p>
+            </div>
+          </div>
+
+          <!-- Mobile 2005 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">05</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">2005</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">Laptop Showroom</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Deepened IT peripheral repairs. Opened Pune's biggest laptop showroom.</p>
+            </div>
+          </div>
+
+          <!-- Mobile 2010 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">10</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">2010</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">Dell Corporate</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Launched Corporate Division & secured Dell's National Distributorship.</p>
+            </div>
+          </div>
+
+          <!-- Mobile 2013 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">13</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">2013</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">No.1Dell Store</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Became No.1 Regional Distributor of Dell. Opened India's first Dell Authorised Store.</p>
+            </div>
+          </div>
+
+          <!-- Mobile 2017 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">17</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">2017</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">GEM Channel</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Started GEM business. Grew channel network to 6,500+ partners.</p>
+            </div>
+          </div>
+
+          <!-- Mobile 2020 -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold">20</span>
+            <div class="glass-card p-4">
+              <span class="text-xs font-bold text-teal-700">2020</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">25+ Retail Stores</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Expanded retail to 25+ stores across Maharashtra.</p>
+            </div>
+          </div>
+
+          <!-- Mobile Today -->
+          <div class="mobile-group relative">
+            <span class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-amber-400 bg-amber-500 shadow flex items-center justify-center text-[10px] text-white font-bold">★</span>
+            <div class="glass-card p-5 border-2 border-amber-500/20">
+              <span class="text-xs font-bold text-amber-600">Today</span>
+              <h4 class="font-bold text-slate-800 text-sm font-heading mt-0.5">DCC Infotech Presence</h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed mb-3">3,150+ institutional clients. 20,000+ lives impacted. 12+ states served.</p>
+              
+              <div class="grid grid-cols-3 gap-2 text-center border-t border-slate-100 pt-3">
+                <div>
+                  <div class="text-base font-bold font-stat text-teal-700">3,150+</div>
+                  <div class="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Clients</div>
+                </div>
+                <div>
+                  <div class="text-base font-bold font-stat text-teal-700">20K+</div>
+                  <div class="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Lives</div>
+                </div>
+                <div>
+                  <div class="text-base font-bold font-stat text-teal-700">12+</div>
+                  <div class="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">States</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Spacer section to allow scrolling past the timeline -->
+  <div class="h-[60vh] flex flex-col justify-center items-center px-4 text-center bg-slate-50 border-t border-slate-100">
+    <h2 class="text-2xl font-bold font-heading text-slate-800">Section Ends</h2>
+    <p class="text-slate-500 text-sm mt-2">The timeline has pinned and scrolled smoothly.</p>
+  </div>
+
+  <!-- GSAP & ScrollTrigger via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    // Register GSAP plugins
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initialize animations based on matchMedia (Responsive)
+    const mm = gsap.matchMedia();
+
+    // ────────────────────────────────────────────────────────
+    // DESKTOP: Horizontal Pin Scrolling (>= 1024px)
+    // ────────────────────────────────────────────────────────
+    mm.add("(min-width: 1024px)", () => {
+      const scrollContent = document.querySelector("#scroll-content");
+      const desktopTrack = document.querySelector("#desktop-track");
+      
+      // Calculate how far to scroll horizontally
+      // Content width minus track viewport width
+      const getScrollAmount = () => {
+        return scrollContent.scrollWidth - window.innerWidth;
+      };
+
+      // 1. PIN & HORIZONTAL SCROLL ANIMATION
+      const pinTween = gsap.to(scrollContent, {
+        x: () => -getScrollAmount(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#timeline-section",
+          pin: true,
+          scrub: 1, // Smooth scrolling scrubbing (takes 1 second to catch up)
+          start: "top top",
+          end: () => `+=${getScrollAmount() * 1.5}`, // Total scroll height
+          invalidateOnRefresh: true,
+        }
+      });
+
+      // 2. PATH STROKE DRAW ANIMATION
+      const progressPath = document.querySelector("#graph-path-progress");
+      const pathLength = progressPath.getTotalLength();
+
+      // Initialize path to be drawn from 0
+      gsap.set(progressPath, {
+        strokeDasharray: pathLength,
+        strokeDashoffset: pathLength
+      });
+
+      // Scrub the path drawing tied directly to the horizontal scroll trigger
+      gsap.to(progressPath, {
+        strokeDashoffset: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#timeline-section",
+          start: "top top",
+          end: () => `+=${getScrollAmount() * 1.5}`,
+          scrub: 1,
+        }
+      });
+
+      // 3. NODE & CARD REVEALS (FADE/SLIDE UP IN SEGMENTS)
+      const groups = gsap.utils.toArray(".timeline-group");
+      groups.forEach((group, idx) => {
+        const node = group.querySelector(".timeline-node");
+        const card = group.querySelector(".timeline-card");
+        const isLast = idx === groups.length - 1;
+
+        // Create scroll triggers for each node as they enter the screen
+        gsap.fromTo([node, card], 
+          { opacity: 0, y: (i) => i === 0 ? 0 : 30, scale: (i) => i === 0 ? 0 : 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: group,
+              containerAnimation: pinTween, // Tie to the horizontal scroll timeline
+              start: "left 90%", // Trigger when node is 90% from left of screen
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+
+        // 4. TRAVELING SPOTLIGHT (Scale up, glow active, dim others)
+        ScrollTrigger.create({
+          trigger: group,
+          containerAnimation: pinTween,
+          start: "left 60%", // Node enters center spotlight region
+          end: "left 40%",   // Node exits center spotlight region
+          onToggle: (self) => {
+            if (self.isActive) {
+              // Spotlight ON
+              gsap.to(node, { scale: 1.15, filter: "drop-shadow(0 0 15px rgba(20, 163, 168, 0.6))", duration: 0.3 });
+              gsap.to(card, { borderColor: "rgba(13, 115, 119, 0.45)", scale: 1.02, duration: 0.3 });
+              
+              // If it's the last card ("Today"), count up stats
+              if (isLast) {
+                countUpStats();
+              }
+            } else {
+              // Spotlight OFF
+              gsap.to(node, { scale: 1, filter: "none", duration: 0.3 });
+              gsap.to(card, { borderColor: "rgba(13, 115, 119, 0.15)", scale: 1, duration: 0.3 });
+            }
+          }
+        });
+      });
+
+      // 5. BOOMBERG-TERMINAL COUNT-UP STATS FUNCTION
+      let countTriggered = false;
+      function countUpStats() {
+        if (countTriggered) return;
+        countTriggered = true;
+        
+        const stats = document.querySelectorAll("#today-bento-card [data-target]");
+        stats.forEach(stat => {
+          const target = parseInt(stat.getAttribute("data-target"), 10);
+          const obj = { val: 0 };
+          gsap.to(obj, {
+            val: target,
+            duration: 2,
+            ease: "power3.out",
+            onUpdate: () => {
+              stat.textContent = Math.floor(obj.val).toLocaleString() + "+";
+            }
+          });
+        });
+      }
+    });
+
+    // ────────────────────────────────────────────────────────
+    // MOBILE: Vertical Rail Scroll (< 1024px)
+    // ────────────────────────────────────────────────────────
+    mm.add("(max-width: 1023px)", () => {
+      const mobileProgress = document.querySelector("#mobile-progress-line");
+      const mobileGroups = gsap.utils.toArray(".mobile-group");
+
+      // 1. Mobile Vertical Progress bar scrubbing
+      gsap.to(mobileProgress, {
+        height: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#mobile-track",
+          start: "top 70%",
+          end: "bottom 30%",
+          scrub: true
+        }
+      });
+
+      // 2. Mobile Card fade-in staggered reveals
+      mobileGroups.forEach((group) => {
+        const card = group.querySelector(".glass-card");
+        const dot = group.querySelector("span");
+
+        gsap.fromTo([card, dot], 
+          { opacity: 0, x: -15 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: group,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      });
+    });
+  </script>
+</body>
+</html>

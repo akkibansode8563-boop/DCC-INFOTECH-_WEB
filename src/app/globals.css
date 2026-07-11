@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@700&family=Plus+Jakarta+Sans:wght@700;800&display=swap');
 @import "tailwindcss" source("..");
 @import "tw-animate-css";
 
@@ -201,6 +202,10 @@
 .section-y { @apply py-16 sm:py-20 md:py-24 lg:py-32; }
 .section-x { @apply px-4 sm:px-6 md:px-8 lg:px-12; }
 .section { @apply px-4 sm:px-6 md:px-8 lg:px-12 py-16 sm:py-20 md:py-24 lg:py-32; }
+
+.font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+.font-stat { font-family: 'JetBrains Mono', monospace; }
+.font-sans-inter { font-family: 'Inter', sans-serif; }
 
 /* Gradient text */
 .text-gradient {
