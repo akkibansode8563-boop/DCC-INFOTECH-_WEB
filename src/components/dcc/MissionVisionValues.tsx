@@ -36,7 +36,7 @@ const IconTeamwork = () => (
     <circle cx="17" cy="17" r="6" fill="#fff" fillOpacity=".92"/>
     <circle cx="31" cy="18" r="5" fill="#fff" fillOpacity=".75"/>
     <path d="M6 40c0-7 5-11 11-11s11 4 11 11" fill="#fff" fillOpacity=".92"/>
-    <path d="M25 30c5 0 9 3.5 9 10" stroke="#fff" strokeOpacity=".75" strokeWidth="4" stroke-linecap="round" fill="none"/>
+    <path d="M25 30c5 0 9 3.5 9 10" stroke="#fff" strokeOpacity=".75" strokeWidth="4" strokeLinecap="round" fill="none"/>
   </svg>
 );
 
@@ -73,7 +73,6 @@ const valuesData = [
     description: "Having a humble beginning, it's the ambition that has helped us achieve what we have today. The same ambition that all DCCians share in common.",
     icon: IconAmbition,
     gradient: 'linear-gradient(135deg, #0d5c5c, #1d9e75)',
-    hero: true,
   },
   {
     index: '02',
@@ -81,7 +80,6 @@ const valuesData = [
     description: 'Technology moves fast; we move faster. Since 1992, DCC has set the pace in IT distribution and service, delivering the right products exactly when needed.',
     icon: IconSpeed,
     gradient: 'linear-gradient(135deg, #c9962f, #e8bd6a)',
-    hero: false,
   },
   {
     index: '03',
@@ -89,7 +87,6 @@ const valuesData = [
     description: "Where ambition fuels our growth, it's the honesty that has kept it intact — honesty in products and services that enhance the customer experience.",
     icon: IconHonesty,
     gradient: 'linear-gradient(135deg, #0d5c5c, #1d9e75)',
-    hero: false,
   },
   {
     index: '04',
@@ -97,7 +94,6 @@ const valuesData = [
     description: "It's the teamwork that is making the dream work — the dream to become a reliable tech partner for every individual.",
     icon: IconTeamwork,
     gradient: 'linear-gradient(135deg, #c9962f, #e8bd6a)',
-    hero: false,
   },
   {
     index: '05',
@@ -105,7 +101,6 @@ const valuesData = [
     description: 'A thousand hardworking hands ensuring the right products and services are available at the right place and at the right time.',
     icon: IconHardwork,
     gradient: 'linear-gradient(135deg, #0d5c5c, #1d9e75)',
-    hero: false,
   },
   {
     index: '06',
@@ -113,7 +108,6 @@ const valuesData = [
     description: 'Ambition, honesty, hard work, teamwork, and speed lead to one single goal: happiness for our clients, partners, and employees.',
     icon: IconHappiness,
     gradient: 'linear-gradient(135deg, #c9962f, #e8bd6a)',
-    hero: false,
   },
 ];
 
@@ -140,7 +134,7 @@ function RollingIndex({ indexStr, triggerRef }: { indexStr: string; triggerRef: 
   return <span ref={scope} className="value-index">00</span>;
 }
 
-// Individual 3D Interactive Card
+// Individual 3D Interactive Card (All uniform sizes)
 function ValueCard({
   value,
   index,
@@ -188,7 +182,7 @@ function ValueCard({
       whileInView={{ y: 0, opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.75, ease: 'easeOut', delay: index * 0.08 }}
-      className={`value-card ${value.hero ? 'hero' : ''}`}
+      className="value-card"
     >
       <div className="value-card-top">
         <div className="value-icon-badge" style={{ background: value.gradient }}>
@@ -221,7 +215,7 @@ export default function MissionVisionValues() {
       <style dangerouslySetInnerHTML={{ __html: `
         .values-grid {
           display: grid;
-          grid-template-columns: repeat(6, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 18px;
         }
         .value-card {
@@ -233,15 +227,12 @@ export default function MissionVisionValues() {
           border-radius: 22px;
           padding: 28px 26px 30px;
           overflow: hidden;
-          grid-column: span 2;
+          grid-column: span 1;
           display: flex;
           flex-direction: column;
           box-shadow: 0 1px 3px rgba(18, 32, 29, .05), 0 12px 28px -18px rgba(18, 32, 29, .18);
           transition: box-shadow 0.4s ease;
           transform-style: preserve-3d;
-        }
-        .value-card.hero {
-          grid-column: span 3;
         }
         .value-card::before {
           content: "";
@@ -286,17 +277,34 @@ export default function MissionVisionValues() {
           justify-content: center;
           box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 6px 14px -6px rgba(18, 32, 29, .25);
         }
-        .value-card.hero .value-icon-badge {
-          width: 64px;
-          height: 64px;
-          border-radius: 18px;
+        
+        .eyebrow {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px;
+          letter-spacing: .16em;
+          text-transform: uppercase;
+          color: #c9962f;
+          margin: 0 0 12px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          justify-content: center;
         }
-        @media (max-width: 860px) {
+        .eyebrow::before, .eyebrow::after {
+          content: "";
+          width: 22px;
+          height: 1px;
+          background: #c9962f;
+        }
+
+        @media (max-width: 1023px) {
           .values-grid {
             grid-template-columns: repeat(2, 1fr);
           }
-          .value-card {
-            grid-column: span 2 !important;
+        }
+        @media (max-width: 639px) {
+          .values-grid {
+            grid-template-columns: 1fr;
           }
         }
       `}} />
@@ -354,24 +362,24 @@ export default function MissionVisionValues() {
           </motion.div>
         </div>
 
-        {/* Values Section Header */}
+        {/* Values Section Header (Centered with Highlight Taglines) */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-left mb-12"
+          className="mx-auto mb-16 max-w-3xl text-center flex flex-col items-center justify-center"
         >
           <p className="eyebrow">What drives us</p>
-          <h2 className="font-heading font-extrabold text-slate-900 mt-2">
+          <h2 className="font-heading font-extrabold text-slate-900 mt-2 text-3xl sm:text-4xl lg:text-5xl">
             Our core <span className="text-gradient">values</span>
           </h2>
-          <p className="text-muted-foreground font-sans-inter max-w-lg mt-2 leading-relaxed">
+          <p className="text-muted-foreground font-sans-inter max-w-xl mt-2 leading-relaxed text-center">
             Six principles that have carried DCC Infotech from a 10x10 room in Pune to a national distribution network.
           </p>
         </motion.div>
 
-        {/* Values Grid */}
+        {/* Values Grid (3 Columns on Desktop = 2 rows for 6 cards) */}
         <div ref={gridRef} className="values-grid">
           {valuesData.map((value, idx) => (
             <ValueCard key={value.title} value={value} index={idx} gridRef={gridRef} />
