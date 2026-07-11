@@ -6,12 +6,12 @@ import { useEffect, useState, useRef, useCallback } from 'react';
    useInView — Intersection Observer hook
    Premium viewport detection with margin
    ═══════════════════════════════════════════ */
-export function useInView(options?: {
+export function useInView<T extends HTMLElement = HTMLElement>(options?: {
   once?: boolean;
   margin?: string;
   threshold?: number;
 }) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<T>(null);
   const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export function useCountUp(
   trigger: boolean = true
 ) {
   const [value, setValue] = useState(start);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | null>(null);
 
   const easeOutExpo = useCallback((t: number) => {
     return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);

@@ -57,7 +57,14 @@ const panIndiaStates = [
   'Haryana', 'Delhi', 'Telangana', 'Punjab', 'Chhattisgarh', 'Rajasthan',
 ];
 
-const statsConfig = [
+interface StatItem {
+  end: number;
+  suffix: string;
+  label: string;
+  display?: string;
+}
+
+const statsConfig: StatItem[] = [
   { end: 34, suffix: '+', label: 'Years of Excellence' },
   { end: 3150, suffix: '+', label: 'Institutional Clients' },
   { end: 10000, suffix: '+', label: 'Channel Partners' },
@@ -66,7 +73,7 @@ const statsConfig = [
 
 export default function WhyChooseUs() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { ref: inViewRef, isInView } = useInView({ once: true, margin: '-80px' });
+  const { ref: inViewRef, isInView } = useInView<HTMLDivElement>({ once: true, margin: '-80px' });
 
   const years = useCountUp(34, 2000, 0, isInView);
   const clients = useCountUp(3150, 2000, 0, isInView);

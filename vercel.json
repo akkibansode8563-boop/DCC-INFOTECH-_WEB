@@ -1,5 +1,0 @@
-{
-  "buildCommand": "NEXT_TELEMETRY_DISABLED=1 npx next build --webpack",
-  "framework": "nextjs",
-  "outputDirectory": ".next"
-}
