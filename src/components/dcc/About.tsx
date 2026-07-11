@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { Quote, Award, Users, Target, CheckCircle2, Calendar } from 'lucide-react';
-import { gsap } from '@/lib/gsap';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
 import {
   motion,
@@ -408,48 +408,182 @@ export default function About() {
             <h2 className="text-3xl md:text-5xl font-black font-heading text-slate-900 mt-1">
               Milestones That <span className="text-gradient">Define Us</span>
             </h2>
+            <p className="text-xs text-slate-500 mt-2">Scroll vertically to see the timeline draw and translate horizontally.</p>
           </div>
 
-          <div id="desktop-track" className="hidden lg:block w-full overflow-hidden">
+          {/* DESKTOP TIMELINE TRACK (Horizontal Pin Scroll) */}
+          <div id="desktop-track" className="hidden lg:block w-full overflow-hidden no-scrollbar">
             <div id="scroll-content" className="relative inline-flex items-center h-[520px] px-24">
+              
               <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ minWidth: '2500px' }}>
-                <defs><linearGradient id="gradientLine" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#0d7377" /><stop offset="50%" stopColor="#f59e0b" /><stop offset="100%" stopColor="#14a3a8" /></linearGradient></defs>
-                <path id="graph-path-base" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" fill="none" stroke="#e2e8f0" strokeWidth="4" />
-                <path id="graph-path-progress" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" fill="none" stroke="url(#gradientLine)" strokeWidth="5" />
+                <defs>
+                  <linearGradient id="gradientLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#0d7377" />
+                    <stop offset="50%" stopColor="#f59e0b" />
+                    <stop offset="100%" stopColor="#14a3a8" />
+                  </linearGradient>
+                </defs>
+                
+                {/* Base curve track */}
+                <path id="graph-path-base" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" 
+                      fill="none" stroke="#e2e8f0" strokeWidth="4" strokeLinecap="round" opacity="0.6" />
+                
+                {/* Progress curve track */}
+                <path id="graph-path-progress" d="M 120,410 Q 300,380 480,340 T 840,280 T 1200,230 T 1560,180 T 1920,130 T 2280,75" 
+                      fill="none" stroke="url(#gradientLine)" strokeWidth="5" strokeLinecap="round" />
+                
+                {/* Connector vertical lines */}
+                {points.map((p, i) => {
+                  const isAbove = i % 2 !== 0;
+                  return (
+                    <line
+                      key={i}
+                      x1={p.x}
+                      y1={p.y}
+                      x2={p.x}
+                      y2={isAbove ? p.y - 50 : p.y + 50}
+                      stroke="#0d7377"
+                      strokeWidth={1.5}
+                      strokeDasharray="3,3"
+                      opacity={0.5}
+                    />
+                  );
+                })}
               </svg>
-              {timeline.map((item, idx) => (
-                <div key={item.year} className="absolute timeline-group" style={{ left: points[idx].x, top: points[idx].y }}>
-                  {idx === timeline.length - 1 ? (
-                    <div id="today-bento-card" className="timeline-card glass-card p-6 w-[340px] -translate-x-1/2 mt-10 border-2 border-amber-500/30">
-                      <h3 className="text-base font-black text-slate-900 mb-4">Keeping India Connected</h3>
-                      <div className="grid grid-cols-3 gap-3 text-center border-t pt-4">
-                        <div><div className="text-xl font-bold text-teal-700" data-target="3150">0</div><div className="text-[10px] uppercase font-semibold">Clients</div></div>
-                        <div><div className="text-xl font-bold text-teal-700" data-target="20000">0</div><div className="text-[10px] uppercase font-semibold">Lives</div></div>
-                        <div><div className="text-xl font-bold text-teal-700" data-target="12">0</div><div className="text-[10px] uppercase font-semibold">States</div></div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md flex items-center justify-center -translate-x-1/2 -translate-y-1/2 text-white font-bold text-xs">{item.year}</div>
-                  )}
-                </div>
-              ))}
+
+              {/* Milestones nodes & cards */}
+              {timeline.map((item, idx) => {
+                const pt = points[idx];
+                const isAbove = idx % 2 !== 0;
+                const isLast = idx === timeline.length - 1;
+
+                return (
+                  <div
+                    key={item.year}
+                    className="absolute timeline-group"
+                    style={{ left: pt.x, top: pt.y }}
+                  >
+                    {isLast ? (
+                      <>
+                        {/* Pulse waves */}
+                        <div className="pulse-wave w-16 h-16 bg-amber-500/25 -translate-x-1/2 -translate-y-1/2 z-0" />
+                        <div className="pulse-wave w-24 h-24 bg-amber-500/10 -translate-x-1/2 -translate-y-1/2 z-0" style={{ animationDelay: '0.5s' }} />
+                        
+                        <div
+                          className="timeline-node w-14 h-14 rounded-full border-4 border-amber-400 bg-gradient-to-tr from-amber-600 to-amber-400 shadow-lg text-white font-black font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20"
+                        >
+                          Today
+                        </div>
+                        
+                        {/* Bento Card for Today */}
+                        <div
+                          id="today-bento-card"
+                          className="timeline-card glass-card p-6 w-[340px] -translate-x-1/2 mt-10 border-2 border-amber-500/30 text-left"
+                        >
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                            <span className="text-xs font-bold uppercase tracking-wider text-amber-600">Current Presence</span>
+                          </div>
+                          <h3 className="text-base font-black font-heading text-slate-900 mb-4">Keeping India Connected</h3>
+                          
+                          <div className="grid grid-cols-3 gap-3 text-center border-t border-slate-100 pt-4">
+                            <div>
+                              <div className="text-xl font-bold font-stat text-teal-700" data-target="3150">0</div>
+                              <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mt-1">Clients</div>
+                            </div>
+                            <div>
+                              <div className="text-xl font-bold font-stat text-teal-700" data-target="20000">0</div>
+                              <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mt-1">Lives</div>
+                            </div>
+                            <div>
+                              <div className="text-xl font-bold font-stat text-teal-700" data-target="12">0</div>
+                              <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mt-1">States</div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="timeline-node w-12 h-12 rounded-full border-4 border-white bg-teal-700 shadow-md text-white font-bold font-heading text-xs flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20"
+                        >
+                          {item.year}
+                        </div>
+                        <div
+                          className={`timeline-card glass-card p-4 w-60 -translate-x-1/2 text-center ${
+                            isAbove ? '-translate-y-[100%] -mt-14' : 'mt-8'
+                          }`}
+                        >
+                          <h4 className="font-bold text-teal-800 text-sm font-heading mb-1">
+                            {item.year === '1992' ? 'Founding' : item.year === '1997' ? 'Samsung Alliance' : item.year === '2000' ? 'Network Expansion' : item.year === '2005' ? 'Retail Showroom' : item.year === '2010' ? 'Dell Partnership' : item.year === '2013' ? 'Dell Store No.1' : item.year === '2017' ? 'GEM Integration' : 'Retail Stores'}
+                          </h4>
+                          <p className="text-xs text-slate-600 leading-relaxed font-sans-inter">{item.event}</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+
             </div>
           </div>
 
-          <div id="mobile-track" className="lg:hidden w-full h-[65vh] overflow-y-auto px-6 relative">
+          {/* MOBILE TIMELINE TRACK (Vertical Rail Scroll) */}
+          <div id="mobile-track" className="lg:hidden w-full h-[65vh] overflow-y-auto px-6 relative no-scrollbar">
             <div className="relative pl-8 border-l-2 border-slate-200 py-4 space-y-10">
-              <div id="mobile-progress-line" className="absolute left-0 top-0 w-0.5 bg-gradient-to-b from-teal-700 to-amber-500 origin-top"></div>
-              {timeline.map((item, idx) => (
-                <div key={item.year} className="mobile-group relative">
-                  <span className="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full bg-teal-700 flex items-center justify-center text-[10px] text-white font-bold mobile-dot">{item.year === 'Today' ? '★' : item.year.slice(-2)}</span>
-                  <div className="glass-card p-4">
-                    <h4 className="font-bold text-slate-800 text-sm">{item.year}</h4>
-                    <p className="text-xs text-slate-500">{item.event}</p>
+              
+              <div id="mobile-progress-line" className="absolute left-0 top-0 w-0.5 bg-gradient-to-b from-teal-700 to-amber-500 origin-top" style={{ height: '0%' }}></div>
+
+              {timeline.map((item, idx) => {
+                const isLast = idx === timeline.length - 1;
+                
+                return (
+                  <div key={item.year} className="mobile-group relative">
+                    {isLast ? (
+                      <span className="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-amber-400 bg-amber-500 shadow flex items-center justify-center text-[10px] text-white font-bold mobile-dot">★</span>
+                    ) : (
+                      <span className="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full border-2 border-white bg-teal-700 shadow flex items-center justify-center text-[10px] text-white font-bold mobile-dot">
+                        {item.year.slice(-2)}
+                      </span>
+                    )}
+
+                    {isLast ? (
+                      <div className="glass-card p-5 border-2 border-amber-500/20">
+                        <span className="text-xs font-bold text-amber-600">Today</span>
+                        <h4 className="font-bold text-slate-800 text-sm font-heading mt-0.5">DCC Infotech Presence</h4>
+                        <p className="text-xs text-slate-500 mt-1 leading-relaxed mb-3 font-sans-inter">3,150+ institutional clients. 20,000+ lives impacted. 12+ states served.</p>
+                        
+                        <div className="grid grid-cols-3 gap-2 text-center border-t border-slate-100 pt-3">
+                          <div>
+                            <div className="text-base font-bold font-stat text-teal-700">3,150+</div>
+                            <div className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Clients</div>
+                          </div>
+                          <div>
+                            <div className="text-base font-bold font-stat text-teal-700">20K+</div>
+                            <div className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Lives</div>
+                          </div>
+                          <div>
+                            <div className="text-base font-bold font-stat text-teal-700">12+</div>
+                            <div className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">States</div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="glass-card p-4">
+                        <span className="text-xs font-bold text-teal-700">{item.year}</span>
+                        <h4 className="font-bold text-slate-800 text-sm font-heading mt-0.5">
+                          {item.year === '1992' ? 'Founding' : item.year === '1997' ? 'Samsung Alliance' : item.year === '2000' ? 'Network Expansion' : item.year === '2005' ? 'Retail Showroom' : item.year === '2010' ? 'Dell Partnership' : item.year === '2013' ? 'Dell Store No.1' : item.year === '2017' ? 'GEM Integration' : 'Retail Stores'}
+                        </h4>
+                        <p className="text-xs text-slate-500 mt-1 leading-relaxed font-sans-inter">{item.event}</p>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
+
             </div>
           </div>
+
         </section>
       </div>
     </section>
