@@ -3,8 +3,9 @@
 import { useRef, useState } from 'react';
 import { ArrowRight, Monitor, Cpu, Wrench, Award, Building2, Eye, Settings, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { gsap } from '@/lib/gsap';
-import { useGSAP } from '@gsap/react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { fadeUp, viewportOnce } from '@/lib/motion';
+import SplitReveal from '@/components/motion/SplitReveal';
 
 const services = [
   {
@@ -15,6 +16,7 @@ const services = [
     features: ['Dell, HP, Lenovo Partner', 'Wholesale Channel Pricing', 'Genuine Brand Warranty', 'Volume Order Fulfillment'],
     brands: ['Dell', 'HP', 'Lenovo', 'Acer', 'Apple', 'Asus'],
     categories: ['Business Laptops', 'Commercial Desktops', 'All-in-One PCs', 'Workstations'],
+    featured: true,
   },
   {
     icon: Cpu,
@@ -33,6 +35,7 @@ const services = [
     features: ['SLA-Backed Rapid Response', 'Preventative Regular Audits', '400+ Engineers Support', 'Minimizes System Downtime'],
     brands: ['Dell', 'HP', 'Lenovo', 'Cisco', 'Fortinet', 'Microsoft'],
     categories: ['Desktop/Laptop AMC', 'Server & Storage Maintenance', 'Network FMS', 'SLA Helpdesk Support'],
+    featured: true,
   },
   {
     icon: Award,
@@ -82,227 +85,160 @@ const services = [
   },
 ];
 
-export default function Services() {
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
+function ServiceCard({ service, index }: { service: (typeof services)[0]; index: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(my, [0, 1], [5, -5]), { stiffness: 220, damping: 24 });
+  const rotateY = useSpring(useTransform(mx, [0, 1], [-5, 5]), { stiffness: 220, damping: 24 });
 
-  useGSAP(() => {
-    // Header reveal
-    gsap.fromTo(
-      '.services-header-reveal',
-      { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: 'power3.out',
-        clearProps: 'all',
-        scrollTrigger: {
-          trigger: '.services-header-reveal',
-          start: 'top 85%',
-          once: true,
-        },
-      }
-    );
-
-    // Cards entrance stagger
-    gsap.fromTo(
-      '.service-card',
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power3.out',
-        clearProps: 'all',
-        scrollTrigger: {
-          trigger: '.service-card',
-          start: 'top 85%',
-          once: true,
-        },
-      }
-    );
-
-    // CTA button reveal
-    gsap.fromTo(
-      '.services-cta-reveal',
-      { y: 20, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: 'power2.out',
-        clearProps: 'all',
-        scrollTrigger: {
-          trigger: '.services-cta-reveal',
-          start: 'top 90%',
-          once: true,
-        },
-      }
-    );
-
-    // 3D Card tilt effect on hover
-    const cards = gsap.utils.toArray('.service-card');
-    cards.forEach((card: any) => {
-      const handleMouseMove = (e: MouseEvent) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const xc = rect.width / 2;
-        const yc = rect.height / 2;
-        const angleX = (yc - y) / 25;
-        const angleY = (x - xc) / 25;
-
-        gsap.to(card, {
-          rotateX: angleX,
-          rotateY: angleY,
-          scale: 1.02,
-          duration: 0.3,
-          ease: 'power2.out',
-          transformPerspective: 1000,
-        });
-      };
-
-      const handleMouseLeave = () => {
-        gsap.to(card, {
-          rotateX: 0,
-          rotateY: 0,
-          scale: 1,
-          duration: 0.5,
-          ease: 'power2.out',
-        });
-      };
-
-      card.addEventListener('mousemove', handleMouseMove);
-      card.addEventListener('mouseleave', handleMouseLeave);
-    });
-  }, { scope: servicesRef });
+  const handleMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    mx.set((e.clientX - rect.left) / rect.width);
+    my.set((e.clientY - rect.top) / rect.height);
+  };
+  const handleLeave = () => {
+    mx.set(0.5);
+    my.set(0.5);
+  };
 
   return (
-    <section
-      id="services"
-      ref={servicesRef}
-      className="section bg-muted/20 overflow-hidden"
-      aria-label="Our Services"
+    <motion.div
+      ref={cardRef}
+      variants={fadeUp}
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
+      onPointerMove={handleMove}
+      onPointerLeave={handleLeave}
+      className={`service-card card-premium group rounded-2xl p-6 lg:p-8 select-none flex flex-col justify-between ${
+        service.highlight ? 'border-dcc-brass/30 bg-gradient-to-br from-dcc-brass/[0.04] to-transparent' : ''
+      }`}
     >
+      <div style={{ transform: 'translateZ(24px)' }}>
+        <div
+          className={`mb-5 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 ${
+            service.highlight
+              ? 'bg-dcc-brass/10 group-hover:bg-dcc-brass group-hover:shadow-lg group-hover:shadow-dcc-brass/20'
+              : 'bg-dcc-teal/10 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20'
+          }`}
+        >
+          <service.icon
+            className={`h-7 w-7 transition-colors duration-300 ${
+              service.highlight ? 'text-dcc-brass group-hover:text-white' : 'text-dcc-teal group-hover:text-white'
+            }`}
+          />
+        </div>
+
+        <h3 className="mb-3 text-xl font-bold text-foreground font-heading">{service.title}</h3>
+        <p className="mb-5 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+
+        <ul className="mb-6 grid gap-2">
+          {service.features.map((f) => (
+            <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/70">
+              <div className={`h-1.5 w-1.5 shrink-0 rounded-full ${service.highlight ? 'bg-dcc-brass' : 'bg-dcc-teal'}`} />
+              {f}
+            </li>
+          ))}
+        </ul>
+
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${
+            expanded ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 pointer-events-none'
+          }`}
+        >
+          <div className="pt-4 border-t border-border/40 space-y-4">
+            {service.brands && (
+              <div>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5 font-mono-data">
+                  Brands &amp; Partners
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {service.brands.map((brand) => (
+                    <span key={brand} className="text-xs font-semibold px-2 py-0.5 rounded-full bg-dcc-teal/5 text-dcc-teal border border-dcc-teal/10 hover:bg-dcc-teal/10 transition-colors duration-300">
+                      {brand}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {service.categories && (
+              <div>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5 font-mono-data">
+                  Product Range &amp; Services
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {service.categories.map((cat) => (
+                    <span key={cat} className="text-xs font-semibold px-2 py-0.5 rounded-full bg-dcc-brass/5 text-dcc-brass-dark border border-dcc-brass/10 hover:bg-dcc-brass/10 transition-colors duration-300">
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <button
+        onClick={() => setExpanded((v) => !v)}
+        style={{ transform: 'translateZ(20px)' }}
+        className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group/btn cursor-pointer ${
+          service.highlight ? 'text-dcc-brass-dark hover:text-dcc-brass' : 'text-dcc-teal hover:text-dcc-teal-dark'
+        }`}
+      >
+        {expanded ? 'Hide Details' : 'Explore Details'}
+        <ArrowRight className={`h-4 w-4 transition-transform group-hover/btn:translate-x-1 ${expanded ? 'rotate-90' : ''}`} />
+      </button>
+    </motion.div>
+  );
+}
+
+export default function Services() {
+  const servicesRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <section id="services" ref={servicesRef} className="section bg-muted/20 overflow-hidden" aria-label="Our Services">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <div className="services-header-reveal mx-auto mb-16 max-w-3xl text-center">
-          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          variants={fadeUp}
+          className="mx-auto mb-16 max-w-3xl text-center"
+        >
+          <div className="ledger-mark justify-center">
+            <span className="ledger-index">04</span>
+            <span className="ledger-rule" />
             What We Offer
-          </span>
-          <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+          </div>
+          <SplitReveal as="h2" className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl font-heading">
             Our <span className="text-gradient">Services</span>
-          </h2>
+          </SplitReveal>
           <p className="text-lg leading-relaxed text-muted-foreground">
             Complete channel IT solutions. From PC assembly and brand distribution to SLA-backed corporate maintenance, GeM procurement, and equipment rentals.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Service cards grid — 8 pillars */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-6">
-          {services.map((service) => {
-            const isExpanded = expandedCard === service.title;
-            return (
-              <div
-                key={service.title}
-                className={`service-card card-premium group rounded-2xl p-6 lg:p-8 select-none flex flex-col justify-between transition-all duration-300 ${
-                  service.highlight ? 'border-dcc-amber/30 bg-gradient-to-br from-dcc-amber/[0.03] to-transparent' : ''
-                }`}
-              >
-                <div>
-                  {/* Icon */}
-                  <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 ${
-                    service.highlight 
-                      ? 'bg-dcc-amber/10 group-hover:bg-dcc-amber group-hover:shadow-lg group-hover:shadow-dcc-amber/20' 
-                      : 'bg-dcc-teal/10 group-hover:bg-dcc-teal group-hover:shadow-lg group-hover:shadow-dcc-teal/20'
-                  }`}>
-                    <service.icon className={`h-7 w-7 transition-colors duration-300 ${
-                      service.highlight 
-                        ? 'text-dcc-amber group-hover:text-white' 
-                        : 'text-dcc-teal group-hover:text-white'
-                    }`} />
-                  </div>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-6 auto-rows-fr"
+        >
+          {services.map((service, i) => (
+            <ServiceCard key={service.title} service={service} index={i} />
+          ))}
+        </motion.div>
 
-                  {/* Title */}
-                  <h3 className="mb-3 text-xl font-bold text-foreground">{service.title}</h3>
-
-                  {/* Description */}
-                  <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-                    {service.description}
-                  </p>
-
-                  {/* Feature bullets */}
-                  <ul className="mb-6 space-y-2">
-                    {service.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/70">
-                        <div className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                          service.highlight ? 'bg-dcc-amber' : 'bg-dcc-teal'
-                        }`} />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Expandable details drawer */}
-                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    isExpanded ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 pointer-events-none'
-                  }`}>
-                    <div className="pt-4 border-t border-border/40 space-y-4">
-                      {/* Brands list */}
-                      {service.brands && (
-                        <div>
-                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Brands & Partners:</p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {service.brands.map((brand) => (
-                              <span key={brand} className="text-xs font-semibold px-2 py-0.5 rounded-full bg-dcc-teal/5 text-dcc-teal border border-dcc-teal/10 hover:bg-dcc-teal/10 transition-colors duration-300">
-                                {brand}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {/* Categories list */}
-                      {service.categories && (
-                        <div>
-                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Product Range & Services:</p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {service.categories.map((cat) => (
-                              <span key={cat} className="text-xs font-semibold px-2 py-0.5 rounded-full bg-dcc-amber/5 text-dcc-amber border border-dcc-amber/10 hover:bg-dcc-amber/10 transition-colors duration-300">
-                                {cat}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Button */}
-                <button
-                  onClick={() => {
-                    setExpandedCard(isExpanded ? null : service.title);
-                  }}
-                  className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group/btn cursor-pointer ${
-                    service.highlight 
-                      ? 'text-dcc-amber-dark hover:text-dcc-amber' 
-                      : 'text-dcc-teal hover:text-dcc-teal-dark'
-                  }`}
-                >
-                  {isExpanded ? 'Hide Details' : 'Explore Details'}
-                  <ArrowRight className={`h-4 w-4 transition-transform group-hover/btn:translate-x-1 ${
-                    isExpanded ? 'rotate-90' : ''
-                  }`} />
-                </button>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* CTA */}
-        <div className="services-cta-reveal mt-14 text-center">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          variants={fadeUp}
+          className="mt-14 text-center"
+        >
           <Button
             size="lg"
             onClick={() => {
@@ -314,7 +250,7 @@ export default function Services() {
             Need a Custom Solution?
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -411,9 +411,11 @@ export default function MissionVisionValues() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
+          <div className="ledger-mark justify-center">
+            <span className="ledger-index">03</span>
+            <span className="ledger-rule" />
             Our Purpose
-          </span>
+          </div>
           <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl font-heading">
             Mission, Vision &{' '}
             <span className="text-gradient">Values</span>

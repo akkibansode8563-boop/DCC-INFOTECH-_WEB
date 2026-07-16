@@ -2,43 +2,27 @@ import dynamic from 'next/dynamic';
 import Navbar from '@/components/dcc/Navbar';
 import Hero from '@/components/dcc/Hero';
 import About from '@/components/dcc/About';
+import LazySections from '@/components/dcc/LazySections';
 
-// Dynamically import below-the-fold sections to optimize initial JavaScript bundle weight
-const MissionVisionValues = dynamic(() => import('@/components/dcc/MissionVisionValues'), { ssr: true });
-const Services = dynamic(() => import('@/components/dcc/Services'), { ssr: true });
-const WhyChooseUs = dynamic(() => import('@/components/dcc/WhyChooseUs'), { ssr: true });
-const Testimonials = dynamic(() => import('@/components/dcc/Testimonials'), { ssr: true });
-const Team = dynamic(() => import('@/components/dcc/Team'), { ssr: true });
-const PartnersSection = dynamic(() => import('@/components/dcc/PartnersSection'), { ssr: true });
-const CTABanner = dynamic(() => import('@/components/dcc/CTABanner'), { ssr: true });
-const Gallery = dynamic(() => import('@/components/dcc/Gallery'), { ssr: true });
-const Careers = dynamic(() => import('@/components/dcc/Careers'), { ssr: true });
+// FAQ and Footer: keep SSR — FAQ content ranks in Google featured snippets,
+// Footer contains address/contact info indexed by search engines.
 const FAQ = dynamic(() => import('@/components/dcc/FAQ'), { ssr: true });
-const Contact = dynamic(() => import('@/components/dcc/Contact'), { ssr: true });
 const Footer = dynamic(() => import('@/components/dcc/Footer'), { ssr: true });
-const WhatsAppButton = dynamic(() => import('@/components/dcc/WhatsAppButton'), { ssr: true });
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
+        {/* Above-fold: SSR for fastest LCP */}
         <Hero />
         <About />
-        <MissionVisionValues />
-        <Services />
-        <WhyChooseUs />
-        <Testimonials />
-        <Team />
-        <PartnersSection />
-        <CTABanner />
-        <Gallery />
-        <Careers />
+        {/* Below-fold: client-only lazy bundles via LazySections */}
+        <LazySections />
+        {/* SEO-critical: keep server-rendered */}
         <FAQ />
-        <Contact />
       </main>
       <Footer />
-      <WhatsAppButton />
     </div>
   );
 }

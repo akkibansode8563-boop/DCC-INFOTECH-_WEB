@@ -3,8 +3,8 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
-import { useGSAP } from '@gsap/react';
+import { fadeUp, viewportOnce } from '@/lib/motion';
+import SplitReveal from '@/components/motion/SplitReveal';
 
 const testimonials = [
   {
@@ -44,83 +44,48 @@ const testimonials = [
   },
 ];
 
-
 export default function Testimonials() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
   const next = () => setActive((p) => (p + 1) % testimonials.length);
   const prev = () => setActive((p) => (p - 1 + testimonials.length) % testimonials.length);
-
   const t = testimonials[active];
 
-  useGSAP(() => {
-    // Header reveal
-    gsap.fromTo(
-      '.testimonials-header-reveal',
-      { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: 'power3.out',
-        clearProps: 'all',
-        scrollTrigger: {
-          trigger: '.testimonials-header-reveal',
-          start: 'top 85%',
-          once: true,
-        },
-      }
-    );
-
-    // Card reveal
-    gsap.fromTo(
-      '.testimonials-card-reveal',
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: 'power3.out',
-        clearProps: 'all',
-        scrollTrigger: {
-          trigger: '.testimonials-card-reveal',
-          start: 'top 80%',
-          once: true,
-        },
-      }
-    );
-
-  }, { scope: sectionRef });
-
   return (
-    <section
-      id="testimonials"
-      ref={sectionRef}
-      className="section bg-background overflow-hidden"
-      aria-label="Client testimonials"
-    >
+    <section id="testimonials" ref={sectionRef} className="section bg-background overflow-hidden" aria-label="Client testimonials">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <div className="testimonials-header-reveal mx-auto mb-16 max-w-3xl text-center">
-          <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-wider text-dcc-teal">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          variants={fadeUp}
+          className="mx-auto mb-16 max-w-3xl text-center"
+        >
+          <div className="ledger-mark justify-center">
+            <span className="ledger-index">06</span>
+            <span className="ledger-rule" />
             Testimonials
-          </span>
-          <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+          </div>
+          <SplitReveal as="h2" className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl font-heading">
             What Our <span className="text-gradient">Clients Say</span>
-          </h2>
+          </SplitReveal>
           <p className="text-lg leading-relaxed text-muted-foreground">
             Don&apos;t just take our word for it. Here&apos;s what India&apos;s leading
             banks, hospitals, and enterprises have to say about working with DCC Infotech.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Featured testimonial card */}
-        <div className="testimonials-card-reveal relative mx-auto max-w-4xl">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          variants={fadeUp}
+          className="relative mx-auto max-w-4xl"
+        >
           <div className="glass rounded-3xl p-8 md:p-12">
             <Quote className="mb-6 h-10 w-10 text-dcc-teal/20" />
 
-            {/* Crossfade testimonial text */}
             <div className="relative min-h-[140px] md:min-h-[100px]">
               <AnimatePresence mode="wait">
                 <motion.p
@@ -136,7 +101,6 @@ export default function Testimonials() {
               </AnimatePresence>
             </div>
 
-            {/* Author info */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={`author-${active}`}
@@ -147,7 +111,7 @@ export default function Testimonials() {
                 className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-dcc-teal font-bold text-lg text-white">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-dcc-teal font-bold text-lg text-white font-heading">
                     {t.initials}
                   </div>
                   <div>
@@ -157,20 +121,12 @@ export default function Testimonials() {
                 </div>
                 <div className="flex gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-5 w-5 ${
-                        i < t.rating
-                          ? 'fill-dcc-amber text-dcc-amber'
-                          : 'text-gray-200'
-                      }`}
-                    />
+                    <Star key={i} className={`h-5 w-5 ${i < t.rating ? 'fill-dcc-brass text-dcc-brass' : 'text-gray-200'}`} />
                   ))}
                 </div>
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation */}
             <div className="mt-8 flex items-center justify-center gap-4">
               <button
                 onClick={prev}
@@ -185,9 +141,7 @@ export default function Testimonials() {
                     key={i}
                     onClick={() => setActive(i)}
                     className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
-                      i === active
-                        ? 'w-6 bg-dcc-teal'
-                        : 'w-2 bg-dcc-teal/20 hover:bg-dcc-teal/40'
+                      i === active ? 'w-6 bg-dcc-teal' : 'w-2 bg-dcc-teal/20 hover:bg-dcc-teal/40'
                     }`}
                     aria-label={`Testimonial ${i + 1}`}
                   />
@@ -202,9 +156,7 @@ export default function Testimonials() {
               </button>
             </div>
           </div>
-        </div>
-
-
+        </motion.div>
       </div>
     </section>
   );
