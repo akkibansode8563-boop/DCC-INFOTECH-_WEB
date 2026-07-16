@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Play, Calendar, MapPin, X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { fadeUp, fadeLeft, fadeRight, viewportOnce } from '@/lib/motion';
+import { fadeUp, fadeLeft, fadeRight, staggerContainer, viewportOnce } from '@/lib/motion';
 
 const events = [
   { date: 'Jul 2026', title: 'IT Infrastructure Summit 2026', location: 'Pune, Maharashtra', description: 'Join us for a deep-dive into modern IT infrastructure trends including edge computing, hybrid cloud, and zero-trust networking.' },
