@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Play, Calendar, MapPin, X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { fadeUp, fadeLeft, fadeRight, staggerContainer, viewportOnce } from '@/lib/motion';
+import { fadeUp, fadeLeft, fadeRight, viewportOnce } from '@/lib/motion';
 
 const events = [
   { date: 'Jul 2026', title: 'IT Infrastructure Summit 2026', location: 'Pune, Maharashtra', description: 'Join us for a deep-dive into modern IT infrastructure trends including edge computing, hybrid cloud, and zero-trust networking.' },
@@ -170,23 +170,19 @@ export default function Gallery() {
           </div>
         </motion.div>
 
-        {/* Photo Grid */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportOnce}
-          variants={staggerContainer(0.04)}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
-        >
+        {/* Photo Grid — each card has its own whileInView so Load More works correctly */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {galleryImages.slice(0, visibleCount).map((img, idx) => (
             <motion.div
               key={img.src}
-              variants={fadeUp}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
               whileHover={{ y: -6 }}
               className="group relative aspect-[4/3] rounded-xl overflow-hidden border border-border/40 bg-muted/20 cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300"
               onClick={() => setActiveImageIndex(idx)}
             >
-              {/* Premium image loader with progressive WebP/AVIF output */}
               <Image
                 src={img.src}
                 alt={img.alt}
@@ -195,22 +191,16 @@ export default function Gallery() {
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 loading="lazy"
               />
-              
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-dcc-ink/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                <div className="flex justify-between items-center">
-                  <div className="text-white">
-                    <p className="text-[10px] font-semibold tracking-wider uppercase text-dcc-brass-light font-mono-data mb-0.5">DCC Archive</p>
-                    <p className="text-xs font-medium text-white/90 line-clamp-1">{img.alt}</p>
-                  </div>
-                  <div className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
-                    <Eye className="h-4 w-4 text-white" />
-                  </div>
+
+              {/* Hover overlay — eye icon only, no text labels */}
+              <div className="absolute inset-0 bg-dcc-ink/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                  <Eye className="h-5 w-5 text-white" />
                 </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Load More Button */}
         {hasMore && (
