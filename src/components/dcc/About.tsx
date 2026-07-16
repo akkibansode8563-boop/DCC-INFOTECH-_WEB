@@ -27,8 +27,8 @@ const timeline = [
 ];
 
 const points = [
-  { x: 150, y: 350 }, { x: 410, y: 310 }, { x: 670, y: 270 }, { x: 930, y: 235 },
-  { x: 1190, y: 200 }, { x: 1450, y: 165 }, { x: 1710, y: 130 }, { x: 1970, y: 95 }, { x: 2230, y: 60 },
+  { x: 150, y: 280 }, { x: 410, y: 265 }, { x: 670, y: 250 }, { x: 930, y: 235 },
+  { x: 1190, y: 220 }, { x: 1450, y: 205 }, { x: 1710, y: 190 }, { x: 1970, y: 175 }, { x: 2230, y: 160 },
 ];
 
 export default function About() {
@@ -247,7 +247,7 @@ export default function About() {
                 </defs>
 
                 <path
-                  d="M 150,350 Q 280,330 410,310 T 670,270 T 930,235 T 1190,200 T 1450,165 T 1710,130 T 1970,95 T 2230,60"
+                  d="M 150,280 Q 280,272 410,265 T 670,250 T 930,235 T 1190,220 T 1450,205 T 1710,190 T 1970,175 T 2230,160"
                   fill="none"
                   stroke="var(--border)"
                   strokeWidth={3}
@@ -255,7 +255,7 @@ export default function About() {
                   opacity={0.6}
                 />
                 <motion.path
-                  d="M 150,350 Q 280,330 410,310 T 670,270 T 930,235 T 1190,200 T 1450,165 T 1710,130 T 1970,95 T 2230,60"
+                  d="M 150,280 Q 280,272 410,265 T 670,250 T 930,235 T 1190,220 T 1450,205 T 1710,190 T 1970,175 T 2230,160"
                   fill="none"
                   stroke="url(#timelineLineGradient)"
                   strokeWidth={3.5}
