@@ -180,20 +180,7 @@ export default function About() {
               </p>
             </motion.div>
 
-            <motion.div variants={staggerContainer(0.07)} className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {featurePills.map((item) => (
-                <motion.div
-                  key={item.text}
-                  variants={fadeUp}
-                  className="flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 p-3"
-                >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-dcc-teal/10">
-                    <item.icon className="h-4 w-4 text-dcc-teal" />
-                  </div>
-                  <span className="text-sm font-medium text-foreground">{item.text}</span>
-                </motion.div>
-              ))}
-            </motion.div>
+
 
             <motion.div variants={fadeUp} className="glass rounded-2xl p-6">
               <Quote className="mb-3 h-8 w-8 text-dcc-teal/30" />
