@@ -114,7 +114,7 @@ export default function Careers() {
                 <p className="mb-3 text-sm text-muted-foreground">
                   Don&apos;t see a role that fits? We&apos;d still love to hear from you!
                 </p>
-                <a href="mailto:info@dccinfotech.in?subject=Resume%20Submission">
+                <a href="mailto:hrgroup@datacare.in?subject=Resume%20Submission">
                   <Button className="w-full rounded-full bg-dcc-teal font-semibold text-white shadow-lg shadow-dcc-teal/20 transition-all duration-300 hover:bg-dcc-teal-dark cursor-pointer">
                     Send Your Resume
                   </Button>
